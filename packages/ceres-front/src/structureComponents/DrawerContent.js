@@ -7,11 +7,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 
-import {useStyles} from '../style'
-
-
-const DrawerContent = ({menu, handleDrawerItemClick}) => {
-  const classes = useStyles();
+const DrawerContent = ({menu, handleDrawerItemClick, classes}) => {
   return (
     <div>
       <img src={logo} alt="Ceres logo" className={classes.fitPicture}/>

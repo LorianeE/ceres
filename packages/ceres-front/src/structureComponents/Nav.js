@@ -21,7 +21,7 @@ const Nav = ({classes, mobileOpen, handleDrawerToggle, menu, handleDrawerItemCli
             keepMounted: true, // Better open performance on mobile.
           }}
         >
-          <DrawerContent menu={menu} handleDrawerItemClick={handleDrawerItemClick}/>
+          <DrawerContent classes={classes} menu={menu} handleDrawerItemClick={handleDrawerItemClick}/>
         </Drawer>
       </Hidden>
       <Hidden xsDown implementation="css">
@@ -32,7 +32,7 @@ const Nav = ({classes, mobileOpen, handleDrawerToggle, menu, handleDrawerItemCli
           variant="permanent"
           open
         >
-          <DrawerContent menu={menu} handleDrawerItemClick={handleDrawerItemClick}/>
+          <DrawerContent classes={classes} menu={menu} handleDrawerItemClick={handleDrawerItemClick}/>
         </Drawer>
       </Hidden>
     </nav>
