@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from "react-router-dom";
 import logo from "../logo.png";
 import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
@@ -17,11 +18,11 @@ const DrawerContent = ({menu, handleDrawerItemClick}) => {
       <Divider/>
       <List>
         {
-          menu.map(({ id, text, icon}) => {
+          menu.map(({id, text, icon, path}) => {
             const ListIconComponent = icon;
             return (
-              <ListItem button key={text} onClick={() => handleDrawerItemClick(id)}>
-                <ListItemIcon><ListIconComponent /></ListItemIcon>
+              <ListItem key={id} button onClick={() => handleDrawerItemClick(id)} component={Link} to={path}>
+                <ListItemIcon><ListIconComponent/></ListItemIcon>
                 <ListItemText primary={text}/>
               </ListItem>
             )

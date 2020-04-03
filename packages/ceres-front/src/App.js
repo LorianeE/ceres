@@ -1,9 +1,14 @@
-import React from 'react'
+import React from 'react';
+import {
+  Switch,
+  Route,
+  Redirect,
+  useLocation
+} from "react-router-dom";
 import './App.css'
 import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
 import {ThemeProvider} from '@material-ui/core/styles'
 import {useStyles, theme} from './style'
 import Nav from "./structureComponents/Nav";
@@ -12,27 +17,39 @@ import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import KitchenIcon from "@material-ui/icons/Kitchen";
 import RestaurantMenuIcon from "@material-ui/icons/RestaurantMenu";
 import MenuBookIcon from "@material-ui/icons/MenuBook";
+import ShoppingList from "./content/ShoppingList";
+import Store from "./content/Store";
+import Menu from "./content/Menu";
+import Recipes from "./content/Recipes";
 
-const menu = [
+const routes = [
   {
     id: 1,
     text: 'Liste de courses',
-    icon: ShoppingCartIcon
+    icon: ShoppingCartIcon,
+    path: '/shoppingList',
+    component: ShoppingList
   },
   {
     id: 2,
     text: 'Réserve',
-    icon: KitchenIcon
+    icon: KitchenIcon,
+    path: '/store',
+    component: Store
   },
   {
     id: 3,
     text: 'Menu',
-    icon: RestaurantMenuIcon
+    icon: RestaurantMenuIcon,
+    path: '/menu',
+    component: Menu
   },
   {
     id: 4,
     text: 'Recettes',
-    icon: MenuBookIcon
+    icon: MenuBookIcon,
+    path: '/recipes',
+    component: Recipes
   }
 ];
 
@@ -45,7 +62,6 @@ function App() {
   };
 
   const handleDrawerItemClick = (itemId) => {
-    console.log(itemId)
     setTimeout(() => {
       if (mobileOpen) {
         handleDrawerToggle()
@@ -53,26 +69,32 @@ function App() {
     }, 150)
   };
 
+  const location = useLocation();
+  const currentRoute = routes.find(route => location.pathname === route.path)
+
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.root}>
         <CssBaseline/>
-        <Nav classes={classes} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} menu={menu} handleDrawerItemClick={handleDrawerItemClick}/>
+        <Nav classes={classes} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} menu={routes} handleDrawerItemClick={handleDrawerItemClick}/>
         <main className={classes.content}>
-          <TopBar classes={classes} handleDrawerToggle={handleDrawerToggle}/>
+          <TopBar classes={classes} handleDrawerToggle={handleDrawerToggle} pageTitle={currentRoute.text}/>
           <div className={classes.toolbar}/>
-          <Typography paragraph>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-            ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum
-            facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit
-            gravida rutrum quisque non tellus. Convallis convallis tellus id interdum velit laoreet id
-            donec ultrices. Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-            adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra nibh cras.
-            Metus vulputate eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo quis
-            imperdiet massa tincidunt. Cras tincidunt lobortis feugiat vivamus at augue. At augue eget
-            arcu dictum varius duis at consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem
-            donec massa sapien faucibus et molestie ac.
-          </Typography>
+          <Switch>
+            {
+              routes
+                .map((item) =>
+                  <Route
+                    key={item.id}
+                    exact
+                    path={item.path}
+                    component={item.component}/>
+                )
+            }
+            <Route exact path="/" render={() => (
+              <Redirect to="/shoppingList"/>
+            )}/>
+          </Switch>
         </main>
       </div>
     </ThemeProvider>

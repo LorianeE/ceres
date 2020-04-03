@@ -5,7 +5,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import Typography from "@material-ui/core/Typography";
 import React from "react";
 
-const TopBar = ({classes, handleDrawerToggle}) => {
+const TopBar = ({classes, handleDrawerToggle, pageTitle}) => {
   return (
     <AppBar position="fixed" className={classes.appBar}>
       <Toolbar>
@@ -19,7 +19,7 @@ const TopBar = ({classes, handleDrawerToggle}) => {
           <MenuIcon/>
         </IconButton>
         <Typography variant="h6" noWrap style={{color: "white"}}>
-          Liste de courses
+          {pageTitle}
         </Typography>
       </Toolbar>
     </AppBar>
