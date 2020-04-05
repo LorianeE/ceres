@@ -1,0 +1,44 @@
+[
+  {
+    "id": "baconStrips",
+    "label": "Lardons",
+    "quantity": 2,
+    "shelf": "cold"
+  },
+  {
+    "id": "cider",
+    "label": "Cidre",
+    "quantity": 1,
+    "shelf": "drinks"
+  },
+  {
+    "id": "apple",
+    "label": "Pommes",
+    "quantity": 4,
+    "shelf": "produce"
+  },
+  {
+    "id": "pear",
+    "label": "Poires",
+    "quantity": 3,
+    "shelf": "produce"
+  },
+  {
+    "id": "pineapple",
+    "label": "Ananas",
+    "quantity": 1,
+    "shelf": "produce"
+  },
+  {
+    "id": "bigCreamJar",
+    "label": "Gros pot de crème",
+    "quantity": 1,
+    "shelf": "cold"
+  },
+  {
+    "id": "smokedHam-4",
+    "label": "Jambon fumé - 4 tranches",
+    "quantity": 1,
+    "shelf": "cold"
+  }
+]
