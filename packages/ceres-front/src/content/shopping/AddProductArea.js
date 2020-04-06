@@ -29,8 +29,10 @@ const AddProductArea = ({ addItem, classes }) => {
       </Grid>
       <Grid item xs={1}>
         <Fab color="primary" aria-label="add" size="small" onClick={() => {
-          setItemToAdd(null)
-          addItem(itemToAdd)
+          if (itemToAdd) {
+            setItemToAdd(null)
+            addItem(itemToAdd)
+          }
         }}>
           <AddIcon/>
         </Fab>
