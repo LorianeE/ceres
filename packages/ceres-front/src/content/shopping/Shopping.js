@@ -41,6 +41,13 @@ const Shopping = () => {
   const [itemsRemoved, setItemsRemoved] = useState([])
   const [shoppingList, setShoppingList] = useState(shoppingListData)
 
+  const switchShoppingMode = () => {
+    if (shoppingMode) {
+      setItemsRemoved([])
+    }
+    setShoppingMode(!shoppingMode)
+  }
+
   const handleCheckItem = (event) => {
     const removedItem = event.target.id
     setTimeout(() => {
@@ -59,8 +66,18 @@ const Shopping = () => {
   }
 
 
-  const addItem = () => {
-
+  const addItem = (item) => {
+    let itemToUpdateIndex = shoppingList.findIndex(product => product.id === item.id)
+    if (itemToUpdateIndex !== -1) {
+      shoppingList[itemToUpdateIndex].quantity += 1
+    } else {
+      shoppingList.push({
+        ...item,
+        quantity: 1
+      })
+    }
+    const newShoppingList = [...shoppingList]
+    setShoppingList(newShoppingList)
   }
 
   return (
@@ -70,7 +87,7 @@ const Shopping = () => {
           value="start"
           control={<Switch
             checked={shoppingMode}
-            onChange={() => setShoppingMode(!shoppingMode)}
+            onChange={switchShoppingMode}
             color="primary"
             name="checkedB"
             inputProps={{'aria-label': 'primary checkbox'}}
