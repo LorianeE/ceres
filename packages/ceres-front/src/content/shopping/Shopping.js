@@ -66,14 +66,19 @@ const Shopping = () => {
   }
 
 
-  const addItem = (item) => {
+  const changeItemQuantity = (item, quantityToAdd) => {
     let itemToUpdateIndex = shoppingList.findIndex(product => product.id === item.id)
     if (itemToUpdateIndex !== -1) {
-      shoppingList[itemToUpdateIndex].quantity += 1
+      const newQuantity = shoppingList[itemToUpdateIndex].quantity + quantityToAdd
+      if (newQuantity > 0) {
+        shoppingList[itemToUpdateIndex].quantity = newQuantity
+      } else {
+        shoppingList.splice(itemToUpdateIndex, 1)
+      }
     } else {
       shoppingList.push({
         ...item,
-        quantity: 1
+        quantity: quantityToAdd
       })
     }
     const newShoppingList = [...shoppingList]
@@ -96,13 +101,14 @@ const Shopping = () => {
           labelPlacement="start"
         />
         {
-          itemsRemoved.length >= 1 && <CancelRemoveItemButton classes={classes} cancelRemoveItem={cancelRemoveItem} />
+          itemsRemoved.length >= 1 && <CancelRemoveItemButton classes={classes} cancelRemoveItem={cancelRemoveItem}/>
         }
       </FormGroup>
       {
-        !shoppingMode && <AddProductArea classes={classes} addItem={addItem}/>
+        !shoppingMode && <AddProductArea classes={classes} addItem={(item) => changeItemQuantity(item, 1)}/>
       }
-      <ShoppingList shoppingList={shoppingList} classes={classes} handleCheckItem={handleCheckItem} shoppingMode={shoppingMode}/>
+      <ShoppingList shoppingList={shoppingList} classes={classes} handleCheckItem={handleCheckItem}
+                    shoppingMode={shoppingMode} changeItemQuantity={changeItemQuantity}/>
     </div>
   )
 };
