@@ -1,5 +1,5 @@
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import ShoppingList from "./content/Shopping";
+import ShoppingList from "./content/shopping/Shopping";
 import KitchenIcon from "@material-ui/icons/Kitchen";
 import Store from "./content/Store";
 import RestaurantMenuIcon from "@material-ui/icons/RestaurantMenu";
