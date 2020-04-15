@@ -1,11 +1,10 @@
-import React, {useState} from 'react'
-import AddProductArea from "./AddProductArea";
-import ShoppingList from "./ShoppingList";
-import ShoppingHeader from "./ShoppingHeader";
-import useShopping from "./ShoppingUtils";
+import React, { useState } from 'react';
+import AddProductArea from './AddProductArea';
+import ShoppingList from './ShoppingList';
+import ShoppingHeader from './ShoppingHeader';
+import useShopping from './ShoppingUtils';
 
 const ShoppingContainer = () => {
-
   const [shoppingMode, setShoppingMode] = useState(false);
   const shopping = useShopping();
   const {
@@ -15,14 +14,14 @@ const ShoppingContainer = () => {
     removeAddedItem,
     cancelRemoveItem,
     hasRemovedItems,
-    cleanRemovedItems
+    cleanRemovedItems,
   } = shopping;
 
   const switchShoppingMode = () => {
     if (shoppingMode) {
-      cleanRemovedItems()
+      cleanRemovedItems();
     }
-    setShoppingMode(!shoppingMode)
+    setShoppingMode(!shoppingMode);
   };
 
   return (
@@ -31,10 +30,11 @@ const ShoppingContainer = () => {
         shoppingMode={shoppingMode}
         switchShoppingMode={switchShoppingMode}
         hasRemovedItems={hasRemovedItems}
-        cancelRemoveItem={cancelRemoveItem}/>
-      {
-        !shoppingMode && <AddProductArea addItem={(item) => changeItemQuantity(item, 1)}/>
-      }
+        cancelRemoveItem={cancelRemoveItem}
+      />
+      {!shoppingMode && (
+        <AddProductArea addItem={(item) => changeItemQuantity(item, 1)} />
+      )}
       <ShoppingList
         shoppingList={shoppingList}
         shelves={shelves}
@@ -43,7 +43,7 @@ const ShoppingContainer = () => {
         changeItemQuantity={changeItemQuantity}
       />
     </div>
-  )
+  );
 };
 
-export default ShoppingContainer
+export default ShoppingContainer;

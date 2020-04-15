@@ -1,5 +1,5 @@
-import {useState, useEffect} from "react";
-import shoppingListData from '../data/shoppingList.json'
+import { useState } from 'react';
+import shoppingListData from '../data/shoppingList.json';
 
 // const STORE_KEY = 'appState';
 
@@ -23,11 +23,13 @@ import shoppingListData from '../data/shoppingList.json'
 //   return shoppingList
 // }
 
-function useShopping () {
+function useShopping() {
   const [itemsRemoved, setItemsRemoved] = useState([]);
   const [shoppingList, setShoppingList] = useState(shoppingListData);
 
-  const shelves = Array.from(new Set(shoppingList.map(item => item.shelf))).sort();
+  const shelves = Array.from(
+    new Set(shoppingList.map((item) => item.shelf))
+  ).sort();
 
   // TODO
   // useEffect(() => {
@@ -35,38 +37,44 @@ function useShopping () {
   // }, [getShoppingList])
 
   const changeItemQuantity = (item, quantityToAdd) => {
-    let itemToUpdateIndex = shoppingList.findIndex(product => product.id === item.id);
+    const itemToUpdateIndex = shoppingList.findIndex(
+      (product) => product.id === item.id
+    );
     if (itemToUpdateIndex !== -1) {
-      const newQuantity = shoppingList[itemToUpdateIndex].quantity + quantityToAdd;
+      const newQuantity =
+        shoppingList[itemToUpdateIndex].quantity + quantityToAdd;
       if (newQuantity > 0) {
-        shoppingList[itemToUpdateIndex].quantity = newQuantity
+        shoppingList[itemToUpdateIndex].quantity = newQuantity;
       } else {
-        shoppingList.splice(itemToUpdateIndex, 1)
+        shoppingList.splice(itemToUpdateIndex, 1);
       }
     } else {
       shoppingList.push({
         ...item,
-        quantity: quantityToAdd
-      })
+        quantity: quantityToAdd,
+      });
     }
     const newShoppingList = [...shoppingList];
-    setShoppingList(newShoppingList)
+    setShoppingList(newShoppingList);
     // call Server
   };
 
   const removeAddedItem = (itemId) => {
-    const newShoppingList = shoppingList.filter(item => item.id !== itemId);
-    const newLastItemRemoved = shoppingList.find(item => item.id === itemId);
+    const newShoppingList = shoppingList.filter((item) => item.id !== itemId);
+    const newLastItemRemoved = shoppingList.find((item) => item.id === itemId);
     setShoppingList([...newShoppingList]);
-    setItemsRemoved([...itemsRemoved, newLastItemRemoved])
+    setItemsRemoved([...itemsRemoved, newLastItemRemoved]);
     // callServer
   };
 
   const cancelRemoveItem = () => {
-    const newShoppingList = [...shoppingList, itemsRemoved[itemsRemoved.length - 1]];
+    const newShoppingList = [
+      ...shoppingList,
+      itemsRemoved[itemsRemoved.length - 1],
+    ];
     const newItemsRemoved = itemsRemoved.slice(0, itemsRemoved.length - 1);
     setShoppingList(newShoppingList);
-    setItemsRemoved([...newItemsRemoved])
+    setItemsRemoved([...newItemsRemoved]);
     // callServer
   };
 
@@ -77,8 +85,8 @@ function useShopping () {
     removeAddedItem,
     cancelRemoveItem,
     hasRemovedItems: itemsRemoved.length >= 1,
-    cleanRemovedItems: () => setItemsRemoved([])
-  }
+    cleanRemovedItems: () => setItemsRemoved([]),
+  };
 }
 
-export default useShopping
+export default useShopping;

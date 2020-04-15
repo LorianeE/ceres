@@ -1,4 +1,4 @@
-import {makeStyles} from "@material-ui/core/styles";
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -7,22 +7,22 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     position: 'relative',
     overflow: 'auto',
-    maxHeight: `${window.innerHeight - 88}px`
+    maxHeight: `${window.innerHeight - 88}px`,
   },
   listSection: {
-    backgroundColor: 'inherit'
+    backgroundColor: 'inherit',
   },
   ul: {
     backgroundColor: 'inherit',
-    padding: 0
+    padding: 0,
   },
   autoComplete: {
     width: '100%',
     maxWidth: 750,
     marginBottom: 20,
     paddingLeft: 16,
-    paddingRight: 16
-  }
+    paddingRight: 16,
+  },
 }));
 
-export default useStyles
+export default useStyles;

@@ -1,6 +1,6 @@
-import {makeStyles} from '@material-ui/core/styles';
-import {createMuiTheme} from '@material-ui/core/styles';
-import lightGreen from '@material-ui/core/colors/lightGreen'
+import { makeStyles, createMuiTheme } from '@material-ui/core/styles';
+
+import lightGreen from '@material-ui/core/colors/lightGreen';
 
 const drawerWidth = 240;
 
@@ -49,7 +49,7 @@ export const useStyles = makeStyles((theme) => ({
       'padding-left': 0,
       'padding-right': 0,
     },
-  }
+  },
 }));
 
 export const theme = createMuiTheme({

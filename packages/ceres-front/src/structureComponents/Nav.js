@@ -1,9 +1,9 @@
-import React from 'react'
-import Hidden from "@material-ui/core/Hidden";
-import Drawer from "@material-ui/core/Drawer";
-import {theme, useStyles} from "../style";
+import React from 'react';
+import Hidden from '@material-ui/core/Hidden';
+import Drawer from '@material-ui/core/Drawer';
+import { theme, useStyles } from '../style';
 
-const Nav = ({open, onClose, children}) => {
+const Nav = ({ open, onClose, children }) => {
   const classes = useStyles();
 
   return (
@@ -37,7 +37,7 @@ const Nav = ({open, onClose, children}) => {
         </Drawer>
       </Hidden>
     </nav>
-  )
+  );
 };
 
-export default Nav
+export default Nav;

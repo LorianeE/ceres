@@ -1,11 +1,7 @@
-import React from 'react'
+import React from 'react';
 
 const Menu = () => {
-  return (
-    <p>
-      Bienvenue sur le menu !
-    </p>
-  )
+  return <p>Bienvenue sur le menu !</p>;
 };
 
-export default Menu
+export default Menu;
