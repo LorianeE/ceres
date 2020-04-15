@@ -5,13 +5,23 @@ import {productsList} from "../data/productsList";
 import TextField from "@material-ui/core/TextField";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
+import useStyles from "./shoppingStyle"
 
-const AddProductArea = ({ addItem, classes }) => {
+const AddProductArea = ({ addItem }) => {
+
+  const classes = useStyles();
 
   const [itemToAdd, setItemToAdd] = useState(null);
 
   const onAutocompleteChange = (event, value) => {
       setItemToAdd(value)
+  };
+
+  const onClick = () => {
+    if (itemToAdd) {
+      setItemToAdd(null);
+      addItem(itemToAdd)
+    }
   };
 
   return (
@@ -28,12 +38,7 @@ const AddProductArea = ({ addItem, classes }) => {
         />
       </Grid>
       <Grid item xs={1}>
-        <Fab color="primary" aria-label="add" size="small" onClick={() => {
-          if (itemToAdd) {
-            setItemToAdd(null)
-            addItem(itemToAdd)
-          }
-        }}>
+        <Fab color="primary" aria-label="add" size="small" onClick={onClick}>
           <AddIcon/>
         </Fab>
       </Grid>

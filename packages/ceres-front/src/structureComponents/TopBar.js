@@ -4,8 +4,16 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import Typography from "@material-ui/core/Typography";
 import React from "react";
+import routes from "../routes";
+import {useLocation} from "react-router-dom";
+import {useStyles} from "../style";
 
-const TopBar = ({classes, handleDrawerToggle, pageTitle}) => {
+const TopBar = ({handleDrawerToggle}) => {
+
+  const classes = useStyles();
+  const location = useLocation();
+  const currentRoute = routes.find(route => location.pathname === route.path);
+
   return (
     <AppBar position="fixed" className={classes.appBar}>
       <Toolbar>
@@ -19,7 +27,7 @@ const TopBar = ({classes, handleDrawerToggle, pageTitle}) => {
           <MenuIcon/>
         </IconButton>
         <Typography variant="h6" noWrap style={{color: "white"}}>
-          {pageTitle}
+          {currentRoute?.text}
         </Typography>
       </Toolbar>
     </AppBar>

@@ -6,8 +6,16 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
+import {useStyles} from "../style";
+import menu from '../routes';
 
-const DrawerContent = ({menu, handleDrawerItemClick, classes}) => {
+const DrawerContent = ({onClick = f => f}) => {
+
+  const classes = useStyles();
+  const onClickWithTimeOut = () => {
+    setTimeout(onClick, 150)
+  };
+
   return (
     <div>
       <img src={logo} alt="Ceres logo" className={classes.fitPicture}/>
@@ -17,7 +25,7 @@ const DrawerContent = ({menu, handleDrawerItemClick, classes}) => {
           menu.map(({id, text, icon, path}) => {
             const ListIconComponent = icon;
             return (
-              <ListItem key={id} button onClick={() => handleDrawerItemClick(id)} component={Link} to={path}>
+              <ListItem key={id} button onClick={onClickWithTimeOut} component={Link} to={path}>
                 <ListItemIcon><ListIconComponent/></ListItemIcon>
                 <ListItemText primary={text}/>
               </ListItem>

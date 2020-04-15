@@ -1,11 +1,11 @@
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import ShoppingList from "./content/shopping/Shopping";
+import ShoppingContainer from "./shopping/ShoppingContainer";
 import KitchenIcon from "@material-ui/icons/Kitchen";
-import Store from "./content/Store";
+import Store from "./store/Store";
 import RestaurantMenuIcon from "@material-ui/icons/RestaurantMenu";
-import Menu from "./content/Menu";
+import Menu from "./menu/Menu";
 import MenuBookIcon from "@material-ui/icons/MenuBook";
-import Recipes from "./content/Recipes";
+import Recipes from "./recipes/Recipes";
 
 const routes = [
   {
@@ -13,7 +13,7 @@ const routes = [
     text: 'Liste de courses',
     icon: ShoppingCartIcon,
     path: '/shoppinglist',
-    component: ShoppingList
+    component: ShoppingContainer
   },
   {
     id: 2,

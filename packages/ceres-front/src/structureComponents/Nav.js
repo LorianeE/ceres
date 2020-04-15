@@ -1,10 +1,11 @@
 import React from 'react'
 import Hidden from "@material-ui/core/Hidden";
 import Drawer from "@material-ui/core/Drawer";
-import {theme} from "../style";
-import DrawerContent from "./DrawerContent";
+import {theme, useStyles} from "../style";
 
-const Nav = ({classes, mobileOpen, handleDrawerToggle, menu, handleDrawerItemClick}) => {
+const Nav = ({open, onClose, children}) => {
+  const classes = useStyles();
+
   return (
     <nav className={classes.drawer} aria-label="app folders">
       {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
@@ -12,8 +13,8 @@ const Nav = ({classes, mobileOpen, handleDrawerToggle, menu, handleDrawerItemCli
         <Drawer
           variant="temporary"
           anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
+          open={open}
+          onClose={onClose}
           classes={{
             paper: classes.drawerPaper,
           }}
@@ -21,7 +22,7 @@ const Nav = ({classes, mobileOpen, handleDrawerToggle, menu, handleDrawerItemCli
             keepMounted: true, // Better open performance on mobile.
           }}
         >
-          <DrawerContent classes={classes} menu={menu} handleDrawerItemClick={handleDrawerItemClick}/>
+          {children}
         </Drawer>
       </Hidden>
       <Hidden xsDown implementation="css">
@@ -32,7 +33,7 @@ const Nav = ({classes, mobileOpen, handleDrawerToggle, menu, handleDrawerItemCli
           variant="permanent"
           open
         >
-          <DrawerContent classes={classes} menu={menu} handleDrawerItemClick={handleDrawerItemClick}/>
+          {children}
         </Drawer>
       </Hidden>
     </nav>

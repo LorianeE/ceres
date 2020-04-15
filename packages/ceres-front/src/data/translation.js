@@ -1,4 +1,4 @@
-import {createEnum} from "../../utils/EnumUtils";
+import {createEnum} from "../utils/EnumUtils";
 
 export const SHELF_TRANSLATION = createEnum({
   cold: 'Rayon frais',
