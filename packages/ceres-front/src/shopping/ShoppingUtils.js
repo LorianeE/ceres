@@ -1,40 +1,17 @@
-import { useState } from 'react';
-import shoppingListData from '../data/shoppingList.json';
-
-// const STORE_KEY = 'appState';
-
-// export function setStorageState (state) {
-//   localStorage.setItem(STORE_KEY, JSON.stringify(state))
-// }
-//
-// export function getStorageState () {
-//   try {
-//     return JSON.parse(localStorage.getItem(STORE_KEY))
-//   } catch (er) {
-//     return {}
-//   }
-// }
-//
-// async function getShoppingList () {
-//   const { shoppingList = [] } = getStorageState();
-//   setStorageState({
-//     shoppingList
-//   });
-//   return shoppingList
-// }
+import { useState, useEffect } from 'react';
+import { getShoppingList, saveShoppingList } from '../utils/ShoppingClient';
 
 function useShopping() {
   const [itemsRemoved, setItemsRemoved] = useState([]);
-  const [shoppingList, setShoppingList] = useState(shoppingListData);
+  const [shoppingList, setShoppingList] = useState([]);
 
   const shelves = Array.from(
     new Set(shoppingList.map((item) => item.shelf))
   ).sort();
 
-  // TODO
-  // useEffect(() => {
-  //   getShoppingList().then(setShoppingList)
-  // }, [getShoppingList])
+  useEffect(() => {
+    getShoppingList().then(setShoppingList);
+  }, []);
 
   const changeItemQuantity = (item, quantityToAdd) => {
     const itemToUpdateIndex = shoppingList.findIndex(
@@ -56,7 +33,7 @@ function useShopping() {
     }
     const newShoppingList = [...shoppingList];
     setShoppingList(newShoppingList);
-    // call Server
+    saveShoppingList(newShoppingList);
   };
 
   const removeAddedItem = (itemId) => {
@@ -64,7 +41,7 @@ function useShopping() {
     const newLastItemRemoved = shoppingList.find((item) => item.id === itemId);
     setShoppingList([...newShoppingList]);
     setItemsRemoved([...itemsRemoved, newLastItemRemoved]);
-    // callServer
+    saveShoppingList(newShoppingList);
   };
 
   const cancelRemoveItem = () => {
@@ -75,7 +52,7 @@ function useShopping() {
     const newItemsRemoved = itemsRemoved.slice(0, itemsRemoved.length - 1);
     setShoppingList(newShoppingList);
     setItemsRemoved([...newItemsRemoved]);
-    // callServer
+    saveShoppingList(newShoppingList);
   };
 
   return {

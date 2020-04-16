@@ -16,7 +16,7 @@ const ShoppingListItem = ({
   };
 
   return (
-    <ListItem key={item.id} button disableRipple style={{ cursor: 'default' }}>
+    <ListItem button disableRipple style={{ cursor: 'default' }}>
       {shoppingMode && (
         <Checkbox
           edge="start"

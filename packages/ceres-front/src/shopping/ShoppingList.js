@@ -25,6 +25,7 @@ const ShoppingList = ({
               return (
                 item.shelf === shelf && (
                   <ShoppingListItem
+                    key={item.id}
                     item={item}
                     shoppingMode={shoppingMode}
                     removeAddedItem={removeAddedItem}
