@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getShoppingList, saveShoppingList } from '../utils/ShoppingClient';
+import { getShoppingList, saveShoppingList } from './http/ShoppingClient';
 
 function useShopping() {
   const [itemsRemoved, setItemsRemoved] = useState([]);

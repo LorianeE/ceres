@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import AddProductArea from './AddProductArea';
 import ShoppingList from './ShoppingList';
 import ShoppingHeader from './ShoppingHeader';
-import useShopping from './ShoppingUtils';
+import useShopping from '../utils/ShoppingUtils';
 
 const ShoppingContainer = () => {
   const [shoppingMode, setShoppingMode] = useState(false);

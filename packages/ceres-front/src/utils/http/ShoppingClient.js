@@ -1,7 +1,7 @@
 import {
   setShoppingListInStorage,
   getShoppingListFromStorage,
-} from './StorageUtils';
+} from '../StorageUtils';
 import httpClient from './HttpClient';
 
 export async function getShoppingList() {
