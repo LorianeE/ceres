@@ -23,13 +23,7 @@ const DrawerContent = ({ onClick = (f) => f }) => {
         {menu.map(({ id, text, icon, path }) => {
           const ListIconComponent = icon;
           return (
-            <ListItem
-              key={id}
-              button
-              onClick={onClickWithTimeOut}
-              component={Link}
-              to={path}
-            >
+            <ListItem key={id} button onClick={onClickWithTimeOut} component={Link} to={path}>
               <ListItemIcon>
                 <ListIconComponent />
               </ListItemIcon>

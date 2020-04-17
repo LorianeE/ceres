@@ -5,12 +5,7 @@ import Switch from '@material-ui/core/Switch';
 import CancelRemoveItemButton from './CancelRemoveItemButton';
 import useStyles from './shoppingStyle';
 
-const ShoppingHeader = ({
-  shoppingMode,
-  switchShoppingMode,
-  hasRemovedItems,
-  cancelRemoveItem,
-}) => {
+const ShoppingHeader = ({ shoppingMode, switchShoppingMode, hasRemovedItems, cancelRemoveItem }) => {
   const classes = useStyles();
 
   return (
@@ -29,12 +24,7 @@ const ShoppingHeader = ({
         label="Shopping mode !"
         labelPlacement="start"
       />
-      {hasRemovedItems && (
-        <CancelRemoveItemButton
-          classes={classes}
-          cancelRemoveItem={cancelRemoveItem}
-        />
-      )}
+      {hasRemovedItems && <CancelRemoveItemButton classes={classes} cancelRemoveItem={cancelRemoveItem} />}
     </FormGroup>
   );
 };

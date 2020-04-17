@@ -7,13 +7,7 @@ import { SHELF_TYPES } from '../data/shelf_types';
 import useStyles from './shoppingStyle';
 import ShoppingListItem from './ShoppingListItem';
 
-const ShoppingList = ({
-  shoppingList,
-  shelves,
-  removeAddedItem,
-  shoppingMode,
-  changeItemQuantity,
-}) => {
+const ShoppingList = ({ shoppingList, shelves, removeAddedItem, shoppingMode, changeItemQuantity }) => {
   const classes = useStyles();
 
   return (
@@ -39,9 +33,7 @@ const ShoppingList = ({
             </ul>
           </li>
         ))}
-      {!shoppingList.length && (
-        <Typography>Aucun produit dans la liste de courses !</Typography>
-      )}
+      {!shoppingList.length && <Typography>Aucun produit dans la liste de courses !</Typography>}
     </List>
   );
 };

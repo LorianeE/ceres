@@ -1,34 +1,24 @@
-import {
-  setShoppingListInStorage,
-  getShoppingListFromStorage,
-} from '../StorageUtils';
+import { setShoppingListInStorage, getShoppingListFromStorage } from '../StorageUtils';
 import httpClient from './HttpClient';
 
-export async function getShoppingList() {
+export async function getShoppingListItems() {
   let shoppingList = getShoppingListFromStorage();
+  // TEMP: default shopping list
   const shoppingListId = '5e996f50de4a3b507450ded5';
   if (!shoppingList) {
-    const response = await httpClient.get(
-      `http://localhost:8083/rest/shoppingLists/${shoppingListId}`
-    );
-    shoppingList = response.items;
+    shoppingList = await httpClient.get(`http://localhost:8083/rest/shopping-lists/${shoppingListId}`);
     setShoppingListInStorage(shoppingList);
-    return [...shoppingList];
+    return shoppingList.items;
   }
-  return shoppingList;
+  return shoppingList.items;
 }
 
-export async function saveShoppingList(shoppingList) {
-  const shoppingListId = '5e996f50de4a3b507450ded5';
-  const body = {
-    items: shoppingList,
-  };
+export async function saveShoppingListItems(shoppingListItems) {
+  const shoppingList = getShoppingListFromStorage();
+  shoppingList.items = shoppingListItems;
   try {
     setShoppingListInStorage(shoppingList);
-    await httpClient.put(
-      `http://localhost:8083/rest/shoppingLists/${shoppingListId}`,
-      body
-    );
+    await httpClient.put(`http://localhost:8083/rest/shopping-lists/${shoppingList.id}`, shoppingList);
     console.log('Successfully saved shopping list to server !');
   } catch (err) {
     console.error('Unable to save shopping list to server');

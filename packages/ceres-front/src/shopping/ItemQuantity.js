@@ -17,23 +17,13 @@ const ItemQuantity = ({ item, shoppingMode, changeItemQuantity }) => {
   return (
     <ListItemIcon style={{ paddingRight: 20 }}>
       <ButtonGroup color="primary" aria-label="outlined primary button group">
-        <Button
-          variant="contained"
-          size="small"
-          disableElevation
-          onClick={() => changeItemQuantity(item, -1)}
-        >
+        <Button variant="contained" size="small" disableElevation onClick={() => changeItemQuantity(item, -1)}>
           <RemoveIcon fontSize="small" />
         </Button>
         <Button size="small" disabled>
           <Typography>{item.quantity}</Typography>
         </Button>
-        <Button
-          variant="contained"
-          size="small"
-          disableElevation
-          onClick={() => changeItemQuantity(item, 1)}
-        >
+        <Button variant="contained" size="small" disableElevation onClick={() => changeItemQuantity(item, 1)}>
           <AddIcon fontSize="small" />
         </Button>
       </ButtonGroup>

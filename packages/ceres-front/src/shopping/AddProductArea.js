@@ -31,29 +31,15 @@ const AddProductArea = ({ addItem }) => {
   };
 
   return (
-    <Grid
-      container
-      direction="row"
-      alignItems="center"
-      spacing={2}
-      className={classes.autoComplete}
-    >
+    <Grid container direction="row" alignItems="center" spacing={2} className={classes.autoComplete}>
       <Grid item xs={11}>
         <Autocomplete
           id="combo-box-demo"
           options={productsList}
           value={itemToAdd}
           getOptionLabel={(option) => option.label}
-          getOptionSelected={(option, value) =>
-            value && option.name === value.name
-          }
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Produit à ajouter"
-              variant="outlined"
-            />
-          )}
+          getOptionSelected={(option, value) => value && option.name === value.name}
+          renderInput={(params) => <TextField {...params} label="Produit à ajouter" variant="outlined" />}
           onChange={onAutocompleteChange}
         />
       </Grid>

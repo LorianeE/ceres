@@ -7,15 +7,7 @@ import useShopping from '../utils/ShoppingUtils';
 const ShoppingContainer = () => {
   const [shoppingMode, setShoppingMode] = useState(false);
   const shopping = useShopping();
-  const {
-    shoppingList,
-    shelves,
-    changeItemQuantity,
-    removeAddedItem,
-    cancelRemoveItem,
-    hasRemovedItems,
-    cleanRemovedItems,
-  } = shopping;
+  const { shoppingList, shelves, changeItemQuantity, removeAddedItem, cancelRemoveItem, hasRemovedItems, cleanRemovedItems } = shopping;
 
   const switchShoppingMode = () => {
     if (shoppingMode) {
@@ -32,9 +24,7 @@ const ShoppingContainer = () => {
         hasRemovedItems={hasRemovedItems}
         cancelRemoveItem={cancelRemoveItem}
       />
-      {!shoppingMode && (
-        <AddProductArea addItem={(item) => changeItemQuantity(item, 1)} />
-      )}
+      {!shoppingMode && <AddProductArea addItem={(item) => changeItemQuantity(item, 1)} />}
       <ShoppingList
         shoppingList={shoppingList}
         shelves={shelves}

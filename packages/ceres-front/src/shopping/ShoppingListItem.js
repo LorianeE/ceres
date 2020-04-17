@@ -4,12 +4,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
 import ItemQuantity from './ItemQuantity';
 
-const ShoppingListItem = ({
-  item,
-  shoppingMode,
-  removeAddedItem,
-  changeItemQuantity,
-}) => {
+const ShoppingListItem = ({ item, shoppingMode, removeAddedItem, changeItemQuantity }) => {
   const removeAddedItemWithTimeOut = (e) => {
     const { id } = e.target;
     setTimeout(() => removeAddedItem(id), 200);
@@ -28,15 +23,8 @@ const ShoppingListItem = ({
           id={item.product.id}
         />
       )}
-      <ItemQuantity
-        item={item}
-        shoppingMode={shoppingMode}
-        changeItemQuantity={changeItemQuantity}
-      />
-      <ListItemText
-        id={`list-item-text-${item.product.id}`}
-        primary={item.product.label}
-      />
+      <ItemQuantity item={item} shoppingMode={shoppingMode} changeItemQuantity={changeItemQuantity} />
+      <ListItemText id={`list-item-text-${item.product.id}`} primary={item.product.label} />
     </ListItem>
   );
 };

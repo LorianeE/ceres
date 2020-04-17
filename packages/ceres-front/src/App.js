@@ -27,12 +27,7 @@ function App() {
           <div className={classes.toolbar} />
           <Switch>
             {routes.map((item) => (
-              <Route
-                key={item.id}
-                exact
-                path={item.path}
-                component={item.component}
-              />
+              <Route key={item.id} exact path={item.path} component={item.component} />
             ))}
             <Route render={() => <Redirect to="/shoppinglist" />} />
           </Switch>
