@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import * as _ from 'lodash';
 import { getShoppingListItems, saveShoppingListItems } from './http/ShoppingClient';
 
 function useShopping() {
@@ -32,15 +33,22 @@ function useShopping() {
   };
 
   const removeAddedItem = (itemId) => {
-    const newShoppingList = shoppingList.filter((shoppingListItem) => shoppingListItem.product.id !== itemId);
-    const newLastItemRemoved = shoppingList.find((shoppingListItem) => shoppingListItem.product.id === itemId);
-    setShoppingList([...newShoppingList]);
+    const removedItem = shoppingList.find((shoppingListItem) => shoppingListItem.product.id === itemId);
+    changeItemQuantity(removedItem, -1);
+    const newLastItemRemoved = { ...removedItem };
+    newLastItemRemoved.quantity = 1;
     setItemsRemoved([...itemsRemoved, newLastItemRemoved]);
-    saveShoppingListItems(newShoppingList);
   };
 
   const cancelRemoveItem = () => {
-    const newShoppingList = [...shoppingList, itemsRemoved[itemsRemoved.length - 1]];
+    const lastItemRemoved = itemsRemoved[itemsRemoved.length - 1];
+    const itemInListIndex = shoppingList.findIndex((shoppingListItem) => shoppingListItem.product.id === lastItemRemoved.product.id);
+    const newShoppingList = _.clone(shoppingList);
+    if (itemInListIndex >= 0) {
+      newShoppingList[itemInListIndex].quantity += lastItemRemoved.quantity;
+    } else {
+      newShoppingList.push(lastItemRemoved);
+    }
     const newItemsRemoved = itemsRemoved.slice(0, itemsRemoved.length - 1);
     setShoppingList(newShoppingList);
     setItemsRemoved([...newItemsRemoved]);
