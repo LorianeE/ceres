@@ -15,42 +15,40 @@ const rootDir = __dirname;
   httpPort: process.env.PORT || 8083,
   httpsPort: false, // CHANGE
   mount: {
-    "/rest": [
-      `${rootDir}/controllers/**/*.ts`
-    ]
+    "/rest": [`${rootDir}/controllers/**/*.ts`],
   },
   swagger: [
     {
-      path: "/docs"
-    }
+      path: "/docs",
+    },
   ],
-  exclude: [
-    "**/*.spec.ts"
-  ],
+  exclude: ["**/*.spec.ts"],
   mongoose: {
     urls: {
-      default: { // Recommended: define default connection. All models without dbName will be assigned to this connection
-        url: "mongodb+srv://loriane:AJcH4bh76MOx8Zpd@cluster0-ihdx1.mongodb.net/Ceres?retryWrites=true&w=majority",
+      default: {
+        // Recommended: define default connection. All models without dbName will be assigned to this connection
+        url: process.env.MONGO_DB_URL || "mongodb://localhost:27017/Ceres",
         connectionOptions: {
           useNewUrlParser: true,
-          useUnifiedTopology: true
-        }
-      }
-    }
-  }
+          useUnifiedTopology: true,
+        },
+      },
+    },
+  },
 })
 export class Server extends ServerLoader {
   $beforeRoutesInit() {
-    this
-      .use(cors())
+    this.use(cors())
       .use(GlobalAcceptMimesMiddleware)
       .use(cookieParser())
       .use(compress({}))
       .use(methodOverride())
       .use(bodyParser.json())
-      .use(bodyParser.urlencoded({
-        extended: true
-      }));
+      .use(
+        bodyParser.urlencoded({
+          extended: true,
+        })
+      );
 
     return null;
   }

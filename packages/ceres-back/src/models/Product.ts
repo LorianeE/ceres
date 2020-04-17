@@ -1,22 +1,20 @@
-import {
-  Enum,
-  Required
-} from "@tsed/common";
+import {Default, Enum, Required} from "@tsed/common";
+import {Model, Unique} from "@tsed/mongoose";
+import {ShelfTypes} from "./ShelfTypes";
 
+@Model()
 export class Product {
   @Required()
+  @Unique()
   id: string;
 
   @Required()
   label: string;
 
   @Required()
-  @Enum("cold", "drinks", "produce")
-  shelf: string;
+  @Enum(ShelfTypes)
+  shelf: ShelfTypes;
 
-  constructor(id: string, label: string, shelf: string) {
-    this.id = id;
-    this.label = label;
-    this.shelf = shelf;
-  }
+  @Default(0)
+  minimumQuantity: number = 0;
 }

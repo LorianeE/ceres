@@ -1,10 +1,6 @@
-import {
-  Property,
-  PropertyType,
-  Required
-} from "@tsed/common";
-import {ShoppingItem} from "./ShoppingItem";
+import {PropertyType, Required} from "@tsed/common";
 import {Model, ObjectID} from "@tsed/mongoose";
+import {ShoppingItem} from "./ShoppingItem";
 
 @Model()
 export class ShoppingList {
@@ -12,11 +8,6 @@ export class ShoppingList {
   _id: string;
 
   @Required()
-  @Property()
   @PropertyType(ShoppingItem)
   items: ShoppingItem[];
-
-  constructor(items: ShoppingItem[]) {
-    this.items = items;
-  }
 }

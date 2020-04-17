@@ -1,5 +1,15 @@
 version: '3.3'
 services:
+  mongo:
+    image: mongo:4.1
+    restart: always
+    volumes:
+      - mdb-data:/data/db
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME:
+      MONGO_INITDB_ROOT_PASSWORD:
   server:
     build:
       context: .
@@ -10,7 +20,11 @@ services:
         - no_proxy
     image: ceres-back/server:latest
     ports:
-      - "8081:8081"
+      - "8083:8083"
     stdin_open: true  # -i
     tty: true         # -t
+    environment:
+      MONGO_DB_URL: "mongodb://mongo:27017/Ceres"
+volumes:
+  mdb-data:
 

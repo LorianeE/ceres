@@ -8,20 +8,18 @@ export class ShoppingListService {
   private shoppingList: MongooseModel<ShoppingList>;
 
   /**
-   * Find a shoppingList by his ID.
+   * Find a shoppingList by its ID.
    * @param id
-   * @returns {undefined|ShoppingList}
+   * @returns {null|ShoppingList}
    */
-  async find(id: string): Promise<ShoppingList | null> {
-    const shoppingList = await this.shoppingList.findById(id).exec();
-
-    return shoppingList;
+  async find(id: string) {
+    return this.shoppingList.findById(id);
   }
 
   /**
-   *
+   * Update or create shopping list
    * @param shoppingList
-   * @returns {Promise<TResult|TResult2|ShoppingList>}
+   * @returns {Promise<ShoppingList>}
    */
   async save(shoppingList: ShoppingList): Promise<ShoppingList> {
     const model = new this.shoppingList(shoppingList);

@@ -1,69 +1,47 @@
-import {BodyParams, Controller, Get, PathParams, Put, Status} from "@tsed/common";
+import {$log, BodyParams, Context, Controller, Get, PathParams, Post, Put, Status} from "@tsed/common";
+import {Returns, Summary} from "@tsed/swagger";
+import {BadRequest, NotFound} from "ts-httpexceptions";
 import {ShoppingList} from "../models/ShoppingList";
-import {Product} from "../models/Product";
-import {ShoppingItem} from "../models/ShoppingItem";
 import {ShoppingListService} from "../services/ShoppingListService";
 
-const shoppingList = new ShoppingList(
-  [
-    new ShoppingItem(
-      new Product("baconStrips", "Lardons", "cold"),
-      2
-    ),
-    new ShoppingItem(
-      new Product("cider", "Cidre", "drinks"),
-      1
-    ),
-    new ShoppingItem(
-      new Product("apple", "Pommes", "produce"),
-      4
-    ),
-    new ShoppingItem(
-      new Product("pear", "Poires", "produce"),
-      3
-    ),
-    new ShoppingItem(
-      new Product("pineapple", "Ananas", "produce"),
-      1
-    ),
-    new ShoppingItem(
-      new Product("bigCreamJar", "Gros pot de crème", "cold"),
-      1
-    ),
-    new ShoppingItem(
-      new Product("smokedHam-4", "Jambon fumé - 4 tranches", "cold"),
-      1
-    )
-  ]
-);
-
-@Controller("/shoppingLists")
+@Controller("/shopping-lists")
 export class ProductsController {
-  constructor(private shoppingListService: ShoppingListService) {
-  }
+  constructor(private shoppingListService: ShoppingListService) {}
 
   @Get("/:id")
-  async get(@PathParams("id") id: string): Promise<ShoppingList> {
+  @Summary("Get a specific shopping list")
+  @Returns(ShoppingList)
+  async get(@Context() context: Context, @PathParams("id") id: string): Promise<ShoppingList> {
     const shoppingList = await this.shoppingListService.find(id);
     if (!shoppingList) {
-      throw Error("Could not find shopping list");
+      throw new NotFound("Could not find shopping list");
     }
 
     return shoppingList;
   }
 
-  @Put("/:id")
-  @Status(204)
-  async update(@PathParams("id") id: string, @BodyParams() shoppingList: ShoppingList) {
-    shoppingList = {
-      _id: id,
-      ...shoppingList
-    };
+  @Post("/")
+  @Summary("Post a shopping list")
+  @Status(200)
+  async create(@BodyParams(ShoppingList) shoppingList: ShoppingList) {
+    try {
+      return this.shoppingListService.save(shoppingList);
+    } catch (e) {
+      $log.error(e);
+    }
+  }
 
+  @Put("/:id")
+  @Summary("Update a specific shopping list")
+  @Status(204)
+  async update(@PathParams("id") id: string, @BodyParams(ShoppingList) shoppingList: ShoppingList) {
+    if (shoppingList._id !== id) {
+      throw new BadRequest("Shopping list id does not match with param id");
+    }
     try {
       await this.shoppingListService.save(shoppingList);
     } catch (e) {
-      console.log(e);
+      $log.error(e);
     }
   }
 }

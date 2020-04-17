@@ -1,20 +1,34 @@
-import {Controller, Get} from "@tsed/common";
+import {BodyParams, Controller, Get, Post, Status} from "@tsed/common";
+import {Summary} from "@tsed/swagger";
+import {BadRequest} from "ts-httpexceptions";
 import {Product} from "../models/Product";
-
-export const products = [
-  new Product("baconStrips", "Lardons", "cold"),
-  new Product("cider", "Cidre", "drinks"),
-  new Product("apple", "Pommes", "produce"),
-  new Product("pear", "Poires", "produce"),
-  new Product("pineapple", "Ananas", "produce"),
-  new Product("bigCreamJar", "Gros pot de crème", "cold"),
-  new Product("smokedHam-4", "Jambon fumé - 4 tranches", "cold")
-];
+import {DuplicateKeyError} from "../services/errors/DuplicateKeyError";
+import {ProductsService} from "../services/ProductsService";
 
 @Controller("/products")
 export class ProductsController {
+  constructor(private productsService: ProductsService) {}
+
   @Get("/")
+  @Summary("Get all products from database")
   async get(): Promise<Product[]> {
-    return products;
+    return this.productsService.findAll();
+  }
+
+  @Post("/")
+  @Summary("Add products to database")
+  @Status(204)
+  async addProducts(@BodyParams(Product) products: Product[]) {
+    try {
+      const promises = products.map(async (product) => {
+        await this.productsService.save(product);
+      });
+      await Promise.all(promises);
+    } catch (err) {
+      if (err instanceof DuplicateKeyError) {
+        throw new BadRequest(err.message);
+      }
+      throw err;
+    }
   }
 }
