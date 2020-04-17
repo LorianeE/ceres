@@ -1,4 +1,5 @@
 import {
+  Enum,
   Required
 } from "@tsed/common";
 
@@ -10,6 +11,7 @@ export class Product {
   label: string;
 
   @Required()
+  @Enum("cold", "drinks", "produce")
   shelf: string;
 
   constructor(id: string, label: string, shelf: string) {
