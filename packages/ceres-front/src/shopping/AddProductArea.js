@@ -1,16 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
-import { productsList } from '../data/productsList';
 import useStyles from './shoppingStyle';
+import getProductsList from '../utils/ItemsClient';
 
 const AddProductArea = ({ addItem }) => {
   const classes = useStyles();
 
   const [itemToAdd, setItemToAdd] = useState(null);
+  const [productsList, setProductsList] = useState([]);
+
+  useEffect(() => {
+    getProductsList().then(setProductsList);
+  }, []);
 
   const onAutocompleteChange = (event, value) => {
     setItemToAdd(value);
@@ -19,7 +24,9 @@ const AddProductArea = ({ addItem }) => {
   const onClick = () => {
     if (itemToAdd) {
       setItemToAdd(null);
-      addItem(itemToAdd);
+      addItem({
+        product: itemToAdd,
+      });
     }
   };
 

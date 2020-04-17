@@ -1,6 +1,6 @@
 import { createEnum } from '../utils/EnumUtils';
 
-export const SHELF_TRANSLATION = createEnum({
+export const SHELF_TYPES = createEnum({
   cold: 'Rayon frais',
   drinks: 'Boissons',
   produce: 'Fruits & Légumes',

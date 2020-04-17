@@ -12,15 +12,12 @@ async function mapBody(response, bodyOnly) {
 
 const httpClient = {
   async get(url, bodyOnly = true) {
-    const response = await axios.get(url, {
-      withCredentials: true,
-    });
+    const response = await axios.get(url);
     return mapBody(response, bodyOnly);
   },
 
   async post(url, body, bodyOnly = true) {
     const response = await axios.post(url, body, {
-      withCredentials: true,
       headers: {
         'Content-Type': 'application/json',
       },
@@ -30,7 +27,6 @@ const httpClient = {
 
   async put(url, body, bodyOnly = true) {
     const response = await axios.put(url, body, {
-      withCredentials: true,
       headers: {
         'Content-Type': 'application/json',
       },
@@ -41,7 +37,6 @@ const httpClient = {
   async delete(url) {
     return axios.delete(url, {
       method: 'DELETE',
-      withCredentials: true,
     });
   },
 };

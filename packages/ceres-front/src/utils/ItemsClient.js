@@ -1,13 +1,12 @@
-import { productsList } from '../data/productsList';
 import httpClient from './HttpClient';
 
 async function getProductsList() {
   let items;
   try {
-    items = await httpClient.get('http://localhost:8080/rest/products');
+    items = await httpClient.get('http://localhost:8083/rest/products');
     return items;
   } catch (e) {
-    return productsList;
+    throw Error('Could not get products list from server');
   }
 }
 

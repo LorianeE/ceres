@@ -22,8 +22,10 @@ const ShoppingListItem = ({
           edge="start"
           defaultChecked={false}
           onChange={removeAddedItemWithTimeOut}
-          inputProps={{ 'aria-labelledby': `list-item-text-${item.id}` }}
-          id={item.id}
+          inputProps={{
+            'aria-labelledby': `list-item-text-${item.product.id}`,
+          }}
+          id={item.product.id}
         />
       )}
       <ItemQuantity
@@ -31,7 +33,10 @@ const ShoppingListItem = ({
         shoppingMode={shoppingMode}
         changeItemQuantity={changeItemQuantity}
       />
-      <ListItemText id={`list-item-text-${item.id}`} primary={item.label} />
+      <ListItemText
+        id={`list-item-text-${item.product.id}`}
+        primary={item.product.label}
+      />
     </ListItem>
   );
 };

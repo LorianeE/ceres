@@ -6,7 +6,9 @@ function useShopping() {
   const [shoppingList, setShoppingList] = useState([]);
 
   const shelves = Array.from(
-    new Set(shoppingList.map((item) => item.shelf))
+    new Set(
+      shoppingList.map((shoppingListItem) => shoppingListItem.product.shelf)
+    )
   ).sort();
 
   useEffect(() => {
@@ -15,7 +17,7 @@ function useShopping() {
 
   const changeItemQuantity = (item, quantityToAdd) => {
     const itemToUpdateIndex = shoppingList.findIndex(
-      (product) => product.id === item.id
+      (shoppingListItem) => shoppingListItem.product.id === item.product.id
     );
     if (itemToUpdateIndex !== -1) {
       const newQuantity =
@@ -37,8 +39,12 @@ function useShopping() {
   };
 
   const removeAddedItem = (itemId) => {
-    const newShoppingList = shoppingList.filter((item) => item.id !== itemId);
-    const newLastItemRemoved = shoppingList.find((item) => item.id === itemId);
+    const newShoppingList = shoppingList.filter(
+      (shoppingListItem) => shoppingListItem.product.id !== itemId
+    );
+    const newLastItemRemoved = shoppingList.find(
+      (shoppingListItem) => shoppingListItem.product.id === itemId
+    );
     setShoppingList([...newShoppingList]);
     setItemsRemoved([...itemsRemoved, newLastItemRemoved]);
     saveShoppingList(newShoppingList);
