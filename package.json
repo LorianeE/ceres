@@ -1,8 +1,30 @@
 {
   "name": "@ceres/ceres",
   "private": true,
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "lerna bootstrap",
+    "bootstrap": "lerna bootstrap",
+    "bootstrap:production": "lerna bootstrap -- --production",
+    "test": "lerna run test --stream",
+    "test:e2e": "lerna run test:e2e",
+    "test:client": "lerna run test --scope=@project/client",
+    "test:server": "lerna run test --scope=@project/server",
+    "lint": "lerna run lint",
+    "lint:fix": "lerna run lint:fix",
+    "build": "lerna run build --stream",
+    "build:client": "lerna run build --scope=@project/client --stream",
+    "build:server": "lerna run build --scope=@project/server --stream",
+    "start": "lerna run start --stream --parallel",
+    "start:client": "lerna run start --scope=@project/client --stream",
+    "start:server": "lerna run start --scope=@project/server --stream",
+    "start:prod": "cross-env NODE_ENV=production pm2-docker --raw processes.config.js --no-deamon",
+    "docker:build": "yarn build && docker-compose build"
+  },
   "devDependencies": {
-    "lerna": "^3.20.2"
+    "husky": "^4.2.5",
+    "lerna": "^3.20.2",
+    "lint-staged": "^10.1.6"
   },
   "workspaces": {
     "packages": [
