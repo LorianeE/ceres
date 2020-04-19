@@ -1,5 +1,5 @@
 {
-  "name": "ceres-back",
+  "name": "@ceres/server",
   "version": "1.0.0",
   "description": "",
   "scripts": {
