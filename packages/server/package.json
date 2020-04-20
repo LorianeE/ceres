@@ -14,7 +14,7 @@
     "test:coverage": "yarn test:unit",
     "lint": "tslint --project tsconfig.json",
     "lint:fix": "tslint --project tsconfig.json --fix",
-    "prettier": "prettier '{src,test}/**/*.ts' --write"
+    "prettier": "prettier 'src/**/*.ts' --write"
   },
   "dependencies": {
     "@tsed/ajv": "5.46.0",
