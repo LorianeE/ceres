@@ -7,9 +7,12 @@
     "bootstrap": "lerna bootstrap",
     "bootstrap:production": "lerna bootstrap -- --production",
     "test": "lerna run test --stream",
+    "test:unit": "lerna run test:unit --stream",
     "test:e2e": "lerna run test:e2e",
     "test:client": "lerna run test --scope=@ceres/client",
     "test:server": "lerna run test --scope=@ceres/server",
+    "test:unit:client": "lerna run test:unit --scope=@ceres/client",
+    "test:unit:server": "lerna run test:unit --scope=@ceres/server",
     "lint": "lerna run lint",
     "lint:fix": "lerna run lint:fix",
     "build": "lerna run build --stream",
@@ -45,11 +48,11 @@
   },
   "lint-staged": {
     "packages/client/src/**/*.{js,jsx}": [
-      "cd packages/client && prettier --write && yarn lint:fix",
+      "cd packages/client && yarn prettier && yarn lint:fix",
       "git add"
     ],
     "packages/server/**/*.{ts}": [
-      "cd packages/server && prettier --write && yarn test:lint:fix",
+      "cd packages/server && yarn prettier && yarn test:lint:fix",
       "git add"
     ]
   }
