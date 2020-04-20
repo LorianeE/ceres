@@ -5,7 +5,7 @@ import {ShoppingList} from "../models/ShoppingList";
 import {ShoppingListService} from "../services/ShoppingListService";
 
 @Controller("/shopping-lists")
-export class ProductsController {
+export class ShoppingListsController {
   constructor(private shoppingListService: ShoppingListService) {}
 
   @Get("/:id")
@@ -22,12 +22,13 @@ export class ProductsController {
 
   @Post("/")
   @Summary("Post a shopping list")
-  @Status(200)
+  @Status(204)
   async create(@BodyParams(ShoppingList) shoppingList: ShoppingList) {
     try {
       return this.shoppingListService.save(shoppingList);
     } catch (e) {
       $log.error(e);
+      throw e;
     }
   }
 
@@ -39,9 +40,10 @@ export class ProductsController {
       throw new BadRequest("Shopping list id does not match with param id");
     }
     try {
-      await this.shoppingListService.save(shoppingList);
+      return await this.shoppingListService.save(shoppingList);
     } catch (e) {
       $log.error(e);
+      throw e;
     }
   }
 }

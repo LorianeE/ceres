@@ -29,7 +29,9 @@ export class ProductsService {
       return model;
     } catch (err) {
       if (err.code === 11000) {
-        throw new DuplicateKeyError(err.code, err.errmsg);
+        const duplicateKeyError = new DuplicateKeyError();
+        duplicateKeyError.message = err.errmsg;
+        throw duplicateKeyError;
       }
       throw err;
     }
