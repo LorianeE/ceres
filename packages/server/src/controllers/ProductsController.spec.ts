@@ -35,8 +35,8 @@ describe("ProductsController", () => {
     });
     describe("addProducts()", () => {
         const product = new Product();
-        product.id = 'apple';
-        product.label = 'Pommes';
+        product.id = "apple";
+        product.label = "Pommes";
         product.shelf = ShelfTypes.PRODUCE;
 
         const products = [product];
@@ -71,7 +71,7 @@ describe("ProductsController", () => {
             it("should throw BadRequest error when DuplicateKeyError", async () => {
                 // GIVEN
                 const error = new DuplicateKeyError();
-                error.message = 'One key is already in DB';
+                error.message = "One key is already in DB";
 
                 const productsService = {
                     save: jest.fn().mockRejectedValue(error)
@@ -95,7 +95,7 @@ describe("ProductsController", () => {
                 expect(productsService.save).toHaveBeenCalledTimes(1);
                 expect(productsService.save).toHaveBeenCalledWith(product);
                 expect(actualError).toBeInstanceOf(BadRequest);
-                expect(actualError.message).toEqual('One key is already in DB');
+                expect(actualError.message).toEqual("One key is already in DB");
             });
         });
         describe("when there is an other problem", () => {

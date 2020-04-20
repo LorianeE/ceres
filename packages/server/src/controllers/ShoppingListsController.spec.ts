@@ -21,12 +21,12 @@ describe("ShoppingListsController", () => {
             }]);
 
             // WHEN
-            const result = await shoppingListCtrl.get({}, '1');
+            const result = await shoppingListCtrl.get({}, "1");
 
             // THEN
             expect(result).toEqual({id: "1", items: []});
             expect(shoppingListService.find).toHaveBeenCalledTimes(1);
-            expect(shoppingListService.find).toHaveBeenCalledWith('1');
+            expect(shoppingListService.find).toHaveBeenCalledWith("1");
 
             expect(shoppingListCtrl).toBeInstanceOf(ShoppingListsController);
             expect(shoppingListCtrl.shoppingListService).toEqual(shoppingListService);
@@ -46,7 +46,7 @@ describe("ShoppingListsController", () => {
             // WHEN
             let actualError;
             try {
-                const result = await shoppingListCtrl.get({}, '1');
+                const result = await shoppingListCtrl.get({}, "1");
             } catch (e) {
                 actualError = e;
             }
@@ -54,7 +54,7 @@ describe("ShoppingListsController", () => {
             // THEN
             expect(shoppingListCtrl.shoppingListService).toEqual(shoppingListService);
             expect(shoppingListService.find).toHaveBeenCalledTimes(1);
-            expect(shoppingListService.find).toHaveBeenCalledWith('1');
+            expect(shoppingListService.find).toHaveBeenCalledWith("1");
             expect(actualError).toBeInstanceOf(NotFound);
         });
     });
@@ -65,7 +65,7 @@ describe("ShoppingListsController", () => {
         it("should return a result from shoppinglistservice if not undefined", async () => {
             // GIVEN
             const shoppingList = new ShoppingList();
-            shoppingList._id = '1234';
+            shoppingList._id = "1234";
             shoppingList.items = [];
 
             const shoppingListService = {
@@ -88,11 +88,11 @@ describe("ShoppingListsController", () => {
         it("should throw error if shoppinglistservice throws error", async () => {
             // GIVEN
             const shoppingList = new ShoppingList();
-            shoppingList._id = '1234';
+            shoppingList._id = "1234";
             shoppingList.items = [];
 
             const shoppingListService = {
-                save: jest.fn().mockRejectedValue(new Error('An error occured'))
+                save: jest.fn().mockRejectedValue(new Error("An error occured"))
             };
 
             const shoppingListCtrl = await TestContext.invoke(ShoppingListsController, [{
@@ -120,7 +120,7 @@ describe("ShoppingListsController", () => {
         it("should return a result from shoppinglistservice if ok", async () => {
             // GIVEN
             const shoppingList = new ShoppingList();
-            shoppingList._id = '1234';
+            shoppingList._id = "1234";
             shoppingList.items = [];
 
             const shoppingListService = {
@@ -133,7 +133,7 @@ describe("ShoppingListsController", () => {
             }]);
 
             // WHEN
-            const result = await shoppingListCtrl.update('1234', shoppingList);
+            const result = await shoppingListCtrl.update("1234", shoppingList);
 
             // THEN
             expect(shoppingListService.save).toHaveBeenCalledTimes(1);
@@ -143,7 +143,7 @@ describe("ShoppingListsController", () => {
         it("should throw BadRequest if shoppinglist id does not match with path id", async () => {
             // GIVEN
             const shoppingList = new ShoppingList();
-            shoppingList._id = '1';
+            shoppingList._id = "1";
             shoppingList.items = [];
 
             const shoppingListService = {
@@ -158,7 +158,7 @@ describe("ShoppingListsController", () => {
             // WHEN
             let actualError;
             try {
-                const result = await shoppingListCtrl.update('1234', shoppingList);
+                const result = await shoppingListCtrl.update("1234", shoppingList);
             } catch (e) {
                 actualError = e;
             }
@@ -170,11 +170,11 @@ describe("ShoppingListsController", () => {
         it("should throw error if shoppinglistservice throws error", async () => {
             // GIVEN
             const shoppingList = new ShoppingList();
-            shoppingList._id = '1234';
+            shoppingList._id = "1234";
             shoppingList.items = [];
 
             const shoppingListService = {
-                save: jest.fn().mockRejectedValue(new Error('An error occured'))
+                save: jest.fn().mockRejectedValue(new Error("An error occured"))
             };
 
             const shoppingListCtrl = await TestContext.invoke(ShoppingListsController, [{
@@ -185,7 +185,7 @@ describe("ShoppingListsController", () => {
             // WHEN
             let actualError;
             try {
-                await shoppingListCtrl.update('1234', shoppingList);
+                await shoppingListCtrl.update("1234", shoppingList);
             } catch (e) {
                 actualError = e;
             }
