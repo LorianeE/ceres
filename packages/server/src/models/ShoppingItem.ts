@@ -1,5 +1,5 @@
 import {Minimum, Required} from "@tsed/common";
-import {Product} from "./Product";
+import Product from "./Product";
 
 export class ShoppingItem {
   @Required()

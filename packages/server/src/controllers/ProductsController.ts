@@ -1,7 +1,7 @@
 import {BodyParams, Controller, Get, Post, Status} from "@tsed/common";
 import {Summary} from "@tsed/swagger";
 import {BadRequest} from "ts-httpexceptions";
-import {Product} from "../models/Product";
+import Product from "../models/Product";
 import {DuplicateKeyError} from "../services/errors/DuplicateKeyError";
 import {ProductsService} from "../services/ProductsService";
 

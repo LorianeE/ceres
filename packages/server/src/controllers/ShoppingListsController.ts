@@ -25,7 +25,7 @@ export class ShoppingListsController {
   @Status(204)
   async create(@BodyParams(ShoppingList) shoppingList: ShoppingList) {
     try {
-      return this.shoppingListService.save(shoppingList);
+      return await this.shoppingListService.save(shoppingList);
     } catch (e) {
       $log.error(e);
       throw e;

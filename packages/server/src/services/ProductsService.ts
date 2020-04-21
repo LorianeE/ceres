@@ -1,6 +1,6 @@
 import {Inject, Service} from "@tsed/common";
 import {MongooseModel} from "@tsed/mongoose";
-import {Product} from "../models/Product";
+import Product from "../models/Product";
 import {DuplicateKeyError} from "./errors/DuplicateKeyError";
 
 @Service()
@@ -13,7 +13,7 @@ export class ProductsService {
    * @returns {undefined|Product[]}
    */
   async findAll(): Promise<Product[]> {
-    return this.product.find({}).exec();
+    return this.product.find({});
   }
 
   /**

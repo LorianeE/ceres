@@ -3,7 +3,7 @@ import {Model, Unique} from "@tsed/mongoose";
 import {ShelfTypes} from "./ShelfTypes";
 
 @Model()
-export class Product {
+export default class Product {
   @Required()
   @Unique()
   id: string;
