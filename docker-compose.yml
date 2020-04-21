@@ -18,7 +18,9 @@ services:
         - http_proxy
         - https_proxy
         - no_proxy
-    image: ceres-back/server:latest
+    image: ceres-wepapp/ceres:latest
+    # The app will restart until Mongo is listening
+    restart: always
     ports:
       - "8083:8083"
     stdin_open: true  # -i
@@ -27,4 +29,3 @@ services:
       MONGO_DB_URL: "mongodb://mongo:27017/Ceres"
 volumes:
   mdb-data:
-

@@ -24,9 +24,13 @@
     "start:prod": "cross-env NODE_ENV=production pm2-docker --raw processes.config.js --no-deamon",
     "docker:build": "yarn build && docker-compose build"
   },
-  "devDependencies": {
-    "husky": "^4.2.5",
+  "dependencies": {
     "lerna": "^3.20.2",
+    "pm2": "^4.3.1"
+  },
+  "devDependencies": {
+    "cross-env": "^5.2.0",
+    "husky": "^4.2.5",
     "lint-staged": "^10.1.6"
   },
   "workspaces": {

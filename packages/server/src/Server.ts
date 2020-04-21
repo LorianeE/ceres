@@ -7,7 +7,10 @@ import * as cors from "cors";
 import "@tsed/ajv";
 import "@tsed/swagger";
 import "@tsed/mongoose";
+import * as path from "path";
+
 const rootDir = __dirname;
+const clientDir = path.join(rootDir, "../../client/build");
 
 @ServerSettings({
   rootDir,
@@ -35,6 +38,9 @@ const rootDir = __dirname;
       },
     },
   },
+  statics: {
+    "/": clientDir
+  }
 })
 export class Server extends ServerLoader {
   $beforeRoutesInit() {
