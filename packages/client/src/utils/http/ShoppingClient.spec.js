@@ -1,7 +1,6 @@
 import HttpClient from './HttpClient';
 import { getShoppingListItems, saveShoppingListItems } from './ShoppingClient';
 import { getShoppingListFromStorage, setShoppingListInStorage } from '../StorageUtils';
-import * as config from '../../config.json';
 
 jest.mock('./HttpClient');
 jest.mock('../StorageUtils');
@@ -63,7 +62,7 @@ describe('ShoppingClient', () => {
         }
         // THEN
         expect(HttpClient.put).toHaveBeenCalledTimes(1);
-        expect(HttpClient.put).toHaveBeenCalledWith(`${config.server.url}/rest/shopping-lists/${shoppingList.id}`, shoppingList);
+        expect(HttpClient.put).toHaveBeenCalledWith(`/rest/shopping-lists/${shoppingList.id}`, shoppingList);
         expect(actualError).toEqual(undefined);
       });
     });

@@ -22,7 +22,7 @@ describe("ShoppingListService", () => {
             ]);
 
             // WHEN
-            const result = await shoppingListService.find('1234');
+            const result = await shoppingListService.find("1234");
 
             // THEN
             expect(result).toEqual([{id: "1234"}]);
