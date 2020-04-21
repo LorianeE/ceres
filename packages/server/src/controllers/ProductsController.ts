@@ -11,6 +11,7 @@ export class ProductsController {
 
   @Get("/")
   @Summary("Get all products from database")
+  @Status(200)
   async get(): Promise<Product[]> {
     return this.productsService.findAll();
   }

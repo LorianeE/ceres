@@ -1,22 +1,22 @@
 import {ExpressApplication} from "@tsed/common";
-import {TestContext} from "@tsed/testing";
 import * as SuperTest from "supertest";
 import {Server} from "../Server";
+import {TestMongooseContext} from "@tsed/testing-mongoose";
 
 describe("Products", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
-  beforeEach(TestContext.bootstrap(Server));
-  beforeEach(TestContext.inject([ExpressApplication], (expressApplication: ExpressApplication) => {
+  beforeEach(TestMongooseContext.bootstrap(Server));
+  beforeEach(TestMongooseContext.inject([ExpressApplication], (expressApplication: ExpressApplication) => {
     request = SuperTest(expressApplication);
   }));
-  afterEach(TestContext.reset);
+  afterEach(TestMongooseContext.reset);
 
   describe("GET /rest/products", () => {
     it("should return all products", async () => {
-      const response = await request.get("/rest/products/").expect(200);
+      const response = await request.get("/rest/products").expect(200);
 
-      // expect(Array.isArray(response.body)).toBe(true);
+      expect(Array.isArray(response.body)).toBe(true);
     });
   });
 });

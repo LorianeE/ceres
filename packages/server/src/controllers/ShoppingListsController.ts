@@ -10,6 +10,7 @@ export class ShoppingListsController {
 
   @Get("/:id")
   @Summary("Get a specific shopping list")
+  @Status(200)
   @Returns(ShoppingList)
   async get(@Context() context: Context, @PathParams("id") id: string): Promise<ShoppingList> {
     const shoppingList = await this.shoppingListService.find(id);
