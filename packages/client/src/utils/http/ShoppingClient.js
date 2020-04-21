@@ -7,7 +7,7 @@ export async function getShoppingListItems() {
   // TEMP: default shopping list
   const shoppingListId = config.defaultShoppinglistId;
   if (!shoppingList) {
-    shoppingList = await httpClient.get(`${config.server.url}/rest/shopping-lists/${shoppingListId}`);
+    shoppingList = await httpClient.get(`/rest/shopping-lists/${shoppingListId}`);
     setShoppingListInStorage(shoppingList);
     return shoppingList.items;
   }
@@ -19,7 +19,7 @@ export async function saveShoppingListItems(shoppingListItems) {
   shoppingList.items = shoppingListItems;
   try {
     setShoppingListInStorage(shoppingList);
-    await httpClient.put(`${config.server.url}/rest/shopping-lists/${shoppingList.id}`, shoppingList);
+    await httpClient.put(`/rest/shopping-lists/${shoppingList.id}`, shoppingList);
     console.log('Successfully saved shopping list to server !');
   } catch (err) {
     console.error('Unable to save shopping list to server');
