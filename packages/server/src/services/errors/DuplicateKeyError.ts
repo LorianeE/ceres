@@ -1,4 +1,10 @@
-export class DuplicateKeyError {
-  code: number;
-  message: string;
+import {BadRequest} from "ts-httpexceptions";
+
+export class DuplicateKeyError extends BadRequest {
+  static from(mongooseError: any) {
+    return new DuplicateKeyError(
+        mongooseError.errmsg,
+        mongooseError
+    );
+  }
 }

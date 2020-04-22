@@ -24,14 +24,10 @@ export class ProductsService {
   async save(product: Product): Promise<Product> {
     const model = new this.product(product);
     try {
-      await model.save();
-
-      return model;
+      return await model.save();
     } catch (err) {
       if (err.code === 11000) {
-        const duplicateKeyError = new DuplicateKeyError();
-        duplicateKeyError.message = err.errmsg;
-        throw duplicateKeyError;
+        throw DuplicateKeyError.from(err);
       }
       throw err;
     }

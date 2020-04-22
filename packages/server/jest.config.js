@@ -17,7 +17,8 @@ module.exports = {
   // An array of regexp pattern strings used to skip coverage collection
   coveragePathIgnorePatterns: [
     'index.ts',
-    '/node_modules/'
+    '/node_modules/',
+    '/middlewares/'
   ],
 
   // An object that configures minimum threshold enforcement for coverage results
@@ -45,8 +46,10 @@ module.exports = {
 
   // The glob patterns Jest uses to detect test files
   testMatch: [
-    '**/__tests__/**/*.[jt]s?(x)',
-    '**/?(*.)+(spec|test).[tj]s?(x)'
+    '**/src/**/__tests__/**/*.[jt]s?(x)',
+    '**/src/**/?(*.)+(spec|test).[tj]s?(x)',
+    '**/test/**/__tests__/**/*.[jt]s?(x)',
+    '**/test/**/?(*.)+(spec|test).[tj]s?(x)'
   ],
   // A map from regular expressions to paths to transformers
   transform: {

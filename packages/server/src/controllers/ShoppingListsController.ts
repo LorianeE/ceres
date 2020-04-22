@@ -23,7 +23,7 @@ export class ShoppingListsController {
 
   @Post("/")
   @Summary("Post a shopping list")
-  @Status(204)
+  @Status(201)
   async create(@BodyParams(ShoppingList) shoppingList: ShoppingList) {
     try {
       return await this.shoppingListService.save(shoppingList);

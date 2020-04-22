@@ -3,8 +3,6 @@ import {ProductsController} from "./ProductsController";
 import {ProductsService} from "../services/ProductsService";
 import Product from "../models/Product";
 import {ShelfTypes} from "../models/ShelfTypes";
-import {DuplicateKeyError} from "../services/errors/DuplicateKeyError";
-import {BadRequest} from "ts-httpexceptions";
 
 describe("ProductsController", () => {
   describe("get()", () => {
@@ -66,74 +64,6 @@ describe("ProductsController", () => {
         // THEN
         expect(productsService.save).toHaveBeenCalledTimes(1);
         expect(productsService.save).toHaveBeenCalledWith(product);
-      });
-    });
-    describe("when there is a problem with duplicate key", () => {
-      beforeEach(() => TestContext.create());
-      afterEach(() => TestContext.reset());
-
-      it("should throw BadRequest error when DuplicateKeyError", async () => {
-        // GIVEN
-        const error = new DuplicateKeyError();
-        error.message = "One key is already in DB";
-
-        const productsService = {
-          save: jest.fn().mockRejectedValue(error),
-        };
-
-        const productsCtrl = await TestContext.invoke(ProductsController, [
-          {
-            provide: ProductsService,
-            use: productsService,
-          },
-        ]);
-
-        // WHEN
-        let actualError;
-        try {
-          await productsCtrl.addProducts(products);
-        } catch (er) {
-          actualError = er;
-        }
-        // THEN
-
-        expect(productsCtrl.productsService).toEqual(productsService);
-        expect(productsService.save).toHaveBeenCalledTimes(1);
-        expect(productsService.save).toHaveBeenCalledWith(product);
-        expect(actualError).toBeInstanceOf(BadRequest);
-        expect(actualError.message).toEqual("One key is already in DB");
-      });
-    });
-    describe("when there is an other problem", () => {
-      beforeEach(() => TestContext.create());
-      afterEach(() => TestContext.reset());
-
-      it("should throw BadRequest error when DuplicateKeyError", async () => {
-        // GIVEN
-        const productsService = {
-          save: jest.fn().mockRejectedValue(new Error()),
-        };
-
-        const productsCtrl = await TestContext.invoke(ProductsController, [
-          {
-            provide: ProductsService,
-            use: productsService,
-          },
-        ]);
-
-        // WHEN
-        let actualError;
-        try {
-          await productsCtrl.addProducts(products);
-        } catch (er) {
-          actualError = er;
-        }
-        // THEN
-
-        expect(productsCtrl.productsService).toEqual(productsService);
-        expect(productsService.save).toHaveBeenCalledTimes(1);
-        expect(productsService.save).toHaveBeenCalledWith(product);
-        expect(actualError).toBeInstanceOf(Error);
       });
     });
   });
