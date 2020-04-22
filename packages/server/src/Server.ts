@@ -4,6 +4,7 @@ import * as compress from "compression";
 import * as cookieParser from "cookie-parser";
 import * as methodOverride from "method-override";
 import * as cors from "cors";
+import * as express from "express";
 import "@tsed/ajv";
 import "@tsed/swagger";
 import "@tsed/mongoose";
@@ -37,9 +38,6 @@ const clientDir = path.join(rootDir, "../../client/build");
         },
       },
     },
-  },
-  statics: {
-    "/": clientDir
   }
 })
 export class Server extends ServerLoader {
@@ -57,5 +55,23 @@ export class Server extends ServerLoader {
       );
 
     return null;
+  }
+  $afterRoutesInit() {
+    const indexMiddleware = (req: any, res: any) => {
+      if (!res.headersSent) {
+        res.set({
+          "Cache-Control": "no-cache, no-store, must-revalidate",
+          "Pragma": "no-cache",
+          "expires": "0"
+        });
+      }
+      res.sendFile(path.join(clientDir, "index.html"));
+    };
+
+    const app = this.app;
+
+    app.get("/", indexMiddleware);
+    app.use("/", express.static(clientDir));
+    app.get("/*", indexMiddleware);
   }
 }

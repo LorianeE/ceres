@@ -14,7 +14,9 @@
     "test:unit:client": "lerna run test:unit --scope=@ceres/client",
     "test:unit:server": "lerna run test:unit --scope=@ceres/server",
     "lint": "lerna run lint",
-    "lint:fix": "lerna run lint:fix",
+    "lint:fix": "lerna run lint:fix --parallel",
+    "lint:fix:client": "lerna run lint:fix --scope=@ceres/client",
+    "lint:fix:server": "lerna run lint:fix --scope=@ceres/server",
     "build": "lerna run build --stream",
     "build:client": "lerna run build --scope=@ceres/client --stream",
     "build:server": "lerna run build --scope=@ceres/server --stream",
@@ -41,7 +43,9 @@
       "**/@types",
       "**/@types/**",
       "**/@tsed",
-      "**/@tsed/**"
+      "**/@tsed/**",
+      "**/react-scripts",
+      "**/react-scripts/**"
     ]
   },
   "husky": {
@@ -51,12 +55,12 @@
     }
   },
   "lint-staged": {
-    "packages/client/src/**/*.{js,jsx}": [
-      "cd packages/client && yarn prettier && yarn lint:fix",
+    "*.{js,jsx}": [
+      "yarn lint:fix:client",
       "git add"
     ],
-    "packages/server/**/*.{ts}": [
-      "cd packages/server && yarn prettier && yarn test:lint:fix",
+    "*.{ts}": [
+      "yarn lint:fix:server",
       "git add"
     ]
   }
