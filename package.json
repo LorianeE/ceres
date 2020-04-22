@@ -56,11 +56,11 @@
   },
   "lint-staged": {
     "*.{js,jsx}": [
-      "yarn lint:fix:client",
+      "yarn lint:fix:client -- --",
       "git add"
     ],
-    "*.{ts}": [
-      "yarn lint:fix:server",
+    "*.ts": [
+      "yarn lint:fix:server -- --",
       "git add"
     ]
   }
