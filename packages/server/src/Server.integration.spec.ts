@@ -15,7 +15,7 @@ describe("Server", () => {
 
   afterEach(TestMongooseContext.reset);
 
-  it("should call GET /rest and return 404", async () => {
-    const response = await request.get("/rest").expect(404);
+  it("should call GET / and return 200", async () => {
+    const response = await request.get("/").expect(200);
   });
 });
