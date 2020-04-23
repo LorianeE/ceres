@@ -9,7 +9,10 @@ import "@tsed/ajv";
 import "@tsed/swagger";
 import "@tsed/mongoose";
 import * as path from "path";
+import * as dotenv from "dotenv";
 import "./middlewares/CustomGEHMiddleware";
+
+dotenv.config();
 
 const rootDir = __dirname;
 const clientDir = path.join(rootDir, "../../client/build");

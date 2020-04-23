@@ -27,5 +27,7 @@ services:
     tty: true         # -t
     environment:
       MONGO_DB_URL: "mongodb://mongo:27017/Ceres"
+      FACEBOOK_APP_ID:
+      FACEBOOK_APP_SECRET:
 volumes:
   mdb-data:

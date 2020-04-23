@@ -33,9 +33,12 @@
     "cookie-parser": "1.4.5",
     "cors": "2.8.5",
     "cross-env": "7.0.2",
+    "dotenv": "^8.2.0",
     "express": "4.17.1",
     "method-override": "3.0.0",
     "mongoose": "5.9.9",
+    "passport": "^0.4.1",
+    "passport-facebook": "^3.0.0",
     "sinon": "^9.0.2",
     "ts-httpexceptions": "^4.1.0"
   },
