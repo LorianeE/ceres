@@ -1,4 +1,4 @@
-import {PropertyType, Required} from "@tsed/common";
+import {Default, Property, PropertyType, Required} from "@tsed/common";
 import {Model, ObjectID, Unique} from "@tsed/mongoose";
 import {ShoppingList} from "./ShoppingList";
 import {UserInfo} from "@tsed/passport";
@@ -18,9 +18,10 @@ export default class User extends UserInfo {
   @Required()
   lastName: string;
 
-  @Unique()
+  @Property()
   email: string;
 
+  @Default([])
   @PropertyType(ShoppingList)
-  shoppingLists: ShoppingList[];
+  shoppingLists: ShoppingList[] = [];
 }

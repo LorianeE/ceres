@@ -6,9 +6,9 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import logo from '../logo.png';
 import loginBackground from '../login_background.jpeg';
+import LoginUtils from '../utils/LoginUtils';
 
 function Copyright() {
   return (
@@ -82,13 +82,16 @@ const useStyles = makeStyles((theme) => ({
       padding: '2 25px 0 0',
       content: '"f"',
     },
+    '&:hover': {
+      background: '#3b4280',
+    },
   },
 }));
 
 export default function SignInSide() {
   const classes = useStyles();
 
-  const login = () => {};
+  const facebookLoginUrl = LoginUtils.getFacebookLoginUrl();
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -113,9 +116,9 @@ export default function SignInSide() {
             </Typography>
           </Box>
           <form className={classes.form} noValidate>
-            <Button type="submit" className={classes.fbConnect} onClick={login}>
+            <Link href={facebookLoginUrl} className={classes.fbConnect}>
               Se connecter avec Facebook
-            </Button>
+            </Link>
             <Box mt={5}>
               <Copyright />
             </Box>
