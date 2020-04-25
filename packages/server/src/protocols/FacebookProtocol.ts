@@ -1,5 +1,5 @@
 import {Inject, Req} from "@tsed/common";
-import {Args, OnVerify, Protocol, UserInfo} from "@tsed/passport";
+import {Args, OnVerify, Protocol} from "@tsed/passport";
 import {Strategy, StrategyOption} from "passport-facebook";
 import {UsersService} from "../services/users/UsersService";
 import User from "../models/User";
@@ -22,7 +22,6 @@ export class FacebookProtocol implements OnVerify {
     profile.refreshToken = refreshToken;
 
     let user = await this.usersService.findOne({facebookId: profile.id});
-
     if (!user) {
       const userToCreate = new User();
       userToCreate.facebookId = profile.id;
