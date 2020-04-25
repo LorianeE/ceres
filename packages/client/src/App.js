@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import './App.css';
 import '@material-ui/core';
@@ -11,29 +11,49 @@ import routes from './routes';
 import DrawerContent from './structureComponents/DrawerContent';
 import useIsOpen from './utils/hooks';
 import SigninPage from './welcome/SigninPage';
+import LoginUtils from './utils/LoginUtils';
 
 function App() {
   const classes = useStyles();
   const [isOpen, toggleIfOpen] = useIsOpen();
+  const [user, setUser] = useState(null);
 
-  // eslint-disable-next-line
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    LoginUtils.isUserLoggedIn().then((u) => {
+      if (u) {
+        setUser(u);
+      }
+    });
+  }, []);
+
+  const logout = () => {
+    LoginUtils.logout();
+    setUser(null);
+  };
 
   return (
     <ThemeProvider theme={theme}>
-      {!isLoggedIn && <SigninPage />}
-      {isLoggedIn && (
+      {!user && <SigninPage />}
+      {user && (
         <div className={classes.root}>
           <CssBaseline />
           <Nav open={isOpen} onClose={toggleIfOpen}>
             <DrawerContent onClick={toggleIfOpen} />
           </Nav>
           <main className={classes.content}>
-            <TopBar handleDrawerToggle={toggleIfOpen} />
+            <TopBar handleDrawerToggle={toggleIfOpen} logout={logout} />
             <div className={classes.toolbar} />
             <Switch>
               {routes.map((item) => (
-                <Route key={item.id} exact path={item.path} component={item.component} />
+                <Route
+                  key={item.id}
+                  exact
+                  path={item.path}
+                  component={() => {
+                    const Component = item.component;
+                    return <Component user={user} />;
+                  }}
+                />
               ))}
               <Route render={() => <Redirect to="/shoppinglist" />} />
             </Switch>

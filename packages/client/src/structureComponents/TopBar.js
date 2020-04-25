@@ -5,13 +5,19 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
 import { useLocation } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import routes from '../routes';
 import { useStyles } from '../style';
 
-const TopBar = ({ handleDrawerToggle }) => {
+const TopBar = ({ handleDrawerToggle, logout }) => {
   const classes = useStyles();
   const location = useLocation();
   const currentRoute = routes.find((route) => location.pathname === route.path);
+
+  const onClick = () => {
+    logout();
+  };
 
   return (
     <AppBar position="fixed" className={classes.appBar}>
@@ -22,6 +28,11 @@ const TopBar = ({ handleDrawerToggle }) => {
         <Typography variant="h6" noWrap style={{ color: 'white' }}>
           {currentRoute?.text}
         </Typography>
+        <ExitToAppIcon className={classes.logoutButtonMobile} onClick={onClick} />
+        <Button color="inherit" className={classes.logoutButtonDesktop} onClick={onClick}>
+          <ExitToAppIcon style={{ marginRight: 5 }} />
+          Déconnexion
+        </Button>
       </Toolbar>
     </AppBar>
   );

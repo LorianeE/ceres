@@ -1,17 +1,13 @@
-import { setShoppingListInStorage, getShoppingListFromStorage } from '../StorageUtils';
+import { getShoppingListFromStorage, setShoppingListInStorage } from '../StorageUtils';
 import httpClient from './HttpClient';
-import * as config from '../../config.json';
 
-export async function getShoppingListItems() {
-  let shoppingList = getShoppingListFromStorage();
-  // TEMP: default shopping list
-  const shoppingListId = config.defaultShoppinglistId;
-  if (!shoppingList) {
-    shoppingList = await httpClient.get(`/rest/shopping-lists/${shoppingListId}`);
+export async function getShoppingListItems(shoppingListId) {
+  if (shoppingListId) {
+    const shoppingList = await httpClient.get(`/rest/shopping-lists/${shoppingListId}`);
     setShoppingListInStorage(shoppingList);
     return shoppingList.items;
   }
-  return shoppingList.items;
+  return [];
 }
 
 export async function saveShoppingListItems(shoppingListItems) {

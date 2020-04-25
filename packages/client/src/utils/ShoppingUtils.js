@@ -2,15 +2,17 @@ import { useEffect, useState } from 'react';
 import * as _ from 'lodash';
 import { getShoppingListItems, saveShoppingListItems } from './http/ShoppingClient';
 
-function useShopping() {
+function useShopping(user) {
+  const shoppingListId = user ? user.shoppingListIds[0] : null;
+
   const [itemsRemoved, setItemsRemoved] = useState([]);
   const [shoppingList, setShoppingList] = useState([]);
 
-  const shelves = Array.from(new Set(shoppingList.map((shoppingListItem) => shoppingListItem.product.shelf))).sort();
+  const shelves = shoppingList && Array.from(new Set(shoppingList.map((shoppingListItem) => shoppingListItem.product.shelf))).sort();
 
   useEffect(() => {
-    getShoppingListItems().then(setShoppingList);
-  }, []);
+    getShoppingListItems(shoppingListId).then(setShoppingList);
+  }, [shoppingListId]);
 
   const changeItemQuantity = (item, quantityToAdd) => {
     const itemToUpdateIndex = shoppingList.findIndex((shoppingListItem) => shoppingListItem.product.id === item.product.id);
