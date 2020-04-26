@@ -27,7 +27,7 @@ export class FacebookProtocol implements OnVerify {
       userToCreate.facebookId = profile.id;
       userToCreate.firstName = profile._json.first_name;
       userToCreate.lastName = profile._json.last_name;
-      userToCreate.email = profile._json.emails ? profile._json.emails[0] : "";
+      userToCreate.email = profile._json.email || "";
 
       user = await this.usersService.create(userToCreate);
     }

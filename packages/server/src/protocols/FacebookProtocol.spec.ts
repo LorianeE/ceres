@@ -57,9 +57,7 @@ describe("FacebookProtocol", () => {
         _json: {
           last_name: "Doe",
           first_name: "John",
-          emails: [
-            email
-          ]
+          email
         }
       };
 

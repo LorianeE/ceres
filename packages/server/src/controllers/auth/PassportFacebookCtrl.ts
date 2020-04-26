@@ -7,7 +7,7 @@ const redirectUrl = process.env.NODE_ENV === "production" ? "/shoppinglist" : "h
 @Controller("/")
 export class PassportFacebookCtrl {
   @Get("/auth/facebook")
-  @Authenticate("facebook")
+  @Authenticate("facebook", { scope: "email", failureRedirect: redirectUrl})
   @Redirect(redirectUrl)
   authenticate(@Req("user") user: User) {
     // Facade
@@ -15,7 +15,7 @@ export class PassportFacebookCtrl {
   }
 
   @Get("/auth/facebook/callback")
-  @Authenticate("facebook") // A cause de ça, ça renvoie une 401 au navigateur si on a une erreur lors du login
+  @Authenticate("facebook", { failureRedirect: redirectUrl })
   @Redirect(redirectUrl)
   callback(@Req("user") user: User) {
     // Facade
