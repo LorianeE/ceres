@@ -4,6 +4,7 @@ import {ShoppingListService} from "../services/ShoppingListService";
 import {BadRequest, NotFound, Unauthorized} from "ts-httpexceptions";
 import {ShoppingList} from "../models/ShoppingList";
 import User from "../models/User";
+import {UsersService} from "../services/users/UsersService";
 
 describe("ShoppingListsController", () => {
   describe("get()", () => {
@@ -103,8 +104,14 @@ describe("ShoppingListsController", () => {
       shoppingList._id = "1234";
       shoppingList.items = [];
 
+      const user = new User();
+      user.shoppingListIds = [];
+
       const shoppingListService = {
         save: jest.fn().mockResolvedValue(shoppingList),
+      };
+      const usersService = {
+        addShoppingListId: jest.fn().mockResolvedValue(shoppingList),
       };
 
       const shoppingListCtrl = await TestContext.invoke(ShoppingListsController, [
@@ -112,14 +119,20 @@ describe("ShoppingListsController", () => {
           provide: ShoppingListService,
           use: shoppingListService,
         },
+        {
+          provide: UsersService,
+          use: usersService,
+        },
       ]);
 
       // WHEN
-      const result = await shoppingListCtrl.create(shoppingList);
+      const result = await shoppingListCtrl.create(shoppingList, user);
 
       // THEN
       expect(shoppingListService.save).toHaveBeenCalledTimes(1);
       expect(shoppingListService.save).toHaveBeenCalledWith(shoppingList);
+      expect(usersService.addShoppingListId).toHaveBeenCalledTimes(1);
+      expect(usersService.addShoppingListId).toHaveBeenCalledWith(user, shoppingList._id);
       expect(result).toEqual(shoppingList);
     });
     it("should throw error if shoppinglistservice throws error", async () => {

@@ -5,6 +5,7 @@ import {ShoppingList} from "../models/ShoppingList";
 import {ShoppingListService} from "../services/ShoppingListService";
 import {Authenticate} from "@tsed/passport";
 import User from "../models/User";
+import {UsersService} from "../services/users/UsersService";
 
 // TODO: Make a middleware of it
 function checkIfUserIsAllowed(user: User, shoppingListId: string) {
@@ -15,7 +16,7 @@ function checkIfUserIsAllowed(user: User, shoppingListId: string) {
 
 @Controller("/shopping-lists")
 export class ShoppingListsController {
-  constructor(private shoppingListService: ShoppingListService) {
+  constructor(private shoppingListService: ShoppingListService, private usersService: UsersService) {
   }
 
   @Get("/:id")
@@ -37,9 +38,12 @@ export class ShoppingListsController {
   @Summary("Post a shopping list")
   @Authenticate("facebook")
   @Status(201)
-  async create(@BodyParams(ShoppingList) shoppingList: ShoppingList) {
+  async create(@BodyParams(ShoppingList) shoppingList: ShoppingList, @Req("user") user: User) {
     try {
-      return await this.shoppingListService.save(shoppingList);
+      const createdShoppingList = await this.shoppingListService.save(shoppingList);
+      await this.usersService.addShoppingListId(user, createdShoppingList._id);
+
+      return createdShoppingList;
     } catch (e) {
       $log.error(e);
       throw e;
