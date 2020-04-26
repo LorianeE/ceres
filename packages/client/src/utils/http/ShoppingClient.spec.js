@@ -15,30 +15,25 @@ describe('ShoppingClient', () => {
   });
 
   describe('getShoppingListItems', () => {
-    describe('when there is a shopping list in storage', () => {
-      beforeEach(() => {
-        getShoppingListFromStorage.mockReturnValue(shoppingList);
-      });
-      it('should return items from shopping list', async () => {
+    describe('when there is no shoppinglist id', () => {
+      it('should return empty array', async () => {
         // WHEN
         const result = await getShoppingListItems();
         // THEN
-        expect(result).toEqual(shoppingList.items);
+        expect(result).toEqual([]);
         expect(HttpClient.get).toHaveBeenCalledTimes(0);
       });
     });
 
-    describe('when there is no shopping list in storage', () => {
+    describe('when there is a shopping list id', () => {
       beforeEach(() => {
-        getShoppingListFromStorage.mockReturnValue(undefined);
         HttpClient.get.mockResolvedValue(shoppingList);
       });
       it('should return items from shopping list from server', async () => {
         // WHEN
-        const result = await getShoppingListItems();
+        const result = await getShoppingListItems('1234');
         // THEN
         expect(result).toEqual(shoppingList.items);
-        expect(getShoppingListFromStorage).toHaveBeenCalledTimes(1);
         expect(setShoppingListInStorage).toHaveBeenCalledTimes(1);
         expect(HttpClient.get).toHaveBeenCalledTimes(1);
       });

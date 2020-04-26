@@ -22,6 +22,8 @@ function App() {
     LoginUtils.isUserLoggedIn().then((u) => {
       if (u) {
         setUser(u);
+      } else {
+        setUser({});
       }
     });
   }, []);
@@ -33,8 +35,8 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      {!user && <SigninPage />}
-      {user && (
+      {user !== null && Object.keys(user).length === 0 && <SigninPage />}
+      {user && Object.keys(user).length > 0 && (
         <div className={classes.root}>
           <CssBaseline />
           <Nav open={isOpen} onClose={toggleIfOpen}>
