@@ -30,7 +30,7 @@ function App() {
 
   const logout = () => {
     LoginUtils.logout();
-    setUser(null);
+    setUser({});
   };
 
   return (

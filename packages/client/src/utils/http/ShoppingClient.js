@@ -7,7 +7,7 @@ export async function getShoppingListItems(shoppingListId) {
     setShoppingListInStorage(shoppingList);
     return shoppingList.items;
   }
-  return [];
+  return null;
 }
 
 export async function saveShoppingListItems(shoppingListItems) {
@@ -20,4 +20,12 @@ export async function saveShoppingListItems(shoppingListItems) {
   } catch (err) {
     console.error('Unable to save shopping list to server');
   }
+}
+
+export async function createShoppingList() {
+  const shoppingList = await httpClient.post(`/rest/shopping-lists`, {
+    items: [],
+  });
+  setShoppingListInStorage(shoppingList);
+  return shoppingList;
 }

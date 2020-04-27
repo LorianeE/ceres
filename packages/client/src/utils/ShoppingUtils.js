@@ -6,7 +6,7 @@ function useShopping(user) {
   const shoppingListId = user ? user.shoppingListIds[0] : null;
 
   const [itemsRemoved, setItemsRemoved] = useState([]);
-  const [shoppingList, setShoppingList] = useState([]);
+  const [shoppingList, setShoppingList] = useState(null);
 
   const shelves = shoppingList && Array.from(new Set(shoppingList.map((shoppingListItem) => shoppingListItem.product.shelf))).sort();
 
@@ -65,6 +65,7 @@ function useShopping(user) {
     cancelRemoveItem,
     hasRemovedItems: itemsRemoved.length >= 1,
     cleanRemovedItems: () => setItemsRemoved([]),
+    updateShoppingList: (shopListId) => getShoppingListItems(shopListId).then(setShoppingList),
   };
 }
 

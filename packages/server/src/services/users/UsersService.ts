@@ -27,7 +27,7 @@ export class UsersService {
     if (dbUser) {
       dbUser.shoppingListIds.push(shoppingListId);
       const model = new this.user(dbUser);
-      await model.updateOne(user, {upsert: true});
+      await model.updateOne(dbUser, {upsert: true});
 
       return model;
     }

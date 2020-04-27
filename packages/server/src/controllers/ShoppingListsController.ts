@@ -8,8 +8,9 @@ import User from "../models/User";
 import {UsersService} from "../services/users/UsersService";
 
 // TODO: Make a middleware of it
-function checkIfUserIsAllowed(user: User, shoppingListId: string) {
-  if (!user.shoppingListIds.includes(shoppingListId)) {
+async function checkIfUserIsAllowed(user: User, shoppingListId: string, usersService: UsersService) {
+  const userDB = await usersService.findOne({_id: user._id});
+  if (userDB && !userDB.shoppingListIds.includes(shoppingListId)) {
     throw new Unauthorized("Shopping list id does not match user's shopping lists.");
   }
 }
@@ -25,7 +26,7 @@ export class ShoppingListsController {
   @Status(200)
   @Returns(ShoppingList)
   async get(@Context() context: Context, @PathParams("id") id: string, @Req("user") user: User): Promise<ShoppingList> {
-    checkIfUserIsAllowed(user, id);
+    await checkIfUserIsAllowed(user, id, this.usersService);
     const shoppingList = await this.shoppingListService.find(id);
     if (!shoppingList) {
       throw new NotFound("Could not find shopping list");
@@ -58,7 +59,7 @@ export class ShoppingListsController {
     if (shoppingList._id !== id) {
       throw new BadRequest("Shopping list id does not match param id");
     }
-    checkIfUserIsAllowed(user, id);
+    await checkIfUserIsAllowed(user, id, this.usersService);
 
     try {
       return await this.shoppingListService.save(shoppingList);
