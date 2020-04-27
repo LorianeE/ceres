@@ -8,7 +8,7 @@ jest.mock('../StorageUtils');
 describe('ShoppingClient', () => {
   const shoppingList = {
     id: '1234',
-    items: [{ label: 'itemLabel' }],
+    items: [{ product: { id: '1234', label: 'itemLabel' }, quantity: 1 }],
   };
   afterEach(() => {
     jest.resetAllMocks();
@@ -16,11 +16,11 @@ describe('ShoppingClient', () => {
 
   describe('getShoppingListItems', () => {
     describe('when there is no shoppinglist id', () => {
-      it('should return empty array', async () => {
+      it('should return null', async () => {
         // WHEN
         const result = await getShoppingListItems();
         // THEN
-        expect(result).toEqual([]);
+        expect(result).toEqual(null);
         expect(HttpClient.get).toHaveBeenCalledTimes(0);
       });
     });
@@ -48,6 +48,10 @@ describe('ShoppingClient', () => {
       });
 
       it('should call server an no error is thrown', async () => {
+        const mappedShoppingList = {
+          id: '1234',
+          items: [{ product: '1234', quantity: 1 }],
+        };
         // WHEN
         let actualError;
         try {
@@ -57,7 +61,7 @@ describe('ShoppingClient', () => {
         }
         // THEN
         expect(HttpClient.put).toHaveBeenCalledTimes(1);
-        expect(HttpClient.put).toHaveBeenCalledWith(`/rest/shopping-lists/${shoppingList.id}`, shoppingList);
+        expect(HttpClient.put).toHaveBeenCalledWith(`/rest/shopping-lists/${shoppingList.id}`, mappedShoppingList);
         expect(actualError).toEqual(undefined);
       });
     });

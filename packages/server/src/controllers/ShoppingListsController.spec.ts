@@ -12,17 +12,24 @@ describe("ShoppingListsController", () => {
     afterEach(() => TestContext.reset());
     describe("with an authorized user", () => {
       const user = new User();
-      user.shoppingListIds = ["1"];
+      user.shoppingLists = ["1"];
       it("should return a result from shoppinglistservice if not undefined", async () => {
         // GIVEN
         const shoppingListService = {
           find: jest.fn().mockResolvedValue({id: "1", items: []}),
+        };
+        const usersService = {
+          findOne: jest.fn().mockResolvedValue({id: "123", shoppingLists: ["1"]}),
         };
 
         const shoppingListCtrl = await TestContext.invoke(ShoppingListsController, [
           {
             provide: ShoppingListService,
             use: shoppingListService,
+          },
+          {
+            provide: UsersService,
+            use: usersService,
           },
         ]);
 
@@ -42,11 +49,18 @@ describe("ShoppingListsController", () => {
         const shoppingListService = {
           find: jest.fn().mockResolvedValue(undefined),
         };
+        const usersService = {
+          findOne: jest.fn().mockResolvedValue({id: "123", shoppingLists: ["1"]}),
+        };
 
         const shoppingListCtrl = await TestContext.invoke(ShoppingListsController, [
           {
             provide: ShoppingListService,
             use: shoppingListService,
+          },
+          {
+            provide: UsersService,
+            use: usersService,
           },
         ]);
 
@@ -67,17 +81,24 @@ describe("ShoppingListsController", () => {
     });
     describe("with an unauthorized user", () => {
       const user = new User();
-      user.shoppingListIds = ["2"];
+      user.shoppingLists = ["2"];
       it("should throw a Unauthorized error", async () => {
         // GIVEN
         const shoppingListService = {
           find: jest.fn().mockResolvedValue({id: "1", items: []}),
+        };
+        const usersService = {
+          findOne: jest.fn().mockResolvedValue({id: "123", shoppingLists: ["123"]}),
         };
 
         const shoppingListCtrl = await TestContext.invoke(ShoppingListsController, [
           {
             provide: ShoppingListService,
             use: shoppingListService,
+          },
+          {
+            provide: UsersService,
+            use: usersService,
           },
         ]);
 
@@ -105,13 +126,13 @@ describe("ShoppingListsController", () => {
       shoppingList.items = [];
 
       const user = new User();
-      user.shoppingListIds = [];
+      user.shoppingLists = [];
 
       const shoppingListService = {
         save: jest.fn().mockResolvedValue(shoppingList),
       };
       const usersService = {
-        addShoppingListId: jest.fn().mockResolvedValue(shoppingList),
+        addShoppingList: jest.fn().mockResolvedValue(shoppingList),
       };
 
       const shoppingListCtrl = await TestContext.invoke(ShoppingListsController, [
@@ -131,8 +152,8 @@ describe("ShoppingListsController", () => {
       // THEN
       expect(shoppingListService.save).toHaveBeenCalledTimes(1);
       expect(shoppingListService.save).toHaveBeenCalledWith(shoppingList);
-      expect(usersService.addShoppingListId).toHaveBeenCalledTimes(1);
-      expect(usersService.addShoppingListId).toHaveBeenCalledWith(user, shoppingList._id);
+      expect(usersService.addShoppingList).toHaveBeenCalledTimes(1);
+      expect(usersService.addShoppingList).toHaveBeenCalledWith(user, shoppingList._id);
       expect(result).toEqual(shoppingList);
     });
     it("should throw error if shoppinglistservice throws error", async () => {
@@ -170,7 +191,7 @@ describe("ShoppingListsController", () => {
     afterEach(() => TestContext.reset());
     describe("with an authorized user", () => {
       const user = new User();
-      user.shoppingListIds = ["1234"];
+      user.shoppingLists = ["1234"];
       it("should return a result from shoppinglistservice if ok", async () => {
         // GIVEN
         const shoppingList = new ShoppingList();
@@ -180,11 +201,18 @@ describe("ShoppingListsController", () => {
         const shoppingListService = {
           save: jest.fn().mockResolvedValue(shoppingList),
         };
+        const usersService = {
+          findOne: jest.fn().mockResolvedValue({id: "1", shoppingLists: ["1234"]}),
+        };
 
         const shoppingListCtrl = await TestContext.invoke(ShoppingListsController, [
           {
             provide: ShoppingListService,
             use: shoppingListService,
+          },
+          {
+            provide: UsersService,
+            use: usersService,
           },
         ]);
 
@@ -205,11 +233,18 @@ describe("ShoppingListsController", () => {
         const shoppingListService = {
           save: jest.fn().mockResolvedValue(shoppingList),
         };
+        const usersService = {
+          findOne: jest.fn().mockResolvedValue({id: "123", shoppingLists: ["1"]}),
+        };
 
         const shoppingListCtrl = await TestContext.invoke(ShoppingListsController, [
           {
             provide: ShoppingListService,
             use: shoppingListService,
+          },
+          {
+            provide: UsersService,
+            use: usersService,
           },
         ]);
 
@@ -234,11 +269,18 @@ describe("ShoppingListsController", () => {
         const shoppingListService = {
           save: jest.fn().mockRejectedValue(new Error("An error occured")),
         };
+        const usersService = {
+          findOne: jest.fn().mockResolvedValue({id: "123", shoppingLists: ["1234"]}),
+        };
 
         const shoppingListCtrl = await TestContext.invoke(ShoppingListsController, [
           {
             provide: ShoppingListService,
             use: shoppingListService,
+          },
+          {
+            provide: UsersService,
+            use: usersService,
           },
         ]);
 

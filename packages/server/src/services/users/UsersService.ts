@@ -22,10 +22,10 @@ export class UsersService {
     return model.save();
   }
 
-  async addShoppingListId(user: User, shoppingListId: string) {
+  async addShoppingList(user: User, shoppingListId: string) {
     const dbUser = await this.user.findById(user._id);
     if (dbUser) {
-      dbUser.shoppingListIds.push(shoppingListId);
+      dbUser.shoppingLists.push(shoppingListId);
       const model = new this.user(dbUser);
       await model.updateOne(dbUser, {upsert: true});
 

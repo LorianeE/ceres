@@ -1,5 +1,16 @@
+import * as _ from 'lodash';
 import { getShoppingListFromStorage, setShoppingListInStorage } from '../StorageUtils';
 import httpClient from './HttpClient';
+
+function mapShoppingListToApi(shoppingList) {
+  const mappedShoppingList = _.cloneDeep(shoppingList);
+  mappedShoppingList.items.map((item) => {
+    const mappedItem = item;
+    mappedItem.product = item.product.id;
+    return mappedItem;
+  });
+  return mappedShoppingList;
+}
 
 export async function getShoppingListItems(shoppingListId) {
   if (shoppingListId) {
@@ -15,7 +26,8 @@ export async function saveShoppingListItems(shoppingListItems) {
   shoppingList.items = shoppingListItems;
   try {
     setShoppingListInStorage(shoppingList);
-    await httpClient.put(`/rest/shopping-lists/${shoppingList.id}`, shoppingList);
+    const mappedShoppingList = mapShoppingListToApi(shoppingList);
+    await httpClient.put(`/rest/shopping-lists/${shoppingList.id}`, mappedShoppingList);
     console.log('Successfully saved shopping list to server !');
   } catch (err) {
     console.error('Unable to save shopping list to server');

@@ -75,14 +75,14 @@ describe("UsersService", () => {
       expect(prototype.save).toHaveBeenCalledTimes(1);
     });
   });
-  describe("addShoppingListId()", () => {
+  describe("addShoppingList()", () => {
     it("should add shopping list id to user's shopping list ids", async () => {
       // GIVEN
       const user = new User();
       user.firstName = "John";
       user.lastName = "Doe";
       user.facebookId = "facebookId";
-      user.shoppingListIds = [];
+      user.shoppingLists = [];
 
       const {usersService, userModel, prototype} = await getUsersService([]);
 
@@ -90,7 +90,7 @@ describe("UsersService", () => {
       userModel.findById = jest.fn().mockResolvedValue(user);
 
       // WHEN
-      await usersService.addShoppingListId(user, "1234");
+      await usersService.addShoppingList(user, "1234");
 
       // THEN
       expect(userModel).toHaveBeenCalledWith(user);
@@ -104,7 +104,7 @@ describe("UsersService", () => {
       user.firstName = "John";
       user.lastName = "Doe";
       user.facebookId = "facebookId";
-      user.shoppingListIds = [];
+      user.shoppingLists = [];
 
       const {usersService, userModel, prototype} = await getUsersService([]);
 
@@ -114,7 +114,7 @@ describe("UsersService", () => {
       // WHEN
       let actualError;
       try {
-        await usersService.addShoppingListId(user, "1234");
+        await usersService.addShoppingList(user, "1234");
       } catch (err) {
         actualError = err;
       }

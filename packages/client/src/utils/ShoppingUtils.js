@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 import { getShoppingListItems, saveShoppingListItems } from './http/ShoppingClient';
 
 function useShopping(user) {
-  const shoppingListId = user ? user.shoppingListIds[0] : null;
+  const shoppingListId = user ? user.shoppingLists[0] : null;
 
   const [itemsRemoved, setItemsRemoved] = useState([]);
   const [shoppingList, setShoppingList] = useState(null);

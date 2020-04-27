@@ -1,15 +1,20 @@
-import {Controller, Get, Req, Status} from "@tsed/common";
+import {Controller, Get, Inject, Req, Status} from "@tsed/common";
+import {UsersService} from "../../services/users/UsersService";
+import User from "../../models/User";
+import {Unauthorized} from "ts-httpexceptions";
 
 @Controller("/")
 export class LoginCtrl {
-  @Get("/auth/login/success")
-  @Status(200)
-  getAuthenticatedUser(@Req() req: Req) {
-    if (req.isAuthenticated()) {
-      return req.user;
-    }
+  @Inject()
+  private usersService: UsersService;
 
-    return null;
+  @Get("/auth/userinfo")
+  @Status(200)
+  getAuthenticatedUser(@Req() req: Req, @Req("user") user: User) {
+    if (req.isAuthenticated()) {
+      return this.usersService.findOne({_id: user._id});
+    }
+    throw new Unauthorized("Not allowed.");
   }
 
   @Get("/auth/logout")

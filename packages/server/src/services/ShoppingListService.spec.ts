@@ -34,7 +34,9 @@ describe("ShoppingListService", () => {
     it("should return all products from db", async () => {
       // GIVEN
       const products = {
-        findById: jest.fn().mockResolvedValue([{id: "1234"}]),
+        findById: jest.fn().mockReturnValue({
+          populate: async () => [{id: "1234"}]
+        }),
       };
 
       const shoppingListService = await TestContext.invoke(ShoppingListService, [

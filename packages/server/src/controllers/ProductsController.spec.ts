@@ -35,7 +35,7 @@ describe("ProductsController", () => {
   });
   describe("addProducts()", () => {
     const product = new Product();
-    product.id = "apple";
+    product.productId = "apple";
     product.label = "Pommes";
     product.shelf = ShelfTypes.PRODUCE;
 

@@ -6,11 +6,14 @@ function getFacebookLoginUrl() {
 }
 
 async function isUserLoggedIn() {
-  const user = await httpClient.get(`/rest/auth/login/success`);
-  if (user) {
-    return user;
+  try {
+    return await httpClient.get(`/rest/auth/userinfo`);
+  } catch (err) {
+    if (err.response.status === 401) {
+      return null;
+    }
+    throw err;
   }
-  return null;
 }
 
 async function logout() {

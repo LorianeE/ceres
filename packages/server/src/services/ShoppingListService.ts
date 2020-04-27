@@ -12,8 +12,8 @@ export class ShoppingListService {
    * @param id
    * @returns {null|ShoppingList}
    */
-  async find(id: string) {
-    return this.shoppingList.findById(id);
+  async find(id: string): Promise<ShoppingList | null> {
+    return this.shoppingList.findById(id).populate("items.product");
   }
 
   /**
