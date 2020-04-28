@@ -8,37 +8,32 @@ jest.mock('../StorageUtils');
 describe('ShoppingClient', () => {
   const shoppingList = {
     id: '1234',
-    items: [{ label: 'itemLabel' }],
+    items: [{ product: { id: '1234', label: 'itemLabel' }, quantity: 1 }],
   };
   afterEach(() => {
     jest.resetAllMocks();
   });
 
   describe('getShoppingListItems', () => {
-    describe('when there is a shopping list in storage', () => {
-      beforeEach(() => {
-        getShoppingListFromStorage.mockReturnValue(shoppingList);
-      });
-      it('should return items from shopping list', async () => {
+    describe('when there is no shoppinglist id', () => {
+      it('should return null', async () => {
         // WHEN
         const result = await getShoppingListItems();
         // THEN
-        expect(result).toEqual(shoppingList.items);
+        expect(result).toEqual(null);
         expect(HttpClient.get).toHaveBeenCalledTimes(0);
       });
     });
 
-    describe('when there is no shopping list in storage', () => {
+    describe('when there is a shopping list id', () => {
       beforeEach(() => {
-        getShoppingListFromStorage.mockReturnValue(undefined);
         HttpClient.get.mockResolvedValue(shoppingList);
       });
       it('should return items from shopping list from server', async () => {
         // WHEN
-        const result = await getShoppingListItems();
+        const result = await getShoppingListItems('1234');
         // THEN
         expect(result).toEqual(shoppingList.items);
-        expect(getShoppingListFromStorage).toHaveBeenCalledTimes(1);
         expect(setShoppingListInStorage).toHaveBeenCalledTimes(1);
         expect(HttpClient.get).toHaveBeenCalledTimes(1);
       });
@@ -53,6 +48,10 @@ describe('ShoppingClient', () => {
       });
 
       it('should call server an no error is thrown', async () => {
+        const mappedShoppingList = {
+          id: '1234',
+          items: [{ product: '1234', quantity: 1 }],
+        };
         // WHEN
         let actualError;
         try {
@@ -62,7 +61,7 @@ describe('ShoppingClient', () => {
         }
         // THEN
         expect(HttpClient.put).toHaveBeenCalledTimes(1);
-        expect(HttpClient.put).toHaveBeenCalledWith(`/rest/shopping-lists/${shoppingList.id}`, shoppingList);
+        expect(HttpClient.put).toHaveBeenCalledWith(`/rest/shopping-lists/${shoppingList.id}`, mappedShoppingList);
         expect(actualError).toEqual(undefined);
       });
     });

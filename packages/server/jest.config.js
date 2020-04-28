@@ -59,5 +59,7 @@ module.exports = {
   // The paths to modules that run some code to configure or set up the testing environment before each test
   setupFiles: [
     '<rootDir>/scripts/jest/setup.jest.js'
-  ]
-}
+  ],
+
+  testPathIgnorePatterns: ["<rootDir>/dist/", "<rootDir>/node_modules/"]
+};

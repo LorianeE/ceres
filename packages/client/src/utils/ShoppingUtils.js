@@ -2,15 +2,17 @@ import { useEffect, useState } from 'react';
 import * as _ from 'lodash';
 import { getShoppingListItems, saveShoppingListItems } from './http/ShoppingClient';
 
-function useShopping() {
-  const [itemsRemoved, setItemsRemoved] = useState([]);
-  const [shoppingList, setShoppingList] = useState([]);
+function useShopping(user) {
+  const shoppingListId = user ? user.shoppingLists[0] : null;
 
-  const shelves = Array.from(new Set(shoppingList.map((shoppingListItem) => shoppingListItem.product.shelf))).sort();
+  const [itemsRemoved, setItemsRemoved] = useState([]);
+  const [shoppingList, setShoppingList] = useState(null);
+
+  const shelves = shoppingList && Array.from(new Set(shoppingList.map((shoppingListItem) => shoppingListItem.product.shelf))).sort();
 
   useEffect(() => {
-    getShoppingListItems().then(setShoppingList);
-  }, []);
+    getShoppingListItems(shoppingListId).then(setShoppingList);
+  }, [shoppingListId]);
 
   const changeItemQuantity = (item, quantityToAdd) => {
     const itemToUpdateIndex = shoppingList.findIndex((shoppingListItem) => shoppingListItem.product.id === item.product.id);
@@ -63,6 +65,7 @@ function useShopping() {
     cancelRemoveItem,
     hasRemovedItems: itemsRemoved.length >= 1,
     cleanRemovedItems: () => setItemsRemoved([]),
+    updateShoppingList: (shopListId) => getShoppingListItems(shopListId).then(setShoppingList),
   };
 }
 

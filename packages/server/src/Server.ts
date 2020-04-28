@@ -9,7 +9,14 @@ import "@tsed/ajv";
 import "@tsed/swagger";
 import "@tsed/mongoose";
 import * as path from "path";
+import * as dotenv from "dotenv";
+import * as session from "express-session";
+
 import "./middlewares/CustomGEHMiddleware";
+import {CreateRequestSessionMiddleware} from "./middlewares/CreateRequestSessionMiddleware";
+import User from "./models/User";
+
+dotenv.config();
 
 const rootDir = __dirname;
 const clientDir = path.join(rootDir, "../../client/build");
@@ -21,6 +28,12 @@ const clientDir = path.join(rootDir, "../../client/build");
   httpsPort: false, // CHANGE
   mount: {
     "/rest": [`${rootDir}/controllers/**/*.ts`],
+  },
+  componentsScan: [
+    `${rootDir}/protocols/*{.ts,.js}` // scan protocols directory
+  ],
+  passport: {
+    userInfoModel: User
   },
   swagger: [
     {
@@ -53,7 +66,22 @@ export class Server extends ServerLoader {
         bodyParser.urlencoded({
           extended: true,
         })
-      );
+      )
+      // @ts-ignore
+      .use(session({
+        secret: process.env.SESSION_SECRET || "mydefaultsecret",
+        resave: true,
+        saveUninitialized: true,
+        // maxAge: 36000,
+        cookie: {
+          path: "/",
+          httpOnly: true,
+          secure: false,
+          maxAge: undefined
+        }
+      }));
+
+    this.use(CreateRequestSessionMiddleware);
 
     return null;
   }

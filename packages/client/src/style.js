@@ -26,6 +26,20 @@ export const useStyles = makeStyles((theme) => ({
       display: 'none !important',
     },
   },
+  logoutButtonDesktop: {
+    marginLeft: 'auto',
+    display: 'none',
+    [theme.breakpoints.up('sm')]: {
+      display: 'inline-flex',
+    },
+  },
+  logoutButtonMobile: {
+    marginLeft: 'auto',
+    display: 'inline-flex',
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
+    },
+  },
   // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
   drawerPaper: {

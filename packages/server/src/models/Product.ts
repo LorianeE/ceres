@@ -1,12 +1,16 @@
 import {Default, Enum, Required} from "@tsed/common";
-import {Model, Unique} from "@tsed/mongoose";
+import {Model, ObjectID, Unique} from "@tsed/mongoose";
 import {ShelfTypes} from "./ShelfTypes";
 
 @Model()
 export default class Product {
+
+  @ObjectID("id")
+  _id: string;
+
   @Required()
   @Unique()
-  id: string;
+  productId: string;
 
   @Required()
   label: string;

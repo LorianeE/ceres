@@ -14,20 +14,33 @@ describe('useShopping', () => {
       const useStateMock = (initState) => [initState, setState];
       jest.spyOn(React, 'useState').mockImplementation(useStateMock);
 
-      const shopping = useShopping();
-      const { shoppingList, changeItemQuantity } = shopping;
       it('should add it', () => {
         // GIVEN
         const itemToChange = {
           product: {
-            id: 'apple',
+            id: '12345',
+            productId: 'apple',
             label: 'Pommes',
           },
         };
         const item = {
           ...itemToChange,
-          quantity: 1,
+          quantity: 2,
         };
+
+        const initialShoppingList = [
+          {
+            ...itemToChange,
+            quantity: 1,
+          },
+        ];
+        // First call for itemsRemoved
+        jest.spyOn(React, 'useState').mockImplementationOnce(useStateMock);
+        // Second call for shoppingList
+        jest.spyOn(React, 'useState').mockImplementationOnce(() => [initialShoppingList, setState]);
+
+        const shopping = useShopping({ id: '1234', shoppingLists: ['1234'] });
+        const { shoppingList, changeItemQuantity } = shopping;
 
         // WHEN
         changeItemQuantity(itemToChange, 1);
