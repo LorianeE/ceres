@@ -27,13 +27,13 @@
     ]
   },
   "include": [
-    "./src/**/*.ts",
-    "./test/**/*.ts"
+    "./src/**/*.ts"
   ],
   "exclude": [
     "node_modules",
     "./public",
-    "dist"
+    "dist",
+    "test"
   ],
   "linterOptions": {
     "exclude": []
