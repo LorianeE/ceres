@@ -29,7 +29,13 @@ const TopBar = ({ handleDrawerToggle, logout }) => {
           {currentRoute?.text}
         </Typography>
         <ExitToAppIcon className={classes.logoutButtonMobile} onClick={onClick} />
-        <Button color="inherit" className={classes.logoutButtonDesktop} startIcon={<ExitToAppIcon />} onClick={onClick}>
+        <Button
+          color="inherit"
+          className={classes.logoutButtonDesktop}
+          startIcon={<ExitToAppIcon />}
+          style={{ marginLeft: 'auto' }}
+          onClick={onClick}
+        >
           Déconnexion
         </Button>
       </Toolbar>

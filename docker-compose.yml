@@ -25,9 +25,7 @@ services:
       - "8083:8083"
     stdin_open: true  # -i
     tty: true         # -t
-    environment:
-      MONGO_DB_URL: "mongodb://mongo:27017/Ceres"
-      FACEBOOK_APP_ID:
-      FACEBOOK_APP_SECRET:
+    env_file:
+      - ./packages/server/.env
 volumes:
   mdb-data:

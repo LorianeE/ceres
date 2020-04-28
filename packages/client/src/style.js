@@ -31,13 +31,14 @@ export const useStyles = makeStyles((theme) => ({
     display: 'none',
     [theme.breakpoints.up('sm')]: {
       display: 'inline-flex',
+      marginLeft: 'auto',
     },
   },
   logoutButtonMobile: {
     marginLeft: 'auto',
     display: 'inline-flex',
     [theme.breakpoints.up('sm')]: {
-      display: 'none',
+      display: 'none !important',
     },
   },
   // necessary for content to be below app bar
