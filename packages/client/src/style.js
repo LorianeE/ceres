@@ -28,9 +28,9 @@ export const useStyles = makeStyles((theme) => ({
   },
   logoutButtonDesktop: {
     marginLeft: 'auto',
-    display: 'none',
+    display: 'none !important',
     [theme.breakpoints.up('sm')]: {
-      display: 'inline-flex',
+      display: 'inline-flex !important',
       marginLeft: 'auto',
     },
   },
