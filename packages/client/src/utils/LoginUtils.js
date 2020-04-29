@@ -1,8 +1,7 @@
-import * as config from '../config.json';
 import httpClient from './http/HttpClient';
 
 function getFacebookLoginUrl() {
-  return `${config.server.url}/rest/auth/facebook`;
+  return `${process.env.REACT_APP_BACKEND_URL}/rest/auth/facebook`;
 }
 
 async function isUserLoggedIn() {

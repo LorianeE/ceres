@@ -5,6 +5,7 @@ import * as cookieParser from "cookie-parser";
 import * as methodOverride from "method-override";
 import * as cors from "cors";
 import * as express from "express";
+import * as favicon from "serve-favicon";
 import "@tsed/ajv";
 import "@tsed/swagger";
 import "@tsed/mongoose";
@@ -45,7 +46,7 @@ const clientDir = path.join(rootDir, "../../client/build");
     urls: {
       default: {
         // Recommended: define default connection. All models without dbName will be assigned to this connection
-        url: process.env.MONGO_DB_URL || "mongodb://localhost:27017/Ceres",
+        url: process.env.NODE_ENV === "production" ? process.env.MONGO_DB_URL : "mongodb://localhost:27017/Ceres",
         connectionOptions: {
           useNewUrlParser: true,
           useUnifiedTopology: true,
@@ -57,6 +58,7 @@ const clientDir = path.join(rootDir, "../../client/build");
 export class Server extends ServerLoader {
   $beforeRoutesInit() {
     this.use(cors())
+      .use(favicon(path.join(clientDir, "favicon.ico")))
       .use(GlobalAcceptMimesMiddleware)
       .use(cookieParser())
       .use(compress({}))
