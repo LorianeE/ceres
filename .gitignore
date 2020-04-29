@@ -52,3 +52,5 @@ public/
 dist/
 
 .env
+.env.production
+.env.development
