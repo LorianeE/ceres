@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import useStyles from './shoppingStyle';
-import getProductsList from '../utils/http/ItemsClient';
+import getProductsList from '../../utils/http/ItemsClient';
 
 const AddProductArea = ({ addItem }) => {
   const classes = useStyles();

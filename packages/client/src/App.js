@@ -5,12 +5,12 @@ import '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { theme, useStyles } from './style';
-import Nav from './structureComponents/Nav';
-import TopBar from './structureComponents/TopBar';
+import Nav from './components/structureComponents/Nav';
+import TopBar from './components/structureComponents/TopBar';
 import routes from './routes';
-import DrawerContent from './structureComponents/DrawerContent';
+import DrawerContent from './components/structureComponents/DrawerContent';
 import useIsOpen from './utils/hooks';
-import SigninPage from './welcome/SigninPage';
+import SigninPage from './components/welcome/SigninPage';
 import LoginUtils from './utils/LoginUtils';
 
 function App() {

@@ -1,7 +1,7 @@
 import React from 'react';
 import Hidden from '@material-ui/core/Hidden';
 import Drawer from '@material-ui/core/Drawer';
-import { theme, useStyles } from '../style';
+import { theme, useStyles } from '../../style';
 
 const Nav = ({ open, onClose, children }) => {
   const classes = useStyles();

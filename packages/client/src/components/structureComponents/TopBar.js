@@ -7,8 +7,8 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import routes from '../routes';
-import { useStyles } from '../style';
+import routes from '../../routes';
+import { useStyles } from '../../style';
 
 const TopBar = ({ handleDrawerToggle, logout }) => {
   const classes = useStyles();

@@ -6,9 +6,9 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import logo from '../logo.png';
-import loginBackground from '../login_background.jpeg';
-import LoginUtils from '../utils/LoginUtils';
+import logo from '../../logo.png';
+import loginBackground from '../../login_background.jpeg';
+import LoginUtils from '../../utils/LoginUtils';
 
 function Copyright() {
   return (

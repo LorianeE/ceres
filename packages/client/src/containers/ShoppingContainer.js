@@ -3,9 +3,9 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Box from '@material-ui/core/Box';
-import AddProductArea from './AddProductArea';
-import ShoppingList from './ShoppingList';
-import ShoppingHeader from './ShoppingHeader';
+import AddProductArea from '../components/shopping/AddProductArea';
+import ShoppingList from '../components/shopping/ShoppingList';
+import ShoppingHeader from '../components/shopping/ShoppingHeader';
 import useShopping from '../utils/ShoppingUtils';
 import { createShoppingList } from '../utils/http/ShoppingClient';
 

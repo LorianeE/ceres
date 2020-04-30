@@ -3,7 +3,7 @@ import List from '@material-ui/core/List';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import Typography from '@material-ui/core/Typography';
 
-import { SHELF_TYPES } from '../data/shelf_types';
+import { SHELF_TYPES } from '../../data/shelf_types';
 import useStyles from './shoppingStyle';
 import ShoppingListItem from './ShoppingListItem';
 
