@@ -21,7 +21,7 @@ const ShoppingHeader = ({ shoppingMode, switchShoppingMode, hasRemovedItems, can
             inputProps={{ 'aria-label': 'primary checkbox' }}
           />
         }
-        label="Shopping mode !"
+        label="Shopping mode"
         labelPlacement="start"
       />
       {hasRemovedItems && <CancelRemoveItemButton classes={classes} cancelRemoveItem={cancelRemoveItem} />}

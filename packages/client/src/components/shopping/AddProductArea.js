@@ -1,21 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import useStyles from './shoppingStyle';
-import getProductsList from '../../utils/http/ItemsClient';
 
-const AddProductArea = ({ addItem }) => {
+const AddProductArea = ({ addItem, products }) => {
   const classes = useStyles();
 
   const [itemToAdd, setItemToAdd] = useState(null);
-  const [productsList, setProductsList] = useState([]);
-
-  useEffect(() => {
-    getProductsList().then(setProductsList);
-  }, []);
 
   const onAutocompleteChange = (event, value) => {
     setItemToAdd(value);
@@ -35,7 +29,7 @@ const AddProductArea = ({ addItem }) => {
       <Grid item xs={11}>
         <Autocomplete
           id="combo-box-demo"
-          options={productsList}
+          options={products}
           value={itemToAdd}
           getOptionLabel={(option) => option.label}
           getOptionSelected={(option, value) => value && option.name === value.name}

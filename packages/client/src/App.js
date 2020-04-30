@@ -4,6 +4,7 @@ import './App.css';
 import '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
 import { theme, useStyles } from './style';
 import Nav from './components/structureComponents/Nav';
 import TopBar from './components/structureComponents/TopBar';
@@ -12,8 +13,9 @@ import DrawerContent from './components/structureComponents/DrawerContent';
 import useIsOpen from './utils/hooks';
 import SigninPage from './components/welcome/SigninPage';
 import LoginUtils from './utils/LoginUtils';
+import { fetchDBProductsList } from './actions/productsAction';
 
-function App() {
+function App({ dispatch }) {
   const classes = useStyles();
   const [isOpen, toggleIfOpen] = useIsOpen();
   const [user, setUser] = useState(null);
@@ -27,6 +29,10 @@ function App() {
       }
     });
   }, []);
+
+  useEffect(() => {
+    dispatch(fetchDBProductsList());
+  }, [dispatch]);
 
   const logout = () => {
     LoginUtils.logout();
@@ -66,4 +72,4 @@ function App() {
   );
 }
 
-export default App;
+export default connect()(App);
