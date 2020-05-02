@@ -16,7 +16,7 @@ const DrawerContent = ({ onClick = (f) => f }) => {
   };
 
   return (
-    <div>
+    <>
       <img src={logo} alt="Ceres logo" className={classes.fitPicture} />
       <Divider />
       <List>
@@ -32,7 +32,7 @@ const DrawerContent = ({ onClick = (f) => f }) => {
           );
         })}
       </List>
-    </div>
+    </>
   );
 };
 

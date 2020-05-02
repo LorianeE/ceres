@@ -13,9 +13,8 @@ import DrawerContent from './components/structureComponents/DrawerContent';
 import useIsOpen from './utils/hooks';
 import SigninPage from './components/welcome/SigninPage';
 import LoginUtils from './utils/LoginUtils';
-import { fetchDBProductsList } from './actions/productsAction';
 
-function App({ dispatch }) {
+function App() {
   const classes = useStyles();
   const [isOpen, toggleIfOpen] = useIsOpen();
   const [user, setUser] = useState(null);
@@ -29,10 +28,6 @@ function App({ dispatch }) {
       }
     });
   }, []);
-
-  useEffect(() => {
-    dispatch(fetchDBProductsList());
-  }, [dispatch]);
 
   const logout = () => {
     LoginUtils.logout();

@@ -6,7 +6,7 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 const CreateListComponent = ({ createShoppingList }) => {
   return (
-    <div>
+    <>
       <Typography align="center" variant="body1" p={2}>
         Vous n&apos;avez pas de liste de courses !
       </Typography>
@@ -20,7 +20,7 @@ const CreateListComponent = ({ createShoppingList }) => {
           En créer une
         </Button>
       </Box>
-    </div>
+    </>
   );
 };
 

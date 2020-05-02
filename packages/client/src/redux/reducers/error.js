@@ -1,10 +1,7 @@
 import * as types from '../constants/ProductsActionTypes';
+import initialState from '../initialState';
 
-const defaultState = {
-  errorMsg: '',
-};
-
-function error(state = defaultState, action) {
+function error(state = initialState.error, action) {
   switch (action.type) {
     case types.RECEIVED_DB_LIST_ERROR:
       return {
