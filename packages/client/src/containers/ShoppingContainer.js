@@ -6,7 +6,7 @@ import ShoppingHeader from '../components/shopping/ShoppingHeader';
 import CreateListComponent from '../components/shopping/CreateListComponent';
 import { fetchDBProductsList } from '../redux/actions/productsAction';
 import Spinner from '../components/structureComponents/Spinner';
-import { addItem, changeItemQuantity, fetchShoppingList } from '../redux/actions/shoppingAction';
+import { addItemAndSave, changeItemQuantityAndSave, fetchShoppingList } from '../redux/actions/shoppingAction';
 
 // eslint-disable-next-line no-shadow
 const ShoppingContainer = ({ user, fetchProducts, fetchList, products, loading, shoppingList, shelves, changeItemQuantity, addItem }) => {
@@ -20,7 +20,9 @@ const ShoppingContainer = ({ user, fetchProducts, fetchList, products, loading, 
   }, [fetchProducts, products.length]);
 
   useEffect(() => {
-    fetchList(user.shoppingLists[0]);
+    if (user.shoppingLists.length) {
+      fetchList(user.shoppingLists[0]);
+    }
   }, [fetchList, user.shoppingLists]);
 
   const switchShoppingMode = () => {
@@ -112,8 +114,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   fetchProducts: fetchDBProductsList,
   fetchList: fetchShoppingList,
-  changeItemQuantity,
-  addItem,
+  changeItemQuantity: changeItemQuantityAndSave,
+  addItem: addItemAndSave,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShoppingContainer);

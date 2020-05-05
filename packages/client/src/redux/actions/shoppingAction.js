@@ -6,16 +6,29 @@ import {
 } from '../constants/ShoppingActionTypes';
 import { beginApiCall } from './apiStatusAction';
 import getErrMsg from './ErrorUtils';
-import { getShoppingList } from '../../utils/http/ShoppingClient';
+import { getShoppingList, saveShoppingList } from '../../utils/http/ShoppingClient';
+import store from '../configureStore';
 
 export function changeItemQuantity(itemId, quantityToAdd) {
-  // TODO: Make saveShoppingListItems
   return { type: CHANGE_SHOPPING_ITEM_QUANTITY, data: { itemId, quantityToAdd } };
 }
 
 export function addItem(item) {
-  // TODO: Make saveShoppingListItems
   return { type: ADD_ITEM, data: { item } };
+}
+
+export function changeItemQuantityAndSave(itemId, quantityToAdd) {
+  return (dispatch) => {
+    dispatch(changeItemQuantity(itemId, quantityToAdd));
+    saveShoppingList(store.getState().shoppingList);
+  };
+}
+
+export function addItemAndSave(item) {
+  return (dispatch) => {
+    dispatch(addItem(item));
+    saveShoppingList(store.getState().shoppingList);
+  };
 }
 
 function fetchShoppingListSuccess(shoppinglist) {
