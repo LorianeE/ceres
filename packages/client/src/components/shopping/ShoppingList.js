@@ -8,7 +8,7 @@ import { SHELF_TYPES } from '../../data/shelf_types';
 import useStyles from './shoppingStyle';
 import ShoppingListItem from './ShoppingListItem';
 
-const ShoppingList = ({ shoppingList, shelves, removeAddedItem, shoppingMode, changeItemQuantity }) => {
+const ShoppingList = ({ shoppingList, shelves, removeItem, shoppingMode, changeItemQuantity }) => {
   const classes = useStyles();
 
   if (!shoppingList.length) {
@@ -29,10 +29,10 @@ const ShoppingList = ({ shoppingList, shelves, removeAddedItem, shoppingMode, ch
                 return (
                   item.product.shelf === shelf && (
                     <ShoppingListItem
-                      key={item.product.id}
+                      key={item.id}
                       item={item}
                       shoppingMode={shoppingMode}
-                      removeAddedItem={removeAddedItem}
+                      removeItem={removeItem}
                       changeItemQuantity={changeItemQuantity}
                     />
                   )

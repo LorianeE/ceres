@@ -3,7 +3,7 @@ import initialState from '../initialState';
 
 function error(state = initialState.error, action) {
   switch (action.type) {
-    case types.RECEIVED_DB_LIST_ERROR:
+    case types.RECEIVED_DB_LIST_FAILURE:
       return {
         ...state,
         errorMsg: action.data.errMsg,

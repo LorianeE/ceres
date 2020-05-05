@@ -12,7 +12,7 @@ function products(state = defaultState, action) {
         ...state,
         dbList: action.data.dbList,
       };
-    case types.RECEIVED_DB_LIST_ERROR:
+    case types.RECEIVED_DB_LIST_FAILURE:
       return {
         ...state,
         dbList: action.data.dbList,

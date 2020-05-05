@@ -4,15 +4,15 @@ import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
 import ItemQuantity from './ItemQuantity';
 
-const ShoppingListItem = ({ item, shoppingMode, removeAddedItem, changeItemQuantity }) => {
+const ShoppingListItem = ({ item, shoppingMode, removeItem, changeItemQuantity }) => {
   const [checked, setChecked] = useState(false);
 
   const removeAddedItemWithTimeOut = (e) => {
     const { id } = e.target;
     setChecked(true);
     setTimeout(() => {
-      removeAddedItem(id);
       setChecked(false);
+      removeItem(id);
     }, 200);
   };
 
@@ -24,13 +24,13 @@ const ShoppingListItem = ({ item, shoppingMode, removeAddedItem, changeItemQuant
           checked={checked}
           onChange={removeAddedItemWithTimeOut}
           inputProps={{
-            'aria-labelledby': `list-item-text-${item.product.id}`,
+            'aria-labelledby': `list-item-text-${item.id}`,
           }}
-          id={item.product.id}
+          id={item.id}
         />
       )}
       <ItemQuantity item={item} shoppingMode={shoppingMode} changeItemQuantity={changeItemQuantity} />
-      <ListItemText id={`list-item-text-${item.product.id}`} primary={item.product.label} />
+      <ListItemText id={`list-item-text-${item.id}`} primary={item.product.label} />
     </ListItem>
   );
 };

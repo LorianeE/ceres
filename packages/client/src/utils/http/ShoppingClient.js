@@ -21,6 +21,15 @@ export async function getShoppingListItems(shoppingListId) {
   return null;
 }
 
+export async function getShoppingList(shoppingListId) {
+  if (shoppingListId) {
+    const shoppingList = await httpClient.get(`/rest/shopping-lists/${shoppingListId}`);
+    setShoppingListInStorage(shoppingList);
+    return shoppingList;
+  }
+  throw new Error('No shopping list id.');
+}
+
 export async function saveShoppingListItems(shoppingListItems) {
   const shoppingList = getShoppingListFromStorage();
   shoppingList.items = shoppingListItems;
