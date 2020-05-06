@@ -10,5 +10,8 @@ export default {
   error: {
     errMsg: '',
   },
-  apiCallsInProgress: 0,
+  apiCallsInProgress: {
+    apiCalls: 0,
+    fetchUserCallInProgress: false,
+  },
 };

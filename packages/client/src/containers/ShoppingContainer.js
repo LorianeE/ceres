@@ -111,7 +111,7 @@ const mapStateToProps = (state) => {
   return {
     userShoppingList: state.user.shoppingLists[0],
     products: [...state.products.dbList, ...state.products.userList],
-    loading: state.apiCallsInProgress > 0,
+    loading: state.apiCallsInProgress.apiCalls > 0,
     shoppingList: getFilledShoppingList(state.shoppingList.items, state.products.dbList),
     shelves: Array.from(
       new Set(getFilledShoppingList(state.shoppingList.items, state.products.dbList).map((item) => item.product.shelf))

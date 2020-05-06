@@ -15,13 +15,17 @@ import SigninPage from './components/welcome/SigninPage';
 import { getUserInfo, logOut } from './redux/actions/userAction';
 
 // eslint-disable-next-line no-shadow
-function App({ userLoggedIn, getUserInfo, logOut }) {
+function App({ userLoggedIn, getUserInfo, logOut, fetchUserCallInProgress }) {
   const classes = useStyles();
   const [isOpen, toggleIfOpen] = useIsOpen();
 
   useEffect(() => {
     getUserInfo();
   }, [getUserInfo]);
+
+  if (fetchUserCallInProgress) {
+    return <></>;
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -60,6 +64,7 @@ function App({ userLoggedIn, getUserInfo, logOut }) {
 function mapStateToProps(state) {
   return {
     userLoggedIn: state.user.isLoggedIn,
+    fetchUserCallInProgress: state.apiCallsInProgress.fetchUserCallInProgress,
   };
 }
 

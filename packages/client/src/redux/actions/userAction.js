@@ -1,23 +1,23 @@
 import { createShoppingList } from '../../utils/http/ShoppingClient';
 import { UPDATE_USER, LOGOUT_USER, CREATE_NEW_SHOPPING_LIST } from '../constants/UserActionTypes';
 import LoginUtils from '../../utils/LoginUtils';
-import { beginApiCall, endApiCall } from './apiStatusAction';
+import { beginFetchUser, endFetchUser } from './apiStatusAction';
 
 export function getUserInfo() {
   return (dispatch) => {
-    dispatch(beginApiCall());
+    dispatch(beginFetchUser());
     LoginUtils.getUserInfo()
       .then((userInfo) => {
+        dispatch(endFetchUser());
         if (userInfo) {
           dispatch({ type: UPDATE_USER, data: { user: userInfo } });
         } else {
           dispatch({ type: LOGOUT_USER });
         }
-        dispatch(endApiCall());
       })
       .catch(() => {
         dispatch({ type: LOGOUT_USER });
-        dispatch(endApiCall());
+        dispatch(endFetchUser());
       });
   };
 }

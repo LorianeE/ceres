@@ -1,7 +1,3 @@
 export const BEGIN_API_CALL = 'BEGIN_API_CALL';
-export const END_API_CALL = 'END_API_CALL';
-
-export default {
-  BEGIN_API_CALL,
-  END_API_CALL,
-};
+export const BEGIN_FETCH_USER = 'BEGIN_FETCH_USER';
+export const END_FETCH_USER = 'END_FETCH_USER';
