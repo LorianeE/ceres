@@ -1,5 +1,7 @@
 export default {
-  user: {},
+  user: {
+    shoppingLists: [],
+  },
   shoppingList: {},
   products: {
     dbList: [],

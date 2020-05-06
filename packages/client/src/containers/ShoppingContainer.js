@@ -7,9 +7,20 @@ import CreateListComponent from '../components/shopping/CreateListComponent';
 import { fetchDBProductsList } from '../redux/actions/productsAction';
 import Spinner from '../components/structureComponents/Spinner';
 import { addItemAndSave, changeItemQuantityAndSave, fetchShoppingList } from '../redux/actions/shoppingAction';
+import { createNewShoppingList } from '../redux/actions/userAction';
 
-// eslint-disable-next-line no-shadow
-const ShoppingContainer = ({ user, fetchProducts, fetchList, products, loading, shoppingList, shelves, changeItemQuantity, addItem }) => {
+const ShoppingContainer = ({
+  user,
+  fetchProducts,
+  fetchList,
+  products,
+  loading,
+  shoppingList,
+  shelves,
+  changeItemQuantity,
+  addItem,
+  createList,
+}) => {
   const [shoppingMode, setShoppingMode] = useState(false);
   const [itemsRemoved, setItemsRemoved] = useState([]);
 
@@ -30,10 +41,6 @@ const ShoppingContainer = ({ user, fetchProducts, fetchList, products, loading, 
       setItemsRemoved([]);
     }
     setShoppingMode(!shoppingMode);
-  };
-
-  const createList = () => {
-    // createShoppingList().then((shopList) => updateShoppingList(shopList.id));
   };
 
   const removeItem = (itemId) => {
@@ -63,7 +70,7 @@ const ShoppingContainer = ({ user, fetchProducts, fetchList, products, loading, 
   }
   return (
     <>
-      {!shoppingList ? (
+      {!shoppingList.length ? (
         <CreateListComponent createShoppingList={createList} />
       ) : (
         <>
@@ -116,6 +123,7 @@ const mapDispatchToProps = {
   fetchList: fetchShoppingList,
   changeItemQuantity: changeItemQuantityAndSave,
   addItem: addItemAndSave,
+  createList: createNewShoppingList,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShoppingContainer);
