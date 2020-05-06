@@ -59,23 +59,9 @@ describe("ShoppingLists", () => {
 
       // THEN RETRIEVE IT
       const responseGet = await request.get(`/rest/shopping-lists/${shoppingListId}`).expect(200);
-      const expectedShoppingList: any = {
-        id: shoppingListId,
-        items: [
-          {
-            product: {
-              id: product._id.toString(),
-              label: "Pommes",
-              minimumQuantity: 0,
-              productId: "apple",
-              shelf: ShelfTypes.PRODUCE,
-            },
-            quantity: 1
-          }
-        ]
-      };
-      expectedShoppingList.items[0].product.minimumQuantity = 0;
-      expect(responseGet.body).toEqual(expectedShoppingList);
+      expect(responseGet.body.id).toEqual(shoppingListId);
+      expect(responseGet.body.items[0].product).toEqual(product._id.toString());
+      expect(responseGet.body.items[0].quantity).toEqual(1);
     });
   });
 });

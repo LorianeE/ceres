@@ -9,7 +9,7 @@ export function getUserInfo() {
     LoginUtils.getUserInfo()
       .then((userInfo) => {
         if (userInfo) {
-          dispatch({ type: UPDATE_USER, data: { user: userInfo } })
+          dispatch({ type: UPDATE_USER, data: { user: userInfo } });
         } else {
           dispatch({ type: LOGOUT_USER });
         }

@@ -13,20 +13,15 @@ import DrawerContent from './components/structureComponents/DrawerContent';
 import useIsOpen from './utils/hooks';
 import SigninPage from './components/welcome/SigninPage';
 import { getUserInfo, logOut } from './redux/actions/userAction';
-import Spinner from './components/structureComponents/Spinner';
 
 // eslint-disable-next-line no-shadow
-function App({ userLoggedIn, getUserInfo, logOut, loading }) {
+function App({ userLoggedIn, getUserInfo, logOut }) {
   const classes = useStyles();
   const [isOpen, toggleIfOpen] = useIsOpen();
 
   useEffect(() => {
     getUserInfo();
   }, [getUserInfo]);
-
-  if (loading) {
-    return <Spinner />;
-  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -65,7 +60,6 @@ function App({ userLoggedIn, getUserInfo, logOut, loading }) {
 function mapStateToProps(state) {
   return {
     userLoggedIn: state.user.isLoggedIn,
-    loading: state.apiCallsInProgress > 0,
   };
 }
 

@@ -54,7 +54,7 @@ export class ShoppingListsController {
   @Put("/:id")
   @Summary("Update a specific shopping list")
   @Authenticate("facebook")
-  @Status(204)
+  @Status(200)
   async update(@PathParams("id") id: string, @BodyParams(ShoppingList) shoppingList: ShoppingList, @Req("user") user: User) {
     if (shoppingList._id !== id) {
       throw new BadRequest("Shopping list id does not match param id");

@@ -1,32 +1,28 @@
 import * as types from '../constants/ShoppingActionTypes';
 import initialState from '../initialState';
 
-// A refactorer pour faire une composition de reducers et avoir ici direct les items
-function changeItemQuantity(state, action) {
+function changeItemQuantity(items, action) {
   const { itemId, quantityToAdd } = action.data;
-  const item = state.items[itemId];
+  const item = items[itemId];
   const newQuantity = item.quantity + quantityToAdd;
   if (newQuantity <= 0) {
     item.quantity = newQuantity;
-    const newState = {
-      ...state,
+    const newStateItems = {
+      ...items,
     };
-    delete newState.items[itemId];
-    return newState;
+    delete newStateItems[itemId];
+    return newStateItems;
   }
   return {
-    ...state,
-    items: {
-      ...state.items,
-      [itemId]: {
-        ...item,
-        quantity: item.quantity + quantityToAdd,
-      },
+    ...items,
+    [itemId]: {
+      ...item,
+      quantity: item.quantity + quantityToAdd,
     },
   };
 }
 
-function addItem(state, action) {
+function addItem(items, action) {
   const { item } = action.data;
   const { quantity, product } = item;
   let { id } = item;
@@ -34,14 +30,11 @@ function addItem(state, action) {
     id = Date.now();
   }
   return {
-    ...state,
-    items: {
-      ...state.items,
-      [id]: {
-        id,
-        quantity,
-        product: product.id,
-      },
+    ...items,
+    [id]: {
+      id,
+      quantity,
+      product: product.id,
     },
   };
 }
@@ -49,9 +42,15 @@ function addItem(state, action) {
 function shoppingList(state = initialState.shoppingList, action) {
   switch (action.type) {
     case types.CHANGE_SHOPPING_ITEM_QUANTITY:
-      return changeItemQuantity(state, action);
+      return {
+        ...state,
+        items: changeItemQuantity(state.items, action),
+      };
     case types.ADD_ITEM:
-      return addItem(state, action);
+      return {
+        ...state,
+        items: addItem(state.items, action),
+      };
     case types.RECEIVED_SHOPPING_LIST_SUCCESS:
       return action.data.list;
 

@@ -10,5 +10,14 @@
     "sourceMap": true,
     "noEmit": false,
     "inlineSources": true
-  }
+  },
+  "include": [
+    "./src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "./public",
+    "dist",
+    "test"
+  ]
 }

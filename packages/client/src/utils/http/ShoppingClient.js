@@ -1,30 +1,26 @@
 import { setShoppingListInStorage } from '../StorageUtils';
 import httpClient from './HttpClient';
-
-function mapShoppingListToApi(normalizedShoppingList) {
-  return {
-    ...normalizedShoppingList,
-    items: Object.values(normalizedShoppingList.items),
-  };
-}
+import { mapListFromApiToNormalized, mapListFromNormalizedToApi } from '../ShoppingListMapper';
 
 export async function getShoppingList(shoppingListId) {
   if (shoppingListId) {
     const shoppingList = await httpClient.get(`/rest/shopping-lists/${shoppingListId}`);
     setShoppingListInStorage(shoppingList);
-    return shoppingList;
+    return mapListFromApiToNormalized(shoppingList);
   }
   throw new Error('No shopping list id.');
 }
 
 export async function saveShoppingList(normalizedShoppingList) {
   try {
-    const mappedShoppingList = mapShoppingListToApi(normalizedShoppingList);
+    const mappedShoppingList = mapListFromNormalizedToApi(normalizedShoppingList);
     setShoppingListInStorage(mappedShoppingList);
-    await httpClient.put(`/rest/shopping-lists/${mappedShoppingList.id}`, mappedShoppingList);
-    console.log('Successfully saved shopping list to server !');
+    const updatedShoppingList = await httpClient.put(`/rest/shopping-lists/${mappedShoppingList.id}`, mappedShoppingList);
+    setShoppingListInStorage(updatedShoppingList);
+    return mapListFromApiToNormalized(updatedShoppingList);
   } catch (err) {
     console.error('Unable to save shopping list to server');
+    throw err;
   }
 }
 
@@ -33,5 +29,6 @@ export async function createShoppingList() {
     items: [],
   });
   setShoppingListInStorage(shoppingList);
+  // No need to normalize shoppingList since it is an empty new one
   return shoppingList;
 }

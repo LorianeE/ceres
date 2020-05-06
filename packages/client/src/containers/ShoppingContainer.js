@@ -8,6 +8,7 @@ import { fetchDBProductsList } from '../redux/actions/productsAction';
 import Spinner from '../components/structureComponents/Spinner';
 import { addItemAndSave, changeItemQuantityAndSave, fetchShoppingList } from '../redux/actions/shoppingAction';
 import { createNewShoppingList } from '../redux/actions/userAction';
+import { getFilledShoppingList } from '../utils/ShoppingListMapper';
 
 const ShoppingContainer = ({
   userShoppingList,
@@ -65,6 +66,18 @@ const ShoppingContainer = ({
     setItemsRemoved(newItemsRemoved);
   };
 
+  const addItemFromProductArea = (item) => {
+    const existingItem = shoppingList && shoppingList.find((i) => i.product.id === item.product.id);
+    if (existingItem) {
+      changeItemQuantity(existingItem.id, 1);
+    } else {
+      addItem({
+        ...item,
+        quantity: 1,
+      });
+    }
+  };
+
   if (loading) {
     return <Spinner />;
   }
@@ -80,7 +93,7 @@ const ShoppingContainer = ({
             hasRemovedItems={itemsRemoved.length >= 1}
             cancelRemoveItem={cancelRemoveItem}
           />
-          {!shoppingMode && <AddProductArea products={products} addItem={(item) => changeItemQuantity(item.id, 1)} />}
+          {!shoppingMode && <AddProductArea products={products} addItem={addItemFromProductArea} />}
           <ShoppingList
             shoppingList={shoppingList}
             shelves={shelves}
@@ -94,27 +107,14 @@ const ShoppingContainer = ({
   );
 };
 
-function getCompleteItems(storeItems, products) {
-  if (!storeItems || !products.length) {
-    return [];
-  }
-  const itemsArray = Object.values(storeItems);
-  return itemsArray.map((item) => {
-    return {
-      ...item,
-      product: products.find((product) => product.id === item.product),
-    };
-  });
-}
-
 const mapStateToProps = (state) => {
   return {
-    userShoppingList: state.user.isLoggedIn && state.user.shoppingLists[0],
+    userShoppingList: state.user.shoppingLists[0],
     products: [...state.products.dbList, ...state.products.userList],
     loading: state.apiCallsInProgress > 0,
-    shoppingList: getCompleteItems(state.shoppingList.items, state.products.dbList),
+    shoppingList: getFilledShoppingList(state.shoppingList.items, state.products.dbList),
     shelves: Array.from(
-      new Set(getCompleteItems(state.shoppingList.items, state.products.dbList).map((item) => item.product.shelf))
+      new Set(getFilledShoppingList(state.shoppingList.items, state.products.dbList).map((item) => item.product.shelf))
     ).sort(),
   };
 };
