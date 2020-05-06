@@ -1,6 +1,6 @@
 export default {
   user: {
-    shoppingLists: [],
+    isLoggedIn: false,
   },
   shoppingList: {},
   products: {

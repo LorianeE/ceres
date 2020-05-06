@@ -10,7 +10,7 @@ import { addItemAndSave, changeItemQuantityAndSave, fetchShoppingList } from '..
 import { createNewShoppingList } from '../redux/actions/userAction';
 
 const ShoppingContainer = ({
-  user,
+  userShoppingList,
   fetchProducts,
   fetchList,
   products,
@@ -31,10 +31,10 @@ const ShoppingContainer = ({
   }, [fetchProducts, products.length]);
 
   useEffect(() => {
-    if (user.shoppingLists.length) {
-      fetchList(user.shoppingLists[0]);
+    if (userShoppingList && !shoppingList.length) {
+      fetchList(userShoppingList);
     }
-  }, [fetchList, user.shoppingLists]);
+  }, [fetchList, shoppingList.length, userShoppingList]);
 
   const switchShoppingMode = () => {
     if (shoppingMode) {
@@ -70,7 +70,7 @@ const ShoppingContainer = ({
   }
   return (
     <>
-      {!shoppingList.length ? (
+      {!userShoppingList ? (
         <CreateListComponent createShoppingList={createList} />
       ) : (
         <>
@@ -109,6 +109,7 @@ function getCompleteItems(storeItems, products) {
 
 const mapStateToProps = (state) => {
   return {
+    userShoppingList: state.user.isLoggedIn && state.user.shoppingLists[0],
     products: [...state.products.dbList, ...state.products.userList],
     loading: state.apiCallsInProgress > 0,
     shoppingList: getCompleteItems(state.shoppingList.items, state.products.dbList),

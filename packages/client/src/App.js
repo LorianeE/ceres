@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import './App.css';
 import '@material-ui/core';
@@ -12,39 +12,34 @@ import routes from './routes';
 import DrawerContent from './components/structureComponents/DrawerContent';
 import useIsOpen from './utils/hooks';
 import SigninPage from './components/welcome/SigninPage';
-import LoginUtils from './utils/LoginUtils';
+import { getUserInfo, logOut } from './redux/actions/userAction';
+import Spinner from './components/structureComponents/Spinner';
 
-function App() {
+// eslint-disable-next-line no-shadow
+function App({ userLoggedIn, getUserInfo, logOut, loading }) {
   const classes = useStyles();
   const [isOpen, toggleIfOpen] = useIsOpen();
-  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    LoginUtils.isUserLoggedIn().then((u) => {
-      if (u) {
-        setUser(u);
-      } else {
-        setUser({});
-      }
-    });
-  }, []);
+    getUserInfo();
+  }, [getUserInfo]);
 
-  const logout = () => {
-    LoginUtils.logout();
-    setUser({});
-  };
+  if (loading) {
+    return <Spinner />;
+  }
 
   return (
     <ThemeProvider theme={theme}>
-      {user !== null && Object.keys(user).length === 0 && <SigninPage />}
-      {user && Object.keys(user).length > 0 && (
+      {!userLoggedIn ? (
+        <SigninPage />
+      ) : (
         <div className={classes.root}>
           <CssBaseline />
           <Nav open={isOpen} onClose={toggleIfOpen}>
             <DrawerContent onClick={toggleIfOpen} />
           </Nav>
           <main className={classes.content}>
-            <TopBar handleDrawerToggle={toggleIfOpen} logout={logout} />
+            <TopBar handleDrawerToggle={toggleIfOpen} logout={logOut} />
             <div className={classes.toolbar} />
             <Switch>
               {routes.map((item) => (
@@ -54,7 +49,7 @@ function App() {
                   path={item.path}
                   component={() => {
                     const Component = item.component;
-                    return <Component user={user} />;
+                    return <Component />;
                   }}
                 />
               ))}
@@ -67,4 +62,16 @@ function App() {
   );
 }
 
-export default connect()(App);
+function mapStateToProps(state) {
+  return {
+    userLoggedIn: state.user.isLoggedIn,
+    loading: state.apiCallsInProgress > 0,
+  };
+}
+
+const mapDispatchToProps = {
+  getUserInfo,
+  logOut,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

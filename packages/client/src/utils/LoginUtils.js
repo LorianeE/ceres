@@ -4,7 +4,7 @@ function getFacebookLoginUrl() {
   return `${process.env.REACT_APP_BACKEND_URL}/rest/auth/facebook`;
 }
 
-async function isUserLoggedIn() {
+async function getUserInfo() {
   try {
     return await httpClient.get(`/rest/auth/userinfo`);
   } catch (err) {
@@ -21,6 +21,6 @@ async function logout() {
 
 export default {
   getFacebookLoginUrl,
-  isUserLoggedIn,
+  getUserInfo,
   logout,
 };
