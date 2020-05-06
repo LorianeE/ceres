@@ -29,7 +29,7 @@ const ShoppingList = ({ shoppingList, shelves, removeItem, shoppingMode, changeI
                 return (
                   item.product.shelf === shelf && (
                     <ShoppingListItem
-                      key={item.id}
+                      key={item.product.id}
                       item={item}
                       shoppingMode={shoppingMode}
                       removeItem={removeItem}

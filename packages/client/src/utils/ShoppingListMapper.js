@@ -20,7 +20,7 @@ export function mapListFromNormalizedToApi(normalizedShoppingList) {
   return {
     ...normalizedShoppingList,
     items: itemsArray.map((item) => {
-      if (!isMongoId(item.id)) {
+      if (item.id && !isMongoId(item.id)) {
         const apiItem = item;
         delete apiItem.id;
         return apiItem;

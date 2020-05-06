@@ -1,11 +1,13 @@
+import _ from 'lodash';
 import {
   RECEIVED_SHOPPING_LIST_SUCCESS,
   RECEIVED_SHOPPING_LIST_FAILURE,
   CHANGE_SHOPPING_ITEM_QUANTITY,
   ADD_ITEM,
+  SAVE_SHOPPING_LIST_FAILURE,
 } from '../constants/ShoppingActionTypes';
 import { beginApiCall } from './apiStatusAction';
-import getErrMsg from './ErrorUtils';
+import { getErrMsg, isAppOffline } from './ErrorUtils';
 import { getShoppingList, saveShoppingList } from '../../utils/http/ShoppingClient';
 import store from '../configureStore';
 
@@ -35,20 +37,31 @@ function addItem(item) {
   return { type: ADD_ITEM, data: { item } };
 }
 
+function saveShoppingListAction(dispatch) {
+  return saveShoppingList(_.cloneDeep(store.getState().shoppingList))
+    .then((updatedShoppingList) => dispatch(fetchShoppingListSuccess(updatedShoppingList)))
+    .catch((err) => {
+      if (isAppOffline(err)) {
+        dispatch({
+          type: SAVE_SHOPPING_LIST_FAILURE,
+          data: { errMsg: "Application hors ligne. La sauvegarde n'a pas pu être réalisée." },
+        });
+      } else {
+        dispatch({ type: SAVE_SHOPPING_LIST_FAILURE, data: { errMsg: 'Impossible de sauvegarder la liste de courses.' } });
+      }
+    });
+}
+
 export function changeItemQuantityAndSave(itemId, quantityToAdd) {
   return (dispatch) => {
     dispatch(changeItemQuantity(itemId, quantityToAdd));
-    saveShoppingList(store.getState().shoppingList).then((updatedShoppingList) => {
-      dispatch(fetchShoppingListSuccess(updatedShoppingList));
-    });
+    saveShoppingListAction(dispatch);
   };
 }
 
 export function addItemAndSave(item) {
   return (dispatch) => {
     dispatch(addItem(item));
-    saveShoppingList(store.getState().shoppingList).then((updatedShoppingList) => {
-      dispatch(fetchShoppingListSuccess(updatedShoppingList));
-    });
+    saveShoppingListAction(dispatch);
   };
 }

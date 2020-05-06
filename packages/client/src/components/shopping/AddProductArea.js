@@ -9,17 +9,17 @@ import useStyles from './shoppingStyle';
 const AddProductArea = ({ addItem, products }) => {
   const classes = useStyles();
 
-  const [itemToAdd, setItemToAdd] = useState(null);
+  const [productToAdd, setProductToAdd] = useState(null);
 
   const onAutocompleteChange = (event, value) => {
-    setItemToAdd(value);
+    setProductToAdd(value);
   };
 
   const onClick = () => {
-    if (itemToAdd) {
-      setItemToAdd(null);
+    if (productToAdd) {
+      setProductToAdd(null);
       addItem({
-        product: itemToAdd,
+        product: productToAdd,
       });
     }
   };
@@ -30,7 +30,7 @@ const AddProductArea = ({ addItem, products }) => {
         <Autocomplete
           id="combo-box-demo"
           options={products}
-          value={itemToAdd}
+          value={productToAdd}
           getOptionLabel={(option) => option.label}
           getOptionSelected={(option, value) => value && option.name === value.name}
           renderInput={(params) => <TextField {...params} label="Produit à ajouter" variant="outlined" />}

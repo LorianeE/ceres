@@ -1,11 +1,12 @@
-import { RECEIVED_DB_LIST_SUCCESS, RECEIVED_DB_LIST_FAILURE } from '../constants/ProductsActionTypes';
+import { RECEIVED_DB_LIST_FAILURE, RECEIVED_DB_LIST_SUCCESS } from '../constants/ProductsActionTypes';
 import getProductsList from '../../utils/http/ItemsClient';
 import { beginApiCall } from './apiStatusAction';
-import getErrMsg from './ErrorUtils';
+import { getErrMsg } from './ErrorUtils';
 
 export function fetchDBProductsListSuccess(products) {
   return { type: RECEIVED_DB_LIST_SUCCESS, data: { dbList: products } };
 }
+
 export function fetchDBProductsListFailure(err) {
   return { type: RECEIVED_DB_LIST_FAILURE, data: { dbList: [], errMsg: getErrMsg(err) } };
 }

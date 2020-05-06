@@ -23,16 +23,15 @@ function changeItemQuantity(items, action) {
 }
 
 function addItem(items, action) {
-  const { item } = action.data;
-  const { quantity, product } = item;
-  let { id } = item;
+  const { quantity, product } = action.data.item;
+  let { id } = action.data.item;
   if (!id) {
     id = Date.now();
   }
   return {
     ...items,
     [id]: {
-      id,
+      id: id.toString(),
       quantity,
       product: product.id,
     },
