@@ -12,6 +12,6 @@ export default {
   },
   apiCallsInProgress: {
     apiCalls: 0,
-    fetchUserCallInProgress: false,
+    fetchUserCallInProgress: true,
   },
 };
