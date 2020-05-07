@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import AddProductArea from '../components/shopping/AddProductArea';
-import ShoppingList from '../components/shopping/ShoppingList';
-import ShoppingHeader from '../components/shopping/ShoppingHeader';
-import CreateListComponent from '../components/shopping/CreateListComponent';
-import { fetchDBProductsList } from '../redux/actions/productsAction';
-import Spinner from '../components/structureComponents/Spinner';
-import { addItemAndSave, changeItemQuantityAndSave, fetchShoppingList } from '../redux/actions/shoppingAction';
-import { createNewShoppingList } from '../redux/actions/userAction';
-import { getFilledShoppingList } from '../utils/ShoppingListMapper';
+import PropTypes from 'prop-types';
+import AddProductArea from './AddProductArea';
+import ShoppingList from './ShoppingList';
+import ShoppingHeader from './ShoppingHeader';
+import CreateListComponent from './CreateListComponent';
+import { fetchDBProductsList } from '../../redux/actions/productsAction';
+import Spinner from '../structureComponents/Spinner';
+import { addItemAndSave, changeItemQuantityAndSave, fetchShoppingList } from '../../redux/actions/shoppingAction';
+import { createNewShoppingList } from '../../redux/actions/userAction';
+import { getFilledShoppingList } from '../../utils/ShoppingListMapper';
 
 const ShoppingContainer = ({
   userShoppingList,
@@ -105,6 +106,19 @@ const ShoppingContainer = ({
       )}
     </>
   );
+};
+
+ShoppingContainer.propTypes = {
+  userShoppingList: PropTypes.string.isRequired,
+  fetchProducts: PropTypes.func.isRequired,
+  fetchList: PropTypes.func.isRequired,
+  products: PropTypes.arrayOf(PropTypes.object).isRequired,
+  loading: PropTypes.bool.isRequired,
+  shoppingList: PropTypes.arrayOf(PropTypes.object).isRequired,
+  shelves: PropTypes.arrayOf(PropTypes.string).isRequired,
+  changeItemQuantity: PropTypes.func.isRequired,
+  addItem: PropTypes.func.isRequired,
+  createList: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import List from '@material-ui/core/List';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import Typography from '@material-ui/core/Typography';
@@ -43,6 +44,14 @@ const ShoppingList = ({ shoppingList, shelves, removeItem, shoppingMode, changeI
         ))}
     </List>
   );
+};
+
+ShoppingList.propTypes = {
+  shoppingList: PropTypes.arrayOf(PropTypes.object).isRequired,
+  shelves: PropTypes.arrayOf(PropTypes.string).isRequired,
+  removeItem: PropTypes.func.isRequired,
+  shoppingMode: PropTypes.bool.isRequired,
+  changeItemQuantity: PropTypes.func.isRequired,
 };
 
 export default ShoppingList;

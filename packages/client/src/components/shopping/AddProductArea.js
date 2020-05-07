@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
@@ -44,6 +45,11 @@ const AddProductArea = ({ addItem, products }) => {
       </Grid>
     </Grid>
   );
+};
+
+AddProductArea.propTypes = {
+  addItem: PropTypes.func.isRequired,
+  products: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default AddProductArea;

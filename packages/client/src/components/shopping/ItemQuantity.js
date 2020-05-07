@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
@@ -29,6 +30,15 @@ const ItemQuantity = ({ item, shoppingMode, changeItemQuantity }) => {
       </ButtonGroup>
     </ListItemIcon>
   );
+};
+
+ItemQuantity.propTypes = {
+  item: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    quantity: PropTypes.number.isRequired,
+  }).isRequired,
+  shoppingMode: PropTypes.bool.isRequired,
+  changeItemQuantity: PropTypes.func.isRequired,
 };
 
 export default ItemQuantity;

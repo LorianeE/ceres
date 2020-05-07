@@ -2,7 +2,7 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import KitchenIcon from '@material-ui/icons/Kitchen';
 import RestaurantMenuIcon from '@material-ui/icons/RestaurantMenu';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
-import ShoppingContainer from './containers/ShoppingContainer';
+import ShoppingContainer from './components/shopping/ShoppingContainer';
 import Store from './components/store/Store';
 import Menu from './components/menu/Menu';
 import Recipes from './components/recipes/Recipes';

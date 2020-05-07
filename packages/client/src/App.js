@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import './App.css';
 import '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -60,6 +61,13 @@ function App({ userLoggedIn, getUserInfo, logOut, fetchUserCallInProgress }) {
     </ThemeProvider>
   );
 }
+
+App.propTypes = {
+  userLoggedIn: PropTypes.bool.isRequired,
+  getUserInfo: PropTypes.func.isRequired,
+  logOut: PropTypes.func.isRequired,
+  fetchUserCallInProgress: PropTypes.bool.isRequired,
+};
 
 function mapStateToProps(state) {
   return {

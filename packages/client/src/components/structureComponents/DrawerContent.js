@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
@@ -9,7 +10,7 @@ import logo from '../../logo.png';
 import { useStyles } from '../../style';
 import menu from '../../routes';
 
-const DrawerContent = ({ onClick = (f) => f }) => {
+const DrawerContent = ({ onClick }) => {
   const classes = useStyles();
   const onClickWithTimeOut = () => {
     setTimeout(onClick, 150);
@@ -34,6 +35,14 @@ const DrawerContent = ({ onClick = (f) => f }) => {
       </List>
     </>
   );
+};
+
+DrawerContent.defaultProps = {
+  onClick: (f) => f,
+};
+
+DrawerContent.propTypes = {
+  onClick: PropTypes.func,
 };
 
 export default DrawerContent;

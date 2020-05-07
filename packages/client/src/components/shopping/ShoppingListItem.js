@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import ListItem from '@material-ui/core/ListItem';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -33,6 +34,17 @@ const ShoppingListItem = ({ item, shoppingMode, removeItem, changeItemQuantity }
       <ListItemText id={`list-item-text-${item.id}`} primary={item.product.label} />
     </ListItem>
   );
+};
+
+ShoppingListItem.propTypes = {
+  item: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    quantity: PropTypes.number.isRequired,
+    product: PropTypes.object.isRequired,
+  }).isRequired,
+  shoppingMode: PropTypes.bool.isRequired,
+  removeItem: PropTypes.func.isRequired,
+  changeItemQuantity: PropTypes.func.isRequired,
 };
 
 export default ShoppingListItem;
