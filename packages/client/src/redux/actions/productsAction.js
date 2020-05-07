@@ -8,7 +8,7 @@ export function fetchDBProductsListSuccess(products) {
 }
 
 export function fetchDBProductsListFailure(err) {
-  return { type: RECEIVED_DB_LIST_FAILURE, data: { dbList: [], errMsg: getErrMsg(err) } };
+  return { type: RECEIVED_DB_LIST_FAILURE, data: { errMsg: getErrMsg(err) } };
 }
 
 // eslint-disable-next-line import/prefer-default-export

@@ -11,7 +11,7 @@ function products(state = initialState.products, action) {
     case types.RECEIVED_DB_LIST_FAILURE:
       return {
         ...state,
-        dbList: action.data.dbList,
+        dbList: [],
       };
 
     default:
