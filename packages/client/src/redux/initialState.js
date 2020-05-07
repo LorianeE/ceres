@@ -8,7 +8,7 @@ export default {
     userList: [],
   },
   error: {
-    errMsg: '',
+    errorMsg: '',
   },
   apiCallsInProgress: {
     apiCalls: 0,

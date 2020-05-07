@@ -12,18 +12,13 @@ export async function getShoppingList(shoppingListId) {
 }
 
 export async function saveShoppingList(normalizedShoppingList) {
-  try {
-    const mappedShoppingList = mapListFromNormalizedToApi(normalizedShoppingList);
-    // Save to local storage before calling in case call fail
-    setShoppingListInStorage(mappedShoppingList);
-    const updatedShoppingList = await httpClient.put(`/rest/shopping-lists/${mappedShoppingList.id}`, mappedShoppingList);
-    // Save to local storage after if response from server
-    setShoppingListInStorage(updatedShoppingList);
-    return mapListFromApiToNormalized(updatedShoppingList);
-  } catch (err) {
-    console.error('Unable to save shopping list to server');
-    throw err;
-  }
+  const mappedShoppingList = mapListFromNormalizedToApi(normalizedShoppingList);
+  // Save to local storage before calling in case call fail
+  setShoppingListInStorage(mappedShoppingList);
+  const updatedShoppingList = await httpClient.put(`/rest/shopping-lists/${mappedShoppingList.id}`, mappedShoppingList);
+  // Save to local storage after if response from server
+  setShoppingListInStorage(updatedShoppingList);
+  return mapListFromApiToNormalized(updatedShoppingList);
 }
 
 export async function createShoppingList() {

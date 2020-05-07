@@ -5,11 +5,13 @@ import AddProductArea from './AddProductArea';
 import ShoppingList from './ShoppingList';
 import ShoppingHeader from './ShoppingHeader';
 import CreateListComponent from './CreateListComponent';
+import Spinner from '../common/Spinner';
+import SnackbarError from '../common/SnackbarError';
+import { getFilledShoppingList } from '../../utils/ShoppingListMapper';
 import { fetchDBProductsList } from '../../redux/actions/productsAction';
-import Spinner from '../structureComponents/Spinner';
 import { addItemAndSave, changeItemQuantityAndSave, fetchShoppingList } from '../../redux/actions/shoppingAction';
 import { createNewShoppingList } from '../../redux/actions/userAction';
-import { getFilledShoppingList } from '../../utils/ShoppingListMapper';
+import { resetErrorMessage } from '../../redux/actions/errorAction';
 
 const ShoppingContainer = ({
   userShoppingList,
@@ -22,6 +24,8 @@ const ShoppingContainer = ({
   changeItemQuantity,
   addItem,
   createList,
+  error,
+  resetErrorMsg,
 }) => {
   const [shoppingMode, setShoppingMode] = useState(false);
   const [itemsRemoved, setItemsRemoved] = useState([]);
@@ -104,6 +108,7 @@ const ShoppingContainer = ({
           />
         </>
       )}
+      {error && <SnackbarError error={error} onClose={resetErrorMsg} />}
     </>
   );
 };
@@ -119,6 +124,8 @@ ShoppingContainer.propTypes = {
   changeItemQuantity: PropTypes.func.isRequired,
   addItem: PropTypes.func.isRequired,
   createList: PropTypes.func.isRequired,
+  error: PropTypes.string.isRequired,
+  resetErrorMsg: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -130,6 +137,7 @@ const mapStateToProps = (state) => {
     shelves: Array.from(
       new Set(getFilledShoppingList(state.shoppingList.items, state.products.dbList).map((item) => item.product.shelf))
     ).sort(),
+    error: state.error.errorMsg,
   };
 };
 
@@ -139,6 +147,7 @@ const mapDispatchToProps = {
   changeItemQuantity: changeItemQuantityAndSave,
   addItem: addItemAndSave,
   createList: createNewShoppingList,
+  resetErrorMsg: resetErrorMessage,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShoppingContainer);

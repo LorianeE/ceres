@@ -44,7 +44,7 @@ function saveShoppingListAction(dispatch) {
       if (isAppOffline(err)) {
         dispatch({
           type: SAVE_SHOPPING_LIST_FAILURE,
-          data: { errMsg: "Application hors ligne. La sauvegarde n'a pas pu être réalisée." },
+          data: { errMsg: "Application hors ligne. La liste n'a pas pu être sauvegardée sur le serveur. " },
         });
       } else {
         dispatch({ type: SAVE_SHOPPING_LIST_FAILURE, data: { errMsg: 'Impossible de sauvegarder la liste de courses.' } });
