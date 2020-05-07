@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Hidden from '@material-ui/core/Hidden';
 import Drawer from '@material-ui/core/Drawer';
-import { theme, useStyles } from '../style';
+import { theme, useStyles } from '../../style';
 
 const Nav = ({ open, onClose, children }) => {
   const classes = useStyles();
@@ -38,6 +39,12 @@ const Nav = ({ open, onClose, children }) => {
       </Hidden>
     </nav>
   );
+};
+
+Nav.propTypes = {
+  open: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 export default Nav;

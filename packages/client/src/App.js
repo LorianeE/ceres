@@ -1,49 +1,45 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import './App.css';
 import '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
 import { theme, useStyles } from './style';
-import Nav from './structureComponents/Nav';
-import TopBar from './structureComponents/TopBar';
+import Nav from './components/common/Nav';
+import TopBar from './components/common/TopBar';
 import routes from './routes';
-import DrawerContent from './structureComponents/DrawerContent';
+import DrawerContent from './components/common/DrawerContent';
 import useIsOpen from './utils/hooks';
-import SigninPage from './welcome/SigninPage';
-import LoginUtils from './utils/LoginUtils';
+import SigninPage from './components/welcome/SigninPage';
+import { getUserInfo, logOut } from './redux/actions/userAction';
 
-function App() {
+// eslint-disable-next-line no-shadow
+function App({ userLoggedIn, getUserInfo, logOut, fetchUserCallInProgress }) {
   const classes = useStyles();
   const [isOpen, toggleIfOpen] = useIsOpen();
-  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    LoginUtils.isUserLoggedIn().then((u) => {
-      if (u) {
-        setUser(u);
-      } else {
-        setUser({});
-      }
-    });
-  }, []);
+    getUserInfo();
+  }, [getUserInfo]);
 
-  const logout = () => {
-    LoginUtils.logout();
-    setUser({});
-  };
+  if (fetchUserCallInProgress) {
+    return <></>;
+  }
 
   return (
     <ThemeProvider theme={theme}>
-      {user !== null && Object.keys(user).length === 0 && <SigninPage />}
-      {user && Object.keys(user).length > 0 && (
+      {!userLoggedIn ? (
+        <SigninPage />
+      ) : (
         <div className={classes.root}>
           <CssBaseline />
           <Nav open={isOpen} onClose={toggleIfOpen}>
             <DrawerContent onClick={toggleIfOpen} />
           </Nav>
           <main className={classes.content}>
-            <TopBar handleDrawerToggle={toggleIfOpen} logout={logout} />
+            <TopBar handleDrawerToggle={toggleIfOpen} logout={logOut} />
             <div className={classes.toolbar} />
             <Switch>
               {routes.map((item) => (
@@ -53,7 +49,7 @@ function App() {
                   path={item.path}
                   component={() => {
                     const Component = item.component;
-                    return <Component user={user} />;
+                    return <Component />;
                   }}
                 />
               ))}
@@ -66,4 +62,23 @@ function App() {
   );
 }
 
-export default App;
+App.propTypes = {
+  userLoggedIn: PropTypes.bool.isRequired,
+  getUserInfo: PropTypes.func.isRequired,
+  logOut: PropTypes.func.isRequired,
+  fetchUserCallInProgress: PropTypes.bool.isRequired,
+};
+
+function mapStateToProps(state) {
+  return {
+    userLoggedIn: state.user.isLoggedIn,
+    fetchUserCallInProgress: state.apiCallsInProgress.fetchUserCallInProgress,
+  };
+}
+
+const mapDispatchToProps = {
+  getUserInfo,
+  logOut,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

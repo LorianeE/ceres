@@ -1,37 +1,24 @@
-import * as _ from 'lodash';
-import { getShoppingListFromStorage, setShoppingListInStorage } from '../StorageUtils';
+import { setShoppingListInStorage } from '../StorageUtils';
 import httpClient from './HttpClient';
+import { mapListFromApiToNormalized, mapListFromNormalizedToApi } from '../ShoppingListMapper';
 
-function mapShoppingListToApi(shoppingList) {
-  const mappedShoppingList = _.cloneDeep(shoppingList);
-  mappedShoppingList.items.map((item) => {
-    const mappedItem = item;
-    mappedItem.product = item.product.id;
-    return mappedItem;
-  });
-  return mappedShoppingList;
-}
-
-export async function getShoppingListItems(shoppingListId) {
+export async function getShoppingList(shoppingListId) {
   if (shoppingListId) {
     const shoppingList = await httpClient.get(`/rest/shopping-lists/${shoppingListId}`);
     setShoppingListInStorage(shoppingList);
-    return shoppingList.items;
+    return mapListFromApiToNormalized(shoppingList);
   }
-  return null;
+  throw new Error('No shopping list id.');
 }
 
-export async function saveShoppingListItems(shoppingListItems) {
-  const shoppingList = getShoppingListFromStorage();
-  shoppingList.items = shoppingListItems;
-  try {
-    setShoppingListInStorage(shoppingList);
-    const mappedShoppingList = mapShoppingListToApi(shoppingList);
-    await httpClient.put(`/rest/shopping-lists/${shoppingList.id}`, mappedShoppingList);
-    console.log('Successfully saved shopping list to server !');
-  } catch (err) {
-    console.error('Unable to save shopping list to server');
-  }
+export async function saveShoppingList(normalizedShoppingList) {
+  const mappedShoppingList = mapListFromNormalizedToApi(normalizedShoppingList);
+  // Save to local storage before calling in case call fail
+  setShoppingListInStorage(mappedShoppingList);
+  const updatedShoppingList = await httpClient.put(`/rest/shopping-lists/${mappedShoppingList.id}`, mappedShoppingList);
+  // Save to local storage after if response from server
+  setShoppingListInStorage(updatedShoppingList);
+  return mapListFromApiToNormalized(updatedShoppingList);
 }
 
 export async function createShoppingList() {
@@ -39,5 +26,6 @@ export async function createShoppingList() {
     items: [],
   });
   setShoppingListInStorage(shoppingList);
+  // No need to normalize shoppingList since it is an empty new one
   return shoppingList;
 }

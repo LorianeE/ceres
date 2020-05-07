@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -7,8 +8,8 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import routes from '../routes';
-import { useStyles } from '../style';
+import routes from '../../routes';
+import { useStyles } from '../../style';
 
 const TopBar = ({ handleDrawerToggle, logout }) => {
   const classes = useStyles();
@@ -41,6 +42,11 @@ const TopBar = ({ handleDrawerToggle, logout }) => {
       </Toolbar>
     </AppBar>
   );
+};
+
+TopBar.propTypes = {
+  handleDrawerToggle: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired,
 };
 
 export default TopBar;

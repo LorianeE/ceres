@@ -13,7 +13,7 @@ export class ShoppingListService {
    * @returns {null|ShoppingList}
    */
   async find(id: string): Promise<ShoppingList | null> {
-    return this.shoppingList.findById(id).populate("items.product");
+    return this.shoppingList.findById(id);
   }
 
   /**
