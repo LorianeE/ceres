@@ -9,7 +9,7 @@ import Spinner from '../common/Spinner';
 import SnackbarError from '../common/SnackbarError';
 import { getFilledShoppingList } from '../../utils/ShoppingListMapper';
 import { fetchDBProductsList } from '../../redux/actions/productsAction';
-import { addItemAndSave, changeItemQuantityAndSave, fetchShoppingList } from '../../redux/actions/shoppingAction';
+import { addItemAndSave, changeItemCommentAndSave, changeItemQuantityAndSave, fetchShoppingList } from '../../redux/actions/shoppingAction';
 import { createNewShoppingList } from '../../redux/actions/userAction';
 import { resetErrorMessage } from '../../redux/actions/errorAction';
 
@@ -22,6 +22,7 @@ const ShoppingContainer = ({
   shoppingList,
   shelves,
   changeItemQuantity,
+  changeItemComment,
   addItem,
   createList,
   error,
@@ -105,6 +106,7 @@ const ShoppingContainer = ({
             removeItem={removeItem}
             shoppingMode={shoppingMode}
             changeItemQuantity={changeItemQuantity}
+            changeItemComment={changeItemComment}
           />
         </>
       )}
@@ -122,6 +124,7 @@ ShoppingContainer.propTypes = {
   shoppingList: PropTypes.arrayOf(PropTypes.object).isRequired,
   shelves: PropTypes.arrayOf(PropTypes.string).isRequired,
   changeItemQuantity: PropTypes.func.isRequired,
+  changeItemComment: PropTypes.func.isRequired,
   addItem: PropTypes.func.isRequired,
   createList: PropTypes.func.isRequired,
   error: PropTypes.string.isRequired,
@@ -145,6 +148,7 @@ const mapDispatchToProps = {
   fetchProducts: fetchDBProductsList,
   fetchList: fetchShoppingList,
   changeItemQuantity: changeItemQuantityAndSave,
+  changeItemComment: changeItemCommentAndSave,
   addItem: addItemAndSave,
   createList: createNewShoppingList,
   resetErrorMsg: resetErrorMessage,

@@ -3,6 +3,7 @@ import {
   RECEIVED_SHOPPING_LIST_SUCCESS,
   RECEIVED_SHOPPING_LIST_FAILURE,
   CHANGE_SHOPPING_ITEM_QUANTITY,
+  CHANGE_SHOPPING_ITEM_COMMENT,
   ADD_ITEM,
   SAVE_SHOPPING_LIST_FAILURE,
 } from '../constants/ShoppingActionTypes';
@@ -33,6 +34,10 @@ function changeItemQuantity(itemId, quantityToAdd) {
   return { type: CHANGE_SHOPPING_ITEM_QUANTITY, data: { itemId, quantityToAdd } };
 }
 
+function changeItemComment(itemId, comment) {
+  return { type: CHANGE_SHOPPING_ITEM_COMMENT, data: { itemId, comment } };
+}
+
 function addItem(item) {
   return { type: ADD_ITEM, data: { item } };
 }
@@ -55,6 +60,12 @@ function saveShoppingListAction(dispatch) {
 export function changeItemQuantityAndSave(itemId, quantityToAdd) {
   return (dispatch) => {
     dispatch(changeItemQuantity(itemId, quantityToAdd));
+    saveShoppingListAction(dispatch);
+  };
+}
+export function changeItemCommentAndSave(itemId, comment) {
+  return (dispatch) => {
+    dispatch(changeItemComment(itemId, comment));
     saveShoppingListAction(dispatch);
   };
 }

@@ -9,7 +9,7 @@ import { SHELF_TYPES } from '../../data/shelf_types';
 import useStyles from './shoppingStyle';
 import ShoppingListItem from './ShoppingListItem';
 
-const ShoppingList = ({ shoppingList, shelves, removeItem, shoppingMode, changeItemQuantity }) => {
+const ShoppingList = ({ shoppingList, shelves, removeItem, shoppingMode, changeItemQuantity, changeItemComment }) => {
   const classes = useStyles();
 
   if (!shoppingList.length) {
@@ -35,6 +35,7 @@ const ShoppingList = ({ shoppingList, shelves, removeItem, shoppingMode, changeI
                       shoppingMode={shoppingMode}
                       removeItem={removeItem}
                       changeItemQuantity={changeItemQuantity}
+                      changeItemComment={changeItemComment}
                     />
                   )
                 );
@@ -52,6 +53,7 @@ ShoppingList.propTypes = {
   removeItem: PropTypes.func.isRequired,
   shoppingMode: PropTypes.bool.isRequired,
   changeItemQuantity: PropTypes.func.isRequired,
+  changeItemComment: PropTypes.func.isRequired,
 };
 
 export default ShoppingList;
