@@ -35,7 +35,7 @@ function changeItemComment(items, action) {
 }
 
 function addItem(items, action) {
-  const { quantity, product } = action.data.item;
+  const { quantity, product, comment } = action.data.item;
   let { id } = action.data.item;
   if (!id) {
     id = Date.now();
@@ -46,6 +46,7 @@ function addItem(items, action) {
       id: id.toString(),
       quantity,
       product: product.id,
+      comment,
     },
   };
 }
