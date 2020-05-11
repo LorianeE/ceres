@@ -18,7 +18,7 @@ const ShoppingListItem = ({ item, changeItemQuantity, changeItemComment }) => {
           <Grid item xs sm md style={{ marginTop: 'auto', marginBottom: 'auto', maxWidth: '230px' }}>
             <ListItemText id={`list-item-text-${item.id}`} primary={item.product.label} />
           </Grid>
-          <Grid item xs={12} sm={12} md style={{ marginTop: 'auto', marginBottom: 'auto' }}>
+          <Grid item xs={12} sm={12} md style={{ marginTop: 'auto' }}>
             <ItemComment item={item} changeItemComment={changeItemComment} />
           </Grid>
         </Grid>
