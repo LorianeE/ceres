@@ -22,8 +22,20 @@ function changeItemQuantity(items, action) {
   };
 }
 
+function changeItemComment(items, action) {
+  const { itemId, comment } = action.data;
+  const item = items[itemId];
+  return {
+    ...items,
+    [itemId]: {
+      ...item,
+      comment,
+    },
+  };
+}
+
 function addItem(items, action) {
-  const { quantity, product } = action.data.item;
+  const { quantity, product, comment } = action.data.item;
   let { id } = action.data.item;
   if (!id) {
     id = Date.now();
@@ -34,6 +46,7 @@ function addItem(items, action) {
       id: id.toString(),
       quantity,
       product: product.id,
+      comment,
     },
   };
 }
@@ -44,6 +57,11 @@ function shoppingList(state = initialState.shoppingList, action) {
       return {
         ...state,
         items: changeItemQuantity(state.items, action),
+      };
+    case types.CHANGE_SHOPPING_ITEM_COMMENT:
+      return {
+        ...state,
+        items: changeItemComment(state.items, action),
       };
     case types.ADD_ITEM:
       return {

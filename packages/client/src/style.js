@@ -51,11 +51,10 @@ export const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
   },
   fitPicture: {
-    'padding-left': 50,
-    'padding-right': 50,
+    'padding-left': 25,
+    'padding-right': 25,
     'margin-bottom': 10,
     'margin-top': 10,
-    width: '100%',
     [theme.breakpoints.up('sm')]: {
       'margin-left': 'auto',
       'margin-right': 'auto',

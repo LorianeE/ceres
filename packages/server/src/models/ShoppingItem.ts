@@ -1,4 +1,4 @@
-import {Minimum, Required} from "@tsed/common";
+import {Minimum, Property, Required} from "@tsed/common";
 import {ObjectID, Ref} from "@tsed/mongoose";
 import Product from "./Product";
 
@@ -13,4 +13,7 @@ export class ShoppingItem {
   @Required()
   @Minimum(1)
   quantity: number;
+
+  @Property()
+  comment: string;
 }
