@@ -2,10 +2,12 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import KitchenIcon from '@material-ui/icons/Kitchen';
 import RestaurantMenuIcon from '@material-ui/icons/RestaurantMenu';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
+import PersonIcon from '@material-ui/icons/Person';
 import ShoppingContainer from './components/shopping/ShoppingContainer';
 import Store from './components/store/Store';
 import Menu from './components/menu/Menu';
 import Recipes from './components/recipes/Recipes';
+import ProductsContainer from './components/products/ProductsContainer';
 
 const routes = [
   {
@@ -35,6 +37,13 @@ const routes = [
     icon: MenuBookIcon,
     path: '/recipes',
     component: Recipes,
+  },
+  {
+    id: 5,
+    text: 'Mes produits',
+    icon: PersonIcon,
+    path: '/products',
+    component: ProductsContainer,
   },
 ];
 
