@@ -7,7 +7,7 @@ import {UsersService} from "../../../src/services/users/UsersService";
 import User from "../../../src/models/User";
 import {ShelfTypes} from "../../../src/models/ShelfTypes";
 import {ProductsService} from "../../../src/services/ProductsService";
-import Product from "../../../src/models/Product";
+import {Product} from "../../../src/models/Product";
 
 describe("ShoppingLists", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;

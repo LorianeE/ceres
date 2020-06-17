@@ -26,10 +26,9 @@ export class UsersService {
     const dbUser = await this.user.findById(user._id);
     if (dbUser) {
       dbUser.shoppingLists.push(shoppingListId);
-      const model = new this.user(dbUser);
-      await model.updateOne(dbUser, {upsert: true});
+      await dbUser.save();
 
-      return model;
+      return dbUser;
     }
     throw new NotFound("User not found.");
   }

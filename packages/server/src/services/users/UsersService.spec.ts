@@ -6,7 +6,6 @@ import {NotFound} from "ts-httpexceptions";
 async function getUsersService(locals: any[]) {
   const prototype = {
     save: jest.fn().mockReturnThis(),
-    updateOne: jest.fn().mockReturnThis()
   };
   const userModel = jest.fn().mockImplementation(() => {
     return prototype;
@@ -84,19 +83,20 @@ describe("UsersService", () => {
       user.facebookId = "facebookId";
       user.shoppingLists = [];
 
+      const save = jest.fn();
+
       const {usersService, userModel, prototype} = await getUsersService([]);
 
       // @ts-ignore
-      userModel.findById = jest.fn().mockResolvedValue(user);
+      userModel.findById = jest.fn().mockResolvedValue({...user, save});
 
       // WHEN
       await usersService.addShoppingList(user, "1234");
 
       // THEN
-      expect(userModel).toHaveBeenCalledWith(user);
       // @ts-ignore
       expect(userModel.findById).toHaveBeenCalled();
-      expect(prototype.updateOne).toHaveBeenCalledTimes(1);
+      expect(save).toHaveBeenCalledTimes(1);
     });
     it("should throw error if user not found", async () => {
       // GIVEN
@@ -122,7 +122,6 @@ describe("UsersService", () => {
       // THEN
       // @ts-ignore
       expect(userModel.findById).toHaveBeenCalled();
-      expect(prototype.updateOne).not.toHaveBeenCalled();
       expect(actualError).toBeInstanceOf(NotFound);
     });
   });

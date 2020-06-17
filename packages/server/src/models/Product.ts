@@ -1,9 +1,9 @@
-import {Default, Enum, Required} from "@tsed/common";
+import {Default, Enum, Property, Required} from "@tsed/common";
 import {Model, ObjectID, Unique} from "@tsed/mongoose";
 import {ShelfTypes} from "./ShelfTypes";
 
 @Model()
-export default class Product {
+export class Product {
 
   @ObjectID("id")
   _id: string;
@@ -21,4 +21,7 @@ export default class Product {
 
   @Default(0)
   minimumQuantity: number = 0;
+
+  @Property()
+  userIds: string[] = [];
 }

@@ -1,6 +1,6 @@
 import {BodyParams, Controller, Get, Post, Status} from "@tsed/common";
 import {Summary} from "@tsed/swagger";
-import Product from "../models/Product";
+import {Product} from "../models/Product";
 import {ProductsService} from "../services/ProductsService";
 
 @Controller("/products")
@@ -9,10 +9,10 @@ export class ProductsController {
   }
 
   @Get("/")
-  @Summary("Get all products from database")
+  @Summary("Get all generic products from database")
   @Status(200)
-  async get(): Promise<Product[]> {
-    return this.productsService.findAll();
+  async getGenerics(): Promise<Product[]> {
+    return this.productsService.findAllGenerics();
   }
 
   @Post("/")

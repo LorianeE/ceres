@@ -1,5 +1,5 @@
 import {TestContext} from "@tsed/testing";
-import Product from "../models/Product";
+import {Product} from "../models/Product";
 import {ShelfTypes} from "../models/ShelfTypes";
 import {ProductsService} from "./ProductsService";
 
@@ -28,10 +28,10 @@ describe("ProductsService", () => {
   beforeEach(() => TestContext.create());
   afterEach(() => TestContext.reset());
 
-  describe("findAll()", () => {
+  describe("findAllGenerics()", () => {
     beforeEach(() => TestContext.create());
     afterEach(() => TestContext.reset());
-    it("should return all products from db", async () => {
+    it("should return all products from db without userIds", async () => {
       // GIVEN
       const products = {
         find: jest.fn().mockResolvedValue([{id: "eggs"}])
@@ -44,11 +44,35 @@ describe("ProductsService", () => {
       ]);
 
       // WHEN
-      const result = await productsService.findAll();
+      const result = await productsService.findAllGenerics();
 
       // THEN
       expect(result).toEqual([{id: "eggs"}]);
       expect(products.find).toHaveBeenCalled();
+      expect(productsService).toBeInstanceOf(ProductsService);
+    });
+  });
+  describe("findUsersProducts()", () => {
+    beforeEach(() => TestContext.create());
+    afterEach(() => TestContext.reset());
+    it("should return all products from db with userIds", async () => {
+      // GIVEN
+      const products = {
+        find: jest.fn().mockResolvedValue([{id: "butter", userIds: ["userId"]}])
+      };
+      const productsService = await TestContext.invoke(ProductsService, [
+        {
+          provide: Product,
+          use: products
+        }
+      ]);
+
+      // WHEN
+      const result = await productsService.findUsersProducts("userId");
+
+      // THEN
+      expect(result).toEqual([{id: "butter", userIds: ["userId"]}]);
+      expect(products.find).toHaveBeenCalledWith({userIds: "userId"});
       expect(productsService).toBeInstanceOf(ProductsService);
     });
   });

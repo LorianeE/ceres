@@ -1,6 +1,6 @@
 import {Inject, Service} from "@tsed/common";
 import {MongooseModel} from "@tsed/mongoose";
-import Product from "../models/Product";
+import {Product} from "../models/Product";
 import {DuplicateKeyError} from "./errors/DuplicateKeyError";
 
 @Service()
@@ -9,11 +9,28 @@ export class ProductsService {
   private product: MongooseModel<Product>;
 
   /**
-   * Find all products.
+   * Find all generic products, i.e. all products without any associated userId.
    * @returns {undefined|Product[]}
    */
-  async findAll(): Promise<Product[]> {
-    return this.product.find({});
+  async findAllGenerics(): Promise<Product[]> {
+    return this.product.find({
+      $or: [
+        {
+          userIds: {$exists: false}
+        },
+        {
+          userIds: {$size: 0}
+        }
+      ]
+    });
+  }
+
+  /**
+   * Find all products for a specific user.
+   * @returns {undefined|Product[]}
+   */
+  async findUsersProducts(userId: string): Promise<Product[]> {
+    return this.product.find({userIds: userId});
   }
 
   /**

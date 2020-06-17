@@ -1,18 +1,18 @@
 import {TestContext} from "@tsed/testing";
 import {ProductsController} from "./ProductsController";
 import {ProductsService} from "../services/ProductsService";
-import Product from "../models/Product";
+import {Product} from "../models/Product";
 import {ShelfTypes} from "../models/ShelfTypes";
 
 describe("ProductsController", () => {
-  describe("get()", () => {
+  describe("getGenerics()", () => {
     beforeEach(() => TestContext.create());
     afterEach(() => TestContext.reset());
 
     it("should return a result from mocked service", async () => {
       // GIVEN
       const productsService = {
-        findAll: jest.fn().mockResolvedValue([{id: "eggs"}]),
+        findAllGenerics: jest.fn().mockResolvedValue([{id: "eggs"}]),
       };
 
       const productsCtrl = await TestContext.invoke(ProductsController, [
@@ -23,11 +23,11 @@ describe("ProductsController", () => {
       ]);
 
       // WHEN
-      const result = await productsCtrl.get();
+      const result = await productsCtrl.getGenerics();
 
       // THEN
       expect(result).toEqual([{id: "eggs"}]);
-      expect(productsService.findAll).toHaveBeenCalled();
+      expect(productsService.findAllGenerics).toHaveBeenCalled();
 
       expect(productsCtrl).toBeInstanceOf(ProductsController);
       expect(productsCtrl.productsService).toEqual(productsService);
