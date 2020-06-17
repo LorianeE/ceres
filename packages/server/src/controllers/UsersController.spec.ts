@@ -2,7 +2,6 @@ import {TestContext} from "@tsed/testing";
 import {ShoppingListsController} from "./ShoppingListsController";
 import {ShoppingListService} from "../services/ShoppingListService";
 import {Unauthorized} from "ts-httpexceptions";
-import {ShoppingList} from "../models/ShoppingList";
 import User from "../models/User";
 import {UsersService} from "../services/users/UsersService";
 import {ProductsService} from "../services/ProductsService";
@@ -160,6 +159,35 @@ describe("UsersController", () => {
       // THEN
       expect(productsService.save).toHaveBeenCalledTimes(1);
       expect(actualError).toBeInstanceOf(Error);
+    });
+  });
+  describe("removeProduct()", () => {
+    beforeEach(() => TestContext.create());
+    afterEach(() => TestContext.reset());
+    const user = new User();
+    user._id = "userId";
+    it("should return response from productsService", async () => {
+      // GIVEN
+      const productsService = {
+        removeUserFromProduct: jest.fn(),
+      };
+
+      const usersCtrl = await TestContext.invoke(UsersController, [
+        {
+          provide: ProductsService,
+          use: productsService,
+        },
+      ]);
+
+      // WHEN
+      const result = await usersCtrl.removeProduct("userId", "productId", user);
+
+      // THEN
+      expect(productsService.removeUserFromProduct).toHaveBeenCalledTimes(1);
+      expect(productsService.removeUserFromProduct).toHaveBeenCalledWith("productId", "userId");
+
+      expect(usersCtrl).toBeInstanceOf(UsersController);
+      expect(usersCtrl.productsService).toEqual(productsService);
     });
   });
 });

@@ -1,7 +1,6 @@
-import {$log, BodyParams, Controller, Get, PathParams, Post, Req, Status} from "@tsed/common";
-import {Returns, Summary} from "@tsed/swagger";
+import {$log, BodyParams, Controller, Delete, Get, PathParams, Post, Req, Status} from "@tsed/common";
+import {Summary} from "@tsed/swagger";
 import {Unauthorized} from "ts-httpexceptions";
-import {ShoppingList} from "../models/ShoppingList";
 import {Authenticate} from "@tsed/passport";
 import User from "../models/User";
 import {Product} from "../models/Product";
@@ -30,7 +29,7 @@ export class UsersController {
   }
 
   @Post("/:id/products")
-  @Summary("Add a product to a user's products list")
+  @Summary("Add a product to a user's list")
   @Authenticate("facebook")
   @Status(201)
   async addProduct(@PathParams("id") userId: string, @BodyParams(Product) product: Product, @Req("user") user: User) {
@@ -43,5 +42,15 @@ export class UsersController {
       $log.error(e);
       throw e;
     }
+  }
+
+  @Delete("/:userId/products/:productId")
+  @Summary("Remove a product from a user's products list")
+  @Authenticate("facebook")
+  @Status(200)
+  async removeProduct(@PathParams("userId") userId: string, @PathParams("productId") productId: string, @Req("user") user: User) {
+    await checkIfUserIsAllowed(user, userId);
+
+    return this.productsService.removeUserFromProduct(productId, userId);
   }
 }
