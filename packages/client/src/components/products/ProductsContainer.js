@@ -1,27 +1,36 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import EnhancedTable from './EnhancedTable';
+import { fetchUserProductsList } from '../../redux/actions/productsAction';
+import { SHELF_TYPES } from '../../data/shelf_types';
 
-const ProductsContainer = () => {
-  const rows = [
-    {
-      id: 'Donut',
-      label: 'Donut',
-      shelf: 'Rayon frais',
-      minimumQuantity: 0,
-    },
-    { id: 'Eclair', label: 'Eclair', shelf: 'Epicerie', minimumQuantity: 0 },
-    { id: 'Frozen', label: 'Frozen yoghurt', shelf: 'Rayon frais', minimumQuantity: 0 },
-    { id: 'Gingerbread', label: 'Gingerbread', shelf: 'Rayon frais', minimumQuantity: 0 },
-    { id: 'Honeycomb', label: 'Honeycomb', shelf: 'Epicerie', minimumQuantity: 0 },
-    { id: 'Ice', label: 'Ice cream sandwich', shelf: 'Rayon frais', minimumQuantity: 0 },
-    { id: 'Jelly', label: 'Jelly Bean', shelf: 'Epicerie', minimumQuantity: 0 },
-    { id: 'KitKat', label: 'KitKat', shelf: 'Epicerie', minimumQuantity: 0 },
-    { id: 'Lollipop', label: 'Lollipop', shelf: 'Rayon frais', minimumQuantity: 0 },
-    { id: 'Marshmallow', label: 'Marshmallow', shelf: 'Rayon frais', minimumQuantity: 0 },
-    { id: 'Nougat', label: 'Nougat', shelf: 'Rayon frais', minimumQuantity: 0 },
-    { id: 'Oreo', label: 'Oreo', shelf: 'Rayon frais', minimumQuantity: 0 },
-  ];
-  return <EnhancedTable rows={rows} />;
+const ProductsContainer = ({ userProducts, fetchProducts }) => {
+  useEffect(() => {
+    if (!userProducts.length) {
+      fetchProducts();
+    }
+  }, [fetchProducts, userProducts.length]);
+
+  return <EnhancedTable rows={userProducts} />;
 };
 
-export default ProductsContainer;
+ProductsContainer.propTypes = {
+  userProducts: PropTypes.arrayOf(PropTypes.object).isRequired,
+  fetchProducts: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => {
+  return {
+    userProducts: state.products.userList.map((product) => {
+      product.shelf = SHELF_TYPES[product.shelf];
+      return product;
+    }),
+  };
+};
+
+const mapDispatchToProps = {
+  fetchProducts: fetchUserProductsList,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductsContainer);

@@ -35,7 +35,8 @@
     "react-hooks/exhaustive-deps": "warn",
     "no-console": "off",
     "prettier/prettier": ["error"],
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+    "no-param-reassign": [2, { "props": false }]
   },
   "globals": {
     "window": true,
