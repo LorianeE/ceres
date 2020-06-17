@@ -13,6 +13,16 @@ function products(state = initialState.products, action) {
         ...state,
         dbList: [],
       };
+    case types.RECEIVED_USER_PDT_LIST_SUCCESS:
+      return {
+        ...state,
+        userList: action.data.userList,
+      };
+    case types.RECEIVED_USER_PDT_LIST_FAILURE:
+      return {
+        ...state,
+        userList: [],
+      };
 
     default:
       return state;

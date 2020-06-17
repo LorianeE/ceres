@@ -8,10 +8,11 @@ import CreateListComponent from './CreateListComponent';
 import Spinner from '../common/Spinner';
 import SnackbarError from '../common/SnackbarError';
 import { getFilledShoppingList } from '../../utils/ShoppingListMapper';
-import { fetchDBProductsList } from '../../redux/actions/productsAction';
+import { fetchProductsList } from '../../redux/actions/productsAction';
 import { addItemAndSave, changeItemCommentAndSave, changeItemQuantityAndSave, fetchShoppingList } from '../../redux/actions/shoppingAction';
 import { createNewShoppingList } from '../../redux/actions/userAction';
 import { resetErrorMessage } from '../../redux/actions/errorAction';
+import { sortByLabel } from '../../utils/ProductsUtils';
 
 const ShoppingContainer = ({
   userShoppingList,
@@ -134,7 +135,7 @@ ShoppingContainer.propTypes = {
 const mapStateToProps = (state) => {
   return {
     userShoppingList: state.user.shoppingLists[0],
-    products: [...state.products.dbList, ...state.products.userList],
+    products: sortByLabel([...state.products.dbList, ...state.products.userList]),
     loading: state.apiCallsInProgress.apiCalls > 0,
     shoppingList: getFilledShoppingList(state.shoppingList.items, state.products.dbList),
     shelves: Array.from(
@@ -145,7 +146,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  fetchProducts: fetchDBProductsList,
+  fetchProducts: fetchProductsList,
   fetchList: fetchShoppingList,
   changeItemQuantity: changeItemQuantityAndSave,
   changeItemComment: changeItemCommentAndSave,
