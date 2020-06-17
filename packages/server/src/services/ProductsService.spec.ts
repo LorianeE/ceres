@@ -148,6 +148,95 @@ describe("ProductsService", () => {
       expect(actualError.message).toEqual("Error on save");
     });
   });
+  describe("updateProduct()", () => {
+    beforeEach(() => TestContext.create());
+    afterEach(() => TestContext.reset());
+    it("should update product", async () => {
+      // GIVEN
+      const product = new Product();
+      product._id = "butter";
+      product.shelf = ShelfTypes.COLD;
+      const products = {
+        findOneAndUpdate: jest.fn().mockResolvedValue({_id: "butter", shelf: "grocery"}),
+        findOne: jest.fn().mockResolvedValue({_id: "butter", shelf: "cold"}),
+      };
+      const productsService = await TestContext.invoke(ProductsService, [
+        {
+          provide: Product,
+          use: products
+        }
+      ]);
+
+      // WHEN
+      const result = await productsService.updateProduct(product, "userId");
+
+      // THEN
+      expect(products.findOne).toHaveBeenCalledWith({
+        $and: [
+          {
+            _id: "butter"
+          },
+          {
+            userIds: "userId"
+          },
+        ]
+      });
+      expect(products.findOneAndUpdate).toHaveBeenCalledWith(
+        {
+          $and: [
+            {
+              _id: product._id
+            },
+            {
+              userIds: "userId"
+            },
+          ]
+        },
+        product
+      );
+      expect(products.findOne).toHaveBeenCalled();
+      expect(result).toEqual({_id: "butter", shelf: "cold"});
+      expect(productsService).toBeInstanceOf(ProductsService);
+    });
+    it("should throw notfound if findOneAndUpdate responds undefined", async () => {
+      // GIVEN
+      const product = new Product();
+      product._id = "productId";
+      const products = {
+        findOneAndUpdate: jest.fn().mockResolvedValue(undefined),
+      };
+      const productsService = await TestContext.invoke(ProductsService, [
+        {
+          provide: Product,
+          use: products
+        }
+      ]);
+
+      // WHEN
+      let actualError;
+      try {
+        await productsService.updateProduct(product, "userId");
+      } catch (err) {
+        actualError = err;
+      }
+
+      // THEN
+      expect(products.findOneAndUpdate).toHaveBeenCalledWith(
+        {
+          $and: [
+            {
+              _id: "productId"
+            },
+            {
+              userIds: "userId"
+            },
+          ]
+        },
+        product);
+      expect(actualError).toBeInstanceOf(NotFound);
+      expect(productsService).toBeInstanceOf(ProductsService);
+    });
+  });
   describe("removeUserFromProduct()", () => {
     beforeEach(() => PlatformTest.create());
     afterEach(() => PlatformTest.reset());
