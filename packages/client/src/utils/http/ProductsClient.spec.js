@@ -1,5 +1,5 @@
 import HttpClient from './HttpClient';
-import getProductsList from './ItemsClient';
+import { getProductsList } from './ProductsClient';
 
 jest.mock('./HttpClient');
 

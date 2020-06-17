@@ -13,7 +13,7 @@ export async function getShoppingList(shoppingListId) {
 
 export async function saveShoppingList(normalizedShoppingList) {
   const mappedShoppingList = mapListFromNormalizedToApi(normalizedShoppingList);
-  // Save to local storage before calling in case call fail
+  // Save to local storage before calling in case call fails
   setShoppingListInStorage(mappedShoppingList);
   const updatedShoppingList = await httpClient.put(`/rest/shopping-lists/${mappedShoppingList.id}`, mappedShoppingList);
   // Save to local storage after if response from server
