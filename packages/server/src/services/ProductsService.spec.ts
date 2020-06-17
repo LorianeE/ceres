@@ -28,7 +28,7 @@ describe("ProductsService", () => {
   beforeEach(() => PlatformTest.create());
   afterEach(() => PlatformTest.reset());
 
-  describe("findAll()", () => {
+  describe("findAllGenerics()", () => {
     beforeEach(() => PlatformTest.create());
     afterEach(() => PlatformTest.reset());
     it("should return all products from db without userIds", async () => {
@@ -44,11 +44,35 @@ describe("ProductsService", () => {
       ]);
 
       // WHEN
-      const result = await productsService.findAll();
+      const result = await productsService.findAllGenerics();
 
       // THEN
       expect(result).toEqual([{_id: "eggs"}]);
       expect(products.find).toHaveBeenCalled();
+      expect(productsService).toBeInstanceOf(ProductsService);
+    });
+  });
+  describe("findUsersProducts()", () => {
+    beforeEach(() => PlatformTest.create());
+    afterEach(() => PlatformTest.reset());
+    it("should return all products from db with userIds", async () => {
+      // GIVEN
+      const products = {
+        find: jest.fn().mockResolvedValue([{id: "butter", userIds: ["userId"]}])
+      };
+      const productsService = await PlatformTest.invoke(ProductsService, [
+        {
+          token: Product,
+          use: products
+        }
+      ]);
+
+      // WHEN
+      const result = await productsService.findUsersProducts("userId");
+
+      // THEN
+      expect(result).toEqual([{id: "butter", userIds: ["userId"]}]);
+      expect(products.find).toHaveBeenCalledWith({userIds: "userId"});
       expect(productsService).toBeInstanceOf(ProductsService);
     });
   });

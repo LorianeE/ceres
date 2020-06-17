@@ -8,10 +8,10 @@ export class ProductsController {
   constructor(private productsService: ProductsService) {}
 
   @Get("/")
-  @Summary("Get all products from database")
+  @Summary("Get all generic products from database")
   @(Returns(200, Array).Of(Product))
-  async get(): Promise<Product[]> {
-    return this.productsService.findAll();
+  async getGenerics(): Promise<Product[]> {
+    return this.productsService.findAllGenerics();
   }
 
   @Post("/")

@@ -5,14 +5,14 @@ import {ShelfTypes} from "../models/ShelfTypes";
 import {PlatformTest} from "@tsed/common";
 
 describe("ProductsController", () => {
-  describe("get()", () => {
+  describe("getGenerics()", () => {
     beforeEach(() => PlatformTest.create());
     afterEach(() => PlatformTest.reset());
 
     it("should return a result from mocked service", async () => {
       // GIVEN
       const productsService = {
-        findAll: jest.fn().mockResolvedValue([{id: "eggs"}])
+        findAllGenerics: jest.fn().mockResolvedValue([{id: "eggs"}])
       };
 
       const productsCtrl = await PlatformTest.invoke(ProductsController, [
@@ -23,11 +23,11 @@ describe("ProductsController", () => {
       ]);
 
       // WHEN
-      const result = await productsCtrl.get();
+      const result = await productsCtrl.getGenerics();
 
       // THEN
       expect(result).toEqual([{id: "eggs"}]);
-      expect(productsService.findAll).toHaveBeenCalled();
+      expect(productsService.findAllGenerics).toHaveBeenCalled();
 
       expect(productsCtrl).toBeInstanceOf(ProductsController);
       expect(productsCtrl.productsService).toEqual(productsService);
