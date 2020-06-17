@@ -2,6 +2,7 @@ import {Inject, Service} from "@tsed/common";
 import {MongooseModel} from "@tsed/mongoose";
 import {Product} from "../models/Product";
 import {DuplicateKeyError} from "./errors/DuplicateKeyError";
+import {NotFound} from "ts-httpexceptions";
 
 @Service()
 export class ProductsService {
@@ -48,5 +49,29 @@ export class ProductsService {
       }
       throw err;
     }
+  }
+
+  async removeUserFromProduct(productId: string, userId: string) {
+    const product = await this.product.findOne({
+      $and: [
+        {
+          _id: productId
+        },
+        {
+          userIds: userId
+        },
+      ]
+    });
+    if (product) {
+      product.userIds = product.userIds.filter((el) => el !== userId);
+      // If userIds is empty, it means that the product is not associated with any user anymore,
+      // so we can remove it. If not, we update it to keep the association for the other involved users.
+      if (!product.userIds.length) {
+        return this.product.deleteOne({ _id: product._id });
+      } else {
+        return product.save();
+      }
+    }
+    throw new NotFound("Could not find given product for this user");
   }
 }
