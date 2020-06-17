@@ -51,6 +51,24 @@ export class ProductsService {
     }
   }
 
+  async updateProduct(product: Product, userId: string) {
+    const filter = {
+      $and: [
+        {
+          _id: product._id
+        },
+        {
+          userIds: userId
+        },
+      ]
+    };
+    const dbProduct = await this.product.findOneAndUpdate(filter, product);
+    if (dbProduct) {
+      return this.product.findOne(filter);
+    }
+    throw new NotFound("Could not find given product for this user");
+  }
+
   async removeUserFromProduct(productId: string, userId: string) {
     const product = await this.product.findOne({
       $and: [

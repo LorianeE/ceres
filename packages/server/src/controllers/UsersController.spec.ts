@@ -161,6 +161,37 @@ describe("UsersController", () => {
       expect(actualError).toBeInstanceOf(Error);
     });
   });
+  describe("updateProduct()", () => {
+    beforeEach(() => TestContext.create());
+    afterEach(() => TestContext.reset());
+    const user = new User();
+    user._id = "userId";
+    it("should return response from productsService", async () => {
+      // GIVEN
+      const productsService = {
+        updateProduct: jest.fn(),
+      };
+
+      const product = new Product();
+
+      const usersCtrl = await TestContext.invoke(UsersController, [
+        {
+          provide: ProductsService,
+          use: productsService,
+        },
+      ]);
+
+      // WHEN
+      const result = await usersCtrl.updateProduct("userId", "productId", product, user);
+
+      // THEN
+      expect(productsService.updateProduct).toHaveBeenCalledTimes(1);
+      expect(productsService.updateProduct).toHaveBeenCalledWith(product, "userId");
+
+      expect(usersCtrl).toBeInstanceOf(UsersController);
+      expect(usersCtrl.productsService).toEqual(productsService);
+    });
+  });
   describe("removeProduct()", () => {
     beforeEach(() => TestContext.create());
     afterEach(() => TestContext.reset());
