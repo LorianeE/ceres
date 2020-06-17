@@ -33,7 +33,7 @@ function fetchDBProductsList() {
   };
 }
 
-function fetchUserProductsList() {
+export function fetchUserProductsList() {
   return (dispatch, getState) => {
     dispatch(beginApiCall());
     // eslint-disable-next-line no-underscore-dangle
