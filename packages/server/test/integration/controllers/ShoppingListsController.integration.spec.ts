@@ -1,5 +1,6 @@
 import {PlatformTest} from "@tsed/common";
-import * as SuperTest from "supertest";
+// @ts-ignore
+import SuperTest from "supertest";
 import {Server} from "../../../src/Server";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
 import {PassportMiddleware} from "@tsed/passport";
@@ -17,32 +18,30 @@ describe("ShoppingLists", () => {
   beforeEach(() => {
     request = SuperTest(PlatformTest.callback());
   });
-  beforeEach(TestMongooseContext.inject([PassportMiddleware, UsersService, ProductsService],
-    async (
-      passportMiddleware: PassportMiddleware,
-      usersService: UsersService,
-      productsService: ProductsService
-    ) => {
+  beforeEach(
+    TestMongooseContext.inject(
+      [PassportMiddleware, UsersService, ProductsService],
+      async (passportMiddleware: PassportMiddleware, usersService: UsersService, productsService: ProductsService) => {
+        // Create new user and put it in DB
+        const user = new User();
+        user.lastName = "Doe";
+        user.firstName = "John";
+        user.facebookId = "facebookId";
+        const dbUser = await usersService.create(user);
 
-      // Create new user and put it in DB
-      const user = new User();
-      user.lastName = "Doe";
-      user.firstName = "John";
-      user.facebookId = "facebookId";
-      const dbUser = await usersService.create(user);
+        // Create new product and put it in DB
+        const pdct = new Product();
+        pdct.productId = "apple";
+        pdct.label = "Pommes";
+        pdct.shelf = ShelfTypes.PRODUCE;
+        product = await productsService.save(pdct);
 
-      // Create new product and put it in DB
-      const pdct = new Product();
-      pdct.productId = "apple";
-      pdct.label = "Pommes";
-      pdct.shelf = ShelfTypes.PRODUCE;
-      product = await productsService.save(pdct);
-
-      jest.spyOn(passportMiddleware, "use").mockImplementation((req) => {
-        req.user = dbUser;
-      });
-
-    }));
+        jest.spyOn(passportMiddleware, "use").mockImplementation((req) => {
+          req.user = dbUser;
+        });
+      }
+    )
+  );
   afterEach(TestMongooseContext.reset);
 
   describe("Adding a shoppinglist to DB and retrieve it", () => {

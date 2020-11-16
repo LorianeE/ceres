@@ -1,5 +1,6 @@
 import {PlatformTest} from "@tsed/common";
-import * as SuperTest from "supertest";
+// @ts-ignore
+import SuperTest from "supertest";
 import {Server} from "../../../src/Server";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
 

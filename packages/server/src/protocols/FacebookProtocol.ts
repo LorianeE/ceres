@@ -18,8 +18,8 @@ export class FacebookProtocol implements OnVerify {
   @Inject()
   private usersService: UsersService;
 
-  // async $onVerify(@Req() req: Req, @Args() [accessToken, refreshToken, profile]: any) {
-  async $onVerify(@Req() req: Req, @Args() [refreshToken, profile]: any) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async $onVerify(@Req() req: Req, @Args() [accessToken, refreshToken, profile]: any) {
     profile.refreshToken = refreshToken;
 
     let user = await this.usersService.findOne({facebookId: profile.id});
