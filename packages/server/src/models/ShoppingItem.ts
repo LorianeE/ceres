@@ -1,6 +1,6 @@
-import {Minimum, Property, Required} from "@tsed/common";
+import {Minimum, Property, Required} from "@tsed/schema";
 import {ObjectID, Ref} from "@tsed/mongoose";
-import Product from "./Product";
+import {Product} from "./Product";
 
 export class ShoppingItem {
   @ObjectID("id")

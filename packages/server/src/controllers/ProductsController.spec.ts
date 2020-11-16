@@ -1,25 +1,25 @@
-import {TestContext} from "@tsed/testing";
 import {ProductsController} from "./ProductsController";
 import {ProductsService} from "../services/ProductsService";
-import Product from "../models/Product";
+import {Product} from "../models/Product";
 import {ShelfTypes} from "../models/ShelfTypes";
+import {PlatformTest} from "@tsed/common";
 
 describe("ProductsController", () => {
   describe("get()", () => {
-    beforeEach(() => TestContext.create());
-    afterEach(() => TestContext.reset());
+    beforeEach(() => PlatformTest.create());
+    afterEach(() => PlatformTest.reset());
 
     it("should return a result from mocked service", async () => {
       // GIVEN
       const productsService = {
-        findAll: jest.fn().mockResolvedValue([{id: "eggs"}]),
+        findAll: jest.fn().mockResolvedValue([{id: "eggs"}])
       };
 
-      const productsCtrl = await TestContext.invoke(ProductsController, [
+      const productsCtrl = await PlatformTest.invoke(ProductsController, [
         {
-          provide: ProductsService,
-          use: productsService,
-        },
+          token: ProductsService,
+          use: productsService
+        }
       ]);
 
       // WHEN
@@ -42,24 +42,24 @@ describe("ProductsController", () => {
     const products = [product];
 
     describe("when everything is ok", () => {
-      beforeEach(() => TestContext.create());
-      afterEach(() => TestContext.reset());
+      beforeEach(() => PlatformTest.create());
+      afterEach(() => PlatformTest.reset());
 
       it("should return saved data", async () => {
         // GIVEN
         const productsService = {
-          save: jest.fn().mockResolvedValue(product),
+          save: jest.fn().mockResolvedValue(product)
         };
 
-        const productsCtrl = await TestContext.invoke(ProductsController, [
+        const productsCtrl = await PlatformTest.invoke(ProductsController, [
           {
-            provide: ProductsService,
-            use: productsService,
-          },
+            token: ProductsService,
+            use: productsService
+          }
         ]);
 
         // WHEN
-        const result = await productsCtrl.addProducts(products);
+        await productsCtrl.addProducts(products);
 
         // THEN
         expect(productsService.save).toHaveBeenCalledTimes(1);

@@ -1,4 +1,4 @@
-import {ExpressApplication} from "@tsed/common";
+import {PlatformTest} from "@tsed/common";
 import * as SuperTest from "supertest";
 import {Server} from "../../../src/Server";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
@@ -7,41 +7,40 @@ import {UsersService} from "../../../src/services/users/UsersService";
 import User from "../../../src/models/User";
 import {ShelfTypes} from "../../../src/models/ShelfTypes";
 import {ProductsService} from "../../../src/services/ProductsService";
-import Product from "../../../src/models/Product";
+import { Product } from "../../../src/models/Product";
 
 describe("ShoppingLists", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
   let product: Product;
 
   beforeEach(TestMongooseContext.bootstrap(Server));
-  beforeEach(TestMongooseContext.inject([ExpressApplication, PassportMiddleware, UsersService, ProductsService],
-    async (
-      expressApplication: ExpressApplication,
-      passportMiddleware: PassportMiddleware,
-      usersService: UsersService,
-      productsService: ProductsService
-    ) => {
+  beforeEach(() => {
+    request = SuperTest(PlatformTest.callback());
+  });
+  beforeEach(
+    TestMongooseContext.inject(
+      [PassportMiddleware, UsersService, ProductsService],
+      async (passportMiddleware: PassportMiddleware, usersService: UsersService, productsService: ProductsService) => {
+        // Create new user and put it in DB
+        const user = new User();
+        user.lastName = "Doe";
+        user.firstName = "John";
+        user.facebookId = "facebookId";
+        const dbUser = await usersService.create(user);
 
-      // Create new user and put it in DB
-      const user = new User();
-      user.lastName = "Doe";
-      user.firstName = "John";
-      user.facebookId = "facebookId";
-      const dbUser = await usersService.create(user);
+        // Create new product and put it in DB
+        const pdct = new Product();
+        pdct.productId = "apple";
+        pdct.label = "Pommes";
+        pdct.shelf = ShelfTypes.PRODUCE;
+        product = await productsService.save(pdct);
 
-      // Create new product and put it in DB
-      const pdct = new Product();
-      pdct.productId = "apple";
-      pdct.label = "Pommes";
-      pdct.shelf = ShelfTypes.PRODUCE;
-      product = await productsService.save(pdct);
-
-      jest.spyOn(passportMiddleware, "use").mockImplementation((req) => {
-        req.user = dbUser;
-      });
-
-      request = SuperTest(expressApplication);
-    }));
+        jest.spyOn(passportMiddleware, "use").mockImplementation((req) => {
+          req.user = dbUser;
+        });
+      }
+    )
+  );
   afterEach(TestMongooseContext.reset);
 
   describe("Adding a shoppinglist to DB and retrieve it", () => {
