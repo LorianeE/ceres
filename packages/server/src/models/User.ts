@@ -5,7 +5,6 @@ import {ShoppingList} from "./ShoppingList";
 
 @Model()
 export default class User extends UserInfo {
-
   @Property()
   _id: string;
 

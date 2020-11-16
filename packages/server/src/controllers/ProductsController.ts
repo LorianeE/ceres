@@ -5,12 +5,11 @@ import {ProductsService} from "../services/ProductsService";
 
 @Controller("/products")
 export class ProductsController {
-  constructor(private productsService: ProductsService) {
-  }
+  constructor(private productsService: ProductsService) {}
 
   @Get("/")
   @Summary("Get all generic products from database")
-  @Returns(200, Array).Of(Product)
+  @(Returns(200, Array).Of(Product))
   async getGenerics(): Promise<Product[]> {
     return this.productsService.findAllGenerics();
   }

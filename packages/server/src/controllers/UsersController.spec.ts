@@ -18,14 +18,14 @@ describe("UsersController", () => {
       it("should return a result from productsService if not undefined", async () => {
         // GIVEN
         const productsService = {
-          findUsersProducts: jest.fn().mockResolvedValue([{id: "1"}]),
+          findUsersProducts: jest.fn().mockResolvedValue([{id: "1"}])
         };
 
         const usersCtrl = await PlatformTest.invoke(UsersController, [
           {
             token: ProductsService,
-            use: productsService,
-          },
+            use: productsService
+          }
         ]);
 
         // WHEN
@@ -42,20 +42,20 @@ describe("UsersController", () => {
       it("should return Unauthorized error if user id does not match authorized user id", async () => {
         // GIVEN
         const productsService = {
-          findUsersProducts: jest.fn().mockResolvedValue([{id: "1"}]),
+          findUsersProducts: jest.fn().mockResolvedValue([{id: "1"}])
         };
 
         const usersCtrl = await PlatformTest.invoke(UsersController, [
           {
             token: ProductsService,
-            use: productsService,
-          },
+            use: productsService
+          }
         ]);
 
         // WHEN
         let actualError;
         try {
-          const result = await usersCtrl.getProducts("invalidUserId", user);
+          await usersCtrl.getProducts("invalidUserId", user);
         } catch (e) {
           actualError = e;
         }
@@ -71,21 +71,21 @@ describe("UsersController", () => {
       it("should throw a Unauthorized error", async () => {
         // GIVEN
         const shoppingListService = {
-          find: jest.fn().mockResolvedValue({id: "1", items: []}),
+          find: jest.fn().mockResolvedValue({id: "1", items: []})
         };
         const usersService = {
-          findOne: jest.fn().mockResolvedValue({id: "123", shoppingLists: ["123"]}),
+          findOne: jest.fn().mockResolvedValue({id: "123", shoppingLists: ["123"]})
         };
 
         const shoppingListCtrl = await PlatformTest.invoke(ShoppingListsController, [
           {
             token: ShoppingListService,
-            use: shoppingListService,
+            use: shoppingListService
           },
           {
             token: UsersService,
-            use: usersService,
-          },
+            use: usersService
+          }
         ]);
 
         // WHEN
@@ -113,18 +113,18 @@ describe("UsersController", () => {
       const product = new Product();
 
       const productsService = {
-        save: jest.fn(),
+        save: jest.fn()
       };
 
       const usersCtrl = await PlatformTest.invoke(UsersController, [
         {
           token: ProductsService,
-          use: productsService,
-        },
+          use: productsService
+        }
       ]);
 
       // WHEN
-      const result = await usersCtrl.addProduct("userId", product, user);
+      await usersCtrl.addProduct("userId", product, user);
 
       // THEN
       expect(productsService.save).toHaveBeenCalledTimes(1);
@@ -138,14 +138,14 @@ describe("UsersController", () => {
       const product = new Product();
 
       const productsService = {
-        save: jest.fn().mockRejectedValue(new Error("An error occured")),
+        save: jest.fn().mockRejectedValue(new Error("An error occured"))
       };
 
       const usersCtrl = await PlatformTest.invoke(UsersController, [
         {
           token: ProductsService,
-          use: productsService,
-        },
+          use: productsService
+        }
       ]);
 
       // WHEN
@@ -169,7 +169,7 @@ describe("UsersController", () => {
     it("should return response from productsService", async () => {
       // GIVEN
       const productsService = {
-        updateProduct: jest.fn(),
+        updateProduct: jest.fn()
       };
 
       const product = new Product();
@@ -177,12 +177,12 @@ describe("UsersController", () => {
       const usersCtrl = await PlatformTest.invoke(UsersController, [
         {
           token: ProductsService,
-          use: productsService,
-        },
+          use: productsService
+        }
       ]);
 
       // WHEN
-      const result = await usersCtrl.updateProduct("userId", "productId", product, user);
+      await usersCtrl.updateProduct("userId", "productId", product, user);
 
       // THEN
       expect(productsService.updateProduct).toHaveBeenCalledTimes(1);
@@ -200,18 +200,18 @@ describe("UsersController", () => {
     it("should return response from productsService", async () => {
       // GIVEN
       const productsService = {
-        removeUserFromProduct: jest.fn(),
+        removeUserFromProduct: jest.fn()
       };
 
       const usersCtrl = await PlatformTest.invoke(UsersController, [
         {
           token: ProductsService,
-          use: productsService,
-        },
+          use: productsService
+        }
       ]);
 
       // WHEN
-      const result = await usersCtrl.removeProduct("userId", "productId", user);
+      await usersCtrl.removeProduct("userId", "productId", user);
 
       // THEN
       expect(productsService.removeUserFromProduct).toHaveBeenCalledTimes(1);

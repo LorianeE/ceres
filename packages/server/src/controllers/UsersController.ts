@@ -15,13 +15,12 @@ async function checkIfUserIsAllowed(user: User, userId: string) {
 
 @Controller("/users")
 export class UsersController {
-  constructor(private productsService: ProductsService) {
-  }
+  constructor(private productsService: ProductsService) {}
 
   @Get("/:id/products")
   @Summary("Get user's products")
   @Authenticate("facebook")
-  @Returns(200, Array).Of(Product)
+  @(Returns(200, Array).Of(Product))
   async getProducts(@PathParams("id") userId: string, @Req("user") user: User): Promise<Product[]> {
     await checkIfUserIsAllowed(user, userId);
 
@@ -48,7 +47,12 @@ export class UsersController {
   @Summary("Update a product from a user's products list")
   @Authenticate("facebook")
   @Returns(200, Product)
-  async updateProduct(@PathParams("userId") userId: string, @PathParams("productId") productId: string, @BodyParams(Product) product: Product, @Req("user") user: User) {
+  async updateProduct(
+    @PathParams("userId") userId: string,
+    @PathParams("productId") productId: string,
+    @BodyParams(Product) product: Product,
+    @Req("user") user: User
+  ) {
     await checkIfUserIsAllowed(user, userId);
 
     return this.productsService.updateProduct(product, userId);

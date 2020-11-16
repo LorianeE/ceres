@@ -17,7 +17,7 @@ async function getShoppinglistService(locals: any[]) {
   });
 
   return {
-    shoppingListService: await PlatformTest.invoke(ShoppingListService, locals) as ShoppingListService,
+    shoppingListService: (await PlatformTest.invoke(ShoppingListService, locals)) as ShoppingListService,
     shoppingListModel,
     prototype
   };
@@ -34,14 +34,14 @@ describe("ShoppingListService", () => {
     it("should return all products from db", async () => {
       // GIVEN
       const products = {
-        findById: jest.fn().mockReturnValue([{id: "1234"}]),
+        findById: jest.fn().mockReturnValue([{id: "1234"}])
       };
 
       const shoppingListService = await PlatformTest.invoke(ShoppingListService, [
         {
           token: ShoppingList,
-          use: products,
-        },
+          use: products
+        }
       ]);
 
       // WHEN

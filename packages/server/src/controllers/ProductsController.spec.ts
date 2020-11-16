@@ -12,14 +12,14 @@ describe("ProductsController", () => {
     it("should return a result from mocked service", async () => {
       // GIVEN
       const productsService = {
-        findAllGenerics: jest.fn().mockResolvedValue([{id: "eggs"}]),
+        findAllGenerics: jest.fn().mockResolvedValue([{id: "eggs"}])
       };
 
       const productsCtrl = await PlatformTest.invoke(ProductsController, [
         {
           token: ProductsService,
-          use: productsService,
-        },
+          use: productsService
+        }
       ]);
 
       // WHEN
@@ -48,18 +48,18 @@ describe("ProductsController", () => {
       it("should return saved data", async () => {
         // GIVEN
         const productsService = {
-          save: jest.fn().mockResolvedValue(product),
+          save: jest.fn().mockResolvedValue(product)
         };
 
         const productsCtrl = await PlatformTest.invoke(ProductsController, [
           {
             token: ProductsService,
-            use: productsService,
-          },
+            use: productsService
+          }
         ]);
 
         // WHEN
-        const result = await productsCtrl.addProducts(products);
+        await productsCtrl.addProducts(products);
 
         // THEN
         expect(productsService.save).toHaveBeenCalledTimes(1);

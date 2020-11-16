@@ -5,7 +5,7 @@ import {UsersService} from "./UsersService";
 
 async function getUsersService(locals: any[]) {
   const prototype = {
-    save: jest.fn().mockReturnThis(),
+    save: jest.fn().mockReturnThis()
   };
   const userModel = jest.fn().mockImplementation(() => {
     return prototype;
@@ -20,7 +20,7 @@ async function getUsersService(locals: any[]) {
   });
 
   return {
-    usersService: await PlatformTest.invoke(UsersService, locals) as UsersService,
+    usersService: (await PlatformTest.invoke(UsersService, locals)) as UsersService,
     userModel,
     prototype
   };
@@ -40,7 +40,7 @@ describe("UsersService", () => {
       user.lastName = "Doe";
       user.facebookId = "facebookId";
 
-      const {usersService, userModel, prototype} = await getUsersService([]);
+      const {usersService, userModel} = await getUsersService([]);
 
       // @ts-ignore
       userModel.findOne = jest.fn().mockResolvedValue(user);
@@ -85,7 +85,7 @@ describe("UsersService", () => {
 
       const save = jest.fn();
 
-      const {usersService, userModel, prototype} = await getUsersService([]);
+      const {usersService, userModel} = await getUsersService([]);
 
       // @ts-ignore
       userModel.findById = jest.fn().mockResolvedValue({...user, save});
@@ -106,7 +106,7 @@ describe("UsersService", () => {
       user.facebookId = "facebookId";
       user.shoppingLists = [];
 
-      const {usersService, userModel, prototype} = await getUsersService([]);
+      const {usersService, userModel} = await getUsersService([]);
 
       // @ts-ignore
       userModel.findById = jest.fn().mockResolvedValue(null);

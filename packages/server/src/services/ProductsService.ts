@@ -59,7 +59,7 @@ export class ProductsService {
         },
         {
           userIds: userId
-        },
+        }
       ]
     };
     const dbProduct = await this.product.findOneAndUpdate(filter, product);
@@ -77,7 +77,7 @@ export class ProductsService {
         },
         {
           userIds: userId
-        },
+        }
       ]
     });
     if (product) {
@@ -85,7 +85,7 @@ export class ProductsService {
       // If userIds is empty, it means that the product is not associated with any user anymore,
       // so we can remove it. If not, we update it to keep the association for the other involved users.
       if (!product.userIds.length) {
-        return this.product.deleteOne({ _id: product._id });
+        return this.product.deleteOne({_id: product._id});
       } else {
         return product.save();
       }

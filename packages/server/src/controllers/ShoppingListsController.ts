@@ -17,8 +17,7 @@ async function checkIfUserIsAllowed(user: User, shoppingListId: string, usersSer
 
 @Controller("/shopping-lists")
 export class ShoppingListsController {
-  constructor(private shoppingListService: ShoppingListService, private usersService: UsersService) {
-  }
+  constructor(private shoppingListService: ShoppingListService, private usersService: UsersService) {}
 
   @Get("/:id")
   @Summary("Get a specific shopping list")

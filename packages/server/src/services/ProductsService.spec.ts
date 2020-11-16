@@ -19,7 +19,7 @@ async function getProductService(locals: any[]) {
   });
 
   return {
-    productService: await PlatformTest.invoke(ProductsService, locals) as ProductsService,
+    productService: (await PlatformTest.invoke(ProductsService, locals)) as ProductsService,
     productModel,
     prototype
   };
@@ -158,7 +158,7 @@ describe("ProductsService", () => {
       product.shelf = ShelfTypes.COLD;
       const products = {
         findOneAndUpdate: jest.fn().mockResolvedValue({_id: "butter", shelf: "grocery"}),
-        findOne: jest.fn().mockResolvedValue({_id: "butter", shelf: "cold"}),
+        findOne: jest.fn().mockResolvedValue({_id: "butter", shelf: "cold"})
       };
       const productsService = await PlatformTest.invoke(ProductsService, [
         {
@@ -178,7 +178,7 @@ describe("ProductsService", () => {
           },
           {
             userIds: "userId"
-          },
+          }
         ]
       });
       expect(products.findOneAndUpdate).toHaveBeenCalledWith(
@@ -189,7 +189,7 @@ describe("ProductsService", () => {
             },
             {
               userIds: "userId"
-            },
+            }
           ]
         },
         product
@@ -203,7 +203,7 @@ describe("ProductsService", () => {
       const product = new Product();
       product._id = "productId";
       const products = {
-        findOneAndUpdate: jest.fn().mockResolvedValue(undefined),
+        findOneAndUpdate: jest.fn().mockResolvedValue(undefined)
       };
       const productsService = await PlatformTest.invoke(ProductsService, [
         {
@@ -229,10 +229,11 @@ describe("ProductsService", () => {
             },
             {
               userIds: "userId"
-            },
+            }
           ]
         },
-        product);
+        product
+      );
       expect(actualError).toBeInstanceOf(NotFound);
       expect(productsService).toBeInstanceOf(ProductsService);
     });
@@ -265,7 +266,7 @@ describe("ProductsService", () => {
           },
           {
             userIds: "userId"
-          },
+          }
         ]
       });
       expect(save).toHaveBeenCalledTimes(1);
@@ -276,7 +277,7 @@ describe("ProductsService", () => {
       const save = jest.fn().mockResolvedValue([{_id: "butter", userIds: ["userId2"]}]);
       const products = {
         findOne: jest.fn().mockResolvedValue({_id: "butter", userIds: ["userId"], save}),
-        deleteOne: jest.fn(),
+        deleteOne: jest.fn()
       };
       const productsService = await PlatformTest.invoke(ProductsService, [
         {
@@ -296,7 +297,7 @@ describe("ProductsService", () => {
           },
           {
             userIds: "userId"
-          },
+          }
         ]
       });
       expect(save).not.toHaveBeenCalled();
@@ -306,7 +307,7 @@ describe("ProductsService", () => {
     it("should throw notfound if findOne responds undefined", async () => {
       // GIVEN
       const products = {
-        findOne: jest.fn().mockResolvedValue(undefined),
+        findOne: jest.fn().mockResolvedValue(undefined)
       };
       const productsService = await PlatformTest.invoke(ProductsService, [
         {
@@ -331,7 +332,7 @@ describe("ProductsService", () => {
           },
           {
             userIds: "userId"
-          },
+          }
         ]
       });
       expect(actualError).toBeInstanceOf(NotFound);

@@ -12,7 +12,7 @@ export class UsersService {
    * Find a specific user.
    * @returns {null|User}
    */
-  async findOne(params: object): Promise<User | null> {
+  async findOne(params: Record<string, unknown>): Promise<User | null> {
     return this.user.findOne(params);
   }
 
