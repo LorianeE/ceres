@@ -1,6 +1,6 @@
-import {$log, BodyParams, Context, Controller, Get, PathParams, Post, Put, Req, Status} from "@tsed/common";
-import {Returns, Summary} from "@tsed/swagger";
-import {BadRequest, NotFound, Unauthorized} from "ts-httpexceptions";
+import {$log, BodyParams, Context, Controller, Get, PathParams, Post, Put, Req} from "@tsed/common";
+import {Returns, Summary} from "@tsed/schema";
+import {BadRequest, NotFound, Unauthorized} from "@tsed/exceptions";
 import {ShoppingList} from "../models/ShoppingList";
 import {ShoppingListService} from "../services/ShoppingListService";
 import {Authenticate} from "@tsed/passport";
@@ -23,8 +23,7 @@ export class ShoppingListsController {
   @Get("/:id")
   @Summary("Get a specific shopping list")
   @Authenticate("facebook")
-  @Status(200)
-  @Returns(ShoppingList)
+  @Returns(200, ShoppingList)
   async get(@Context() context: Context, @PathParams("id") id: string, @Req("user") user: User): Promise<ShoppingList> {
     await checkIfUserIsAllowed(user, id, this.usersService);
     const shoppingList = await this.shoppingListService.find(id);
@@ -38,7 +37,7 @@ export class ShoppingListsController {
   @Post("/")
   @Summary("Post a shopping list")
   @Authenticate("facebook")
-  @Status(201)
+  @Returns(201, ShoppingList)
   async create(@BodyParams(ShoppingList) shoppingList: ShoppingList, @Req("user") user: User) {
     try {
       const createdShoppingList = await this.shoppingListService.save(shoppingList);
@@ -54,7 +53,7 @@ export class ShoppingListsController {
   @Put("/:id")
   @Summary("Update a specific shopping list")
   @Authenticate("facebook")
-  @Status(200)
+  @Returns(200, ShoppingList)
   async update(@PathParams("id") id: string, @BodyParams(ShoppingList) shoppingList: ShoppingList, @Req("user") user: User) {
     if (shoppingList._id !== id) {
       throw new BadRequest("Shopping list id does not match param id");

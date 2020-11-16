@@ -1,13 +1,13 @@
-import {TestContext} from "@tsed/testing";
 import {ProductsController} from "./ProductsController";
 import {ProductsService} from "../services/ProductsService";
 import {Product} from "../models/Product";
 import {ShelfTypes} from "../models/ShelfTypes";
+import {PlatformTest} from "@tsed/common";
 
 describe("ProductsController", () => {
   describe("getGenerics()", () => {
-    beforeEach(() => TestContext.create());
-    afterEach(() => TestContext.reset());
+    beforeEach(() => PlatformTest.create());
+    afterEach(() => PlatformTest.reset());
 
     it("should return a result from mocked service", async () => {
       // GIVEN
@@ -15,9 +15,9 @@ describe("ProductsController", () => {
         findAllGenerics: jest.fn().mockResolvedValue([{id: "eggs"}]),
       };
 
-      const productsCtrl = await TestContext.invoke(ProductsController, [
+      const productsCtrl = await PlatformTest.invoke(ProductsController, [
         {
-          provide: ProductsService,
+          token: ProductsService,
           use: productsService,
         },
       ]);
@@ -42,8 +42,8 @@ describe("ProductsController", () => {
     const products = [product];
 
     describe("when everything is ok", () => {
-      beforeEach(() => TestContext.create());
-      afterEach(() => TestContext.reset());
+      beforeEach(() => PlatformTest.create());
+      afterEach(() => PlatformTest.reset());
 
       it("should return saved data", async () => {
         // GIVEN
@@ -51,9 +51,9 @@ describe("ProductsController", () => {
           save: jest.fn().mockResolvedValue(product),
         };
 
-        const productsCtrl = await TestContext.invoke(ProductsController, [
+        const productsCtrl = await PlatformTest.invoke(ProductsController, [
           {
-            provide: ProductsService,
+            token: ProductsService,
             use: productsService,
           },
         ]);

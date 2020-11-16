@@ -1,13 +1,13 @@
-import {inject, TestContext} from "@tsed/testing";
+import {PlatformTest} from "@tsed/common";
 import {PassportFacebookCtrl} from "./PassportFacebookCtrl";
 import User from "../../models/User";
 
 describe("PassportFacebookCtrl", () => {
   describe("authenticate()", () => {
-    beforeEach(() => TestContext.create());
-    afterEach(() => TestContext.reset());
+    beforeEach(() => PlatformTest.create());
+    afterEach(() => PlatformTest.reset());
 
-    it("should return user", inject([PassportFacebookCtrl], async (passportFacebookCtrl: PassportFacebookCtrl) => {
+    it("should return user", PlatformTest.inject([PassportFacebookCtrl], async (passportFacebookCtrl: PassportFacebookCtrl) => {
       // GIVEN
       const user = new User();
       user._id = "12345";
@@ -20,10 +20,10 @@ describe("PassportFacebookCtrl", () => {
     }));
   });
   describe("callback()", () => {
-    beforeEach(() => TestContext.create());
-    afterEach(() => TestContext.reset());
+    beforeEach(() => PlatformTest.create());
+    afterEach(() => PlatformTest.reset());
 
-    it("should return user", inject([PassportFacebookCtrl], async (passportFacebookCtrl: PassportFacebookCtrl) => {
+    it("should return user", PlatformTest.inject([PassportFacebookCtrl], async (passportFacebookCtrl: PassportFacebookCtrl) => {
       // GIVEN
       const user = new User();
       user._id = "12345";

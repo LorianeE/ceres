@@ -1,8 +1,8 @@
-import {TestContext} from "@tsed/testing";
 import {Product} from "../models/Product";
 import {ShelfTypes} from "../models/ShelfTypes";
 import {ProductsService} from "./ProductsService";
-import {NotFound} from "ts-httpexceptions";
+import {PlatformTest} from "@tsed/common";
+import {NotFound} from "@tsed/exceptions";
 
 async function getProductService(locals: any[]) {
   const prototype = {
@@ -19,27 +19,27 @@ async function getProductService(locals: any[]) {
   });
 
   return {
-    productService: await TestContext.invoke(ProductsService, locals) as ProductsService,
+    productService: await PlatformTest.invoke(ProductsService, locals) as ProductsService,
     productModel,
     prototype
   };
 }
 
 describe("ProductsService", () => {
-  beforeEach(() => TestContext.create());
-  afterEach(() => TestContext.reset());
+  beforeEach(() => PlatformTest.create());
+  afterEach(() => PlatformTest.reset());
 
   describe("findAllGenerics()", () => {
-    beforeEach(() => TestContext.create());
-    afterEach(() => TestContext.reset());
+    beforeEach(() => PlatformTest.create());
+    afterEach(() => PlatformTest.reset());
     it("should return all products from db without userIds", async () => {
       // GIVEN
       const products = {
         find: jest.fn().mockResolvedValue([{_id: "eggs"}])
       };
-      const productsService = await TestContext.invoke(ProductsService, [
+      const productsService = await PlatformTest.invoke(ProductsService, [
         {
-          provide: Product,
+          token: Product,
           use: products
         }
       ]);
@@ -54,16 +54,16 @@ describe("ProductsService", () => {
     });
   });
   describe("findUsersProducts()", () => {
-    beforeEach(() => TestContext.create());
-    afterEach(() => TestContext.reset());
+    beforeEach(() => PlatformTest.create());
+    afterEach(() => PlatformTest.reset());
     it("should return all products from db with userIds", async () => {
       // GIVEN
       const products = {
         find: jest.fn().mockResolvedValue([{_id: "butter", userIds: ["userId"]}])
       };
-      const productsService = await TestContext.invoke(ProductsService, [
+      const productsService = await PlatformTest.invoke(ProductsService, [
         {
-          provide: Product,
+          token: Product,
           use: products
         }
       ]);
@@ -149,8 +149,8 @@ describe("ProductsService", () => {
     });
   });
   describe("updateProduct()", () => {
-    beforeEach(() => TestContext.create());
-    afterEach(() => TestContext.reset());
+    beforeEach(() => PlatformTest.create());
+    afterEach(() => PlatformTest.reset());
     it("should update product", async () => {
       // GIVEN
       const product = new Product();
@@ -160,9 +160,9 @@ describe("ProductsService", () => {
         findOneAndUpdate: jest.fn().mockResolvedValue({_id: "butter", shelf: "grocery"}),
         findOne: jest.fn().mockResolvedValue({_id: "butter", shelf: "cold"}),
       };
-      const productsService = await TestContext.invoke(ProductsService, [
+      const productsService = await PlatformTest.invoke(ProductsService, [
         {
-          provide: Product,
+          token: Product,
           use: products
         }
       ]);
@@ -205,9 +205,9 @@ describe("ProductsService", () => {
       const products = {
         findOneAndUpdate: jest.fn().mockResolvedValue(undefined),
       };
-      const productsService = await TestContext.invoke(ProductsService, [
+      const productsService = await PlatformTest.invoke(ProductsService, [
         {
-          provide: Product,
+          token: Product,
           use: products
         }
       ]);
@@ -238,17 +238,17 @@ describe("ProductsService", () => {
     });
   });
   describe("removeUserFromProduct()", () => {
-    beforeEach(() => TestContext.create());
-    afterEach(() => TestContext.reset());
+    beforeEach(() => PlatformTest.create());
+    afterEach(() => PlatformTest.reset());
     it("should remove userid from product's user ids", async () => {
       // GIVEN
       const save = jest.fn().mockResolvedValue([{_id: "butter", userIds: ["userId2"]}]);
       const products = {
         findOne: jest.fn().mockResolvedValue({_id: "butter", userIds: ["userId", "userId2"], save})
       };
-      const productsService = await TestContext.invoke(ProductsService, [
+      const productsService = await PlatformTest.invoke(ProductsService, [
         {
-          provide: Product,
+          token: Product,
           use: products
         }
       ]);
@@ -278,9 +278,9 @@ describe("ProductsService", () => {
         findOne: jest.fn().mockResolvedValue({_id: "butter", userIds: ["userId"], save}),
         deleteOne: jest.fn(),
       };
-      const productsService = await TestContext.invoke(ProductsService, [
+      const productsService = await PlatformTest.invoke(ProductsService, [
         {
-          provide: Product,
+          token: Product,
           use: products
         }
       ]);
@@ -308,9 +308,9 @@ describe("ProductsService", () => {
       const products = {
         findOne: jest.fn().mockResolvedValue(undefined),
       };
-      const productsService = await TestContext.invoke(ProductsService, [
+      const productsService = await PlatformTest.invoke(ProductsService, [
         {
-          provide: Product,
+          token: Product,
           use: products
         }
       ]);

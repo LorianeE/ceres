@@ -1,4 +1,4 @@
-import {ExpressApplication} from "@tsed/common";
+import {PlatformTest} from "@tsed/common";
 import * as SuperTest from "supertest";
 import {Server} from "../../../src/Server";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
@@ -7,9 +7,9 @@ describe("Products", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
   beforeEach(TestMongooseContext.bootstrap(Server));
-  beforeEach(TestMongooseContext.inject([ExpressApplication], (expressApplication: ExpressApplication) => {
-    request = SuperTest(expressApplication);
-  }));
+  beforeEach(() => {
+    request = SuperTest(PlatformTest.callback());
+  });
   afterEach(TestMongooseContext.reset);
 
   describe("GET /rest/products", () => {

@@ -1,7 +1,7 @@
-import {$log, BodyParams, Controller, Delete, Get, PathParams, Post, Put, Req, Status} from "@tsed/common";
-import {Returns, Summary} from "@tsed/swagger";
-import {Unauthorized} from "ts-httpexceptions";
+import {$log, BodyParams, Controller, Delete, Get, PathParams, Post, Put, Req} from "@tsed/common";
+import {Returns, Summary} from "@tsed/schema";
 import {Authenticate} from "@tsed/passport";
+import {Unauthorized} from "@tsed/exceptions";
 import User from "../models/User";
 import {Product} from "../models/Product";
 import {ProductsService} from "../services/ProductsService";
@@ -21,7 +21,7 @@ export class UsersController {
   @Get("/:id/products")
   @Summary("Get user's products")
   @Authenticate("facebook")
-  @Status(200)
+  @Returns(200, Array).Of(Product)
   async getProducts(@PathParams("id") userId: string, @Req("user") user: User): Promise<Product[]> {
     await checkIfUserIsAllowed(user, userId);
 
@@ -30,8 +30,8 @@ export class UsersController {
 
   @Post("/:id/products")
   @Summary("Add a product to a user's list")
-  @Authenticate("facebook")
-  @Status(201)
+  // @Authenticate("facebook")
+  @Returns(201)
   async addProduct(@PathParams("id") userId: string, @BodyParams(Product) product: Product, @Req("user") user: User) {
     await checkIfUserIsAllowed(user, userId);
     try {
@@ -47,8 +47,7 @@ export class UsersController {
   @Put("/:userId/products/:productId")
   @Summary("Update a product from a user's products list")
   @Authenticate("facebook")
-  @Status(200)
-  @Returns(Product)
+  @Returns(200, Product)
   async updateProduct(@PathParams("userId") userId: string, @PathParams("productId") productId: string, @BodyParams(Product) product: Product, @Req("user") user: User) {
     await checkIfUserIsAllowed(user, userId);
 
@@ -58,7 +57,7 @@ export class UsersController {
   @Delete("/:userId/products/:productId")
   @Summary("Remove a product from a user's products list")
   @Authenticate("facebook")
-  @Status(200)
+  @Returns(204)
   async removeProduct(@PathParams("userId") userId: string, @PathParams("productId") productId: string, @Req("user") user: User) {
     await checkIfUserIsAllowed(user, userId);
 

@@ -1,8 +1,8 @@
 import {Inject, Service} from "@tsed/common";
 import {MongooseModel} from "@tsed/mongoose";
+import {NotFound} from "@tsed/exceptions";
 import {Product} from "../models/Product";
 import {DuplicateKeyError} from "./errors/DuplicateKeyError";
-import {NotFound} from "ts-httpexceptions";
 
 @Service()
 export class ProductsService {

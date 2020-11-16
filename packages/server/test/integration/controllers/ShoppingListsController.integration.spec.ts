@@ -1,4 +1,4 @@
-import {ExpressApplication} from "@tsed/common";
+import {PlatformTest} from "@tsed/common";
 import * as SuperTest from "supertest";
 import {Server} from "../../../src/Server";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
@@ -14,9 +14,11 @@ describe("ShoppingLists", () => {
   let product: Product;
 
   beforeEach(TestMongooseContext.bootstrap(Server));
-  beforeEach(TestMongooseContext.inject([ExpressApplication, PassportMiddleware, UsersService, ProductsService],
+  beforeEach(() => {
+    request = SuperTest(PlatformTest.callback());
+  });
+  beforeEach(TestMongooseContext.inject([PassportMiddleware, UsersService, ProductsService],
     async (
-      expressApplication: ExpressApplication,
       passportMiddleware: PassportMiddleware,
       usersService: UsersService,
       productsService: ProductsService
@@ -40,7 +42,6 @@ describe("ShoppingLists", () => {
         req.user = dbUser;
       });
 
-      request = SuperTest(expressApplication);
     }));
   afterEach(TestMongooseContext.reset);
 

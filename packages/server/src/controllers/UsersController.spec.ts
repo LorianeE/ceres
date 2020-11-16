@@ -1,7 +1,7 @@
-import {TestContext} from "@tsed/testing";
+import {PlatformTest} from "@tsed/common";
+import {Unauthorized} from "@tsed/exceptions";
 import {ShoppingListsController} from "./ShoppingListsController";
 import {ShoppingListService} from "../services/ShoppingListService";
-import {Unauthorized} from "ts-httpexceptions";
 import User from "../models/User";
 import {UsersService} from "../services/users/UsersService";
 import {ProductsService} from "../services/ProductsService";
@@ -10,8 +10,8 @@ import {Product} from "../models/Product";
 
 describe("UsersController", () => {
   describe("getProducts()", () => {
-    beforeEach(() => TestContext.create());
-    afterEach(() => TestContext.reset());
+    beforeEach(() => PlatformTest.create());
+    afterEach(() => PlatformTest.reset());
     describe("with an authorized user", () => {
       const user = new User();
       user._id = "userId";
@@ -21,9 +21,9 @@ describe("UsersController", () => {
           findUsersProducts: jest.fn().mockResolvedValue([{id: "1"}]),
         };
 
-        const usersCtrl = await TestContext.invoke(UsersController, [
+        const usersCtrl = await PlatformTest.invoke(UsersController, [
           {
-            provide: ProductsService,
+            token: ProductsService,
             use: productsService,
           },
         ]);
@@ -45,9 +45,9 @@ describe("UsersController", () => {
           findUsersProducts: jest.fn().mockResolvedValue([{id: "1"}]),
         };
 
-        const usersCtrl = await TestContext.invoke(UsersController, [
+        const usersCtrl = await PlatformTest.invoke(UsersController, [
           {
-            provide: ProductsService,
+            token: ProductsService,
             use: productsService,
           },
         ]);
@@ -77,13 +77,13 @@ describe("UsersController", () => {
           findOne: jest.fn().mockResolvedValue({id: "123", shoppingLists: ["123"]}),
         };
 
-        const shoppingListCtrl = await TestContext.invoke(ShoppingListsController, [
+        const shoppingListCtrl = await PlatformTest.invoke(ShoppingListsController, [
           {
-            provide: ShoppingListService,
+            token: ShoppingListService,
             use: shoppingListService,
           },
           {
-            provide: UsersService,
+            token: UsersService,
             use: usersService,
           },
         ]);
@@ -102,8 +102,8 @@ describe("UsersController", () => {
     });
   });
   describe("addProduct()", () => {
-    beforeEach(() => TestContext.create());
-    afterEach(() => TestContext.reset());
+    beforeEach(() => PlatformTest.create());
+    afterEach(() => PlatformTest.reset());
 
     it("should save product with associated user id", async () => {
       // GIVEN
@@ -116,9 +116,9 @@ describe("UsersController", () => {
         save: jest.fn(),
       };
 
-      const usersCtrl = await TestContext.invoke(UsersController, [
+      const usersCtrl = await PlatformTest.invoke(UsersController, [
         {
-          provide: ProductsService,
+          token: ProductsService,
           use: productsService,
         },
       ]);
@@ -141,9 +141,9 @@ describe("UsersController", () => {
         save: jest.fn().mockRejectedValue(new Error("An error occured")),
       };
 
-      const usersCtrl = await TestContext.invoke(UsersController, [
+      const usersCtrl = await PlatformTest.invoke(UsersController, [
         {
-          provide: ProductsService,
+          token: ProductsService,
           use: productsService,
         },
       ]);
@@ -162,8 +162,8 @@ describe("UsersController", () => {
     });
   });
   describe("updateProduct()", () => {
-    beforeEach(() => TestContext.create());
-    afterEach(() => TestContext.reset());
+    beforeEach(() => PlatformTest.create());
+    afterEach(() => PlatformTest.reset());
     const user = new User();
     user._id = "userId";
     it("should return response from productsService", async () => {
@@ -174,9 +174,9 @@ describe("UsersController", () => {
 
       const product = new Product();
 
-      const usersCtrl = await TestContext.invoke(UsersController, [
+      const usersCtrl = await PlatformTest.invoke(UsersController, [
         {
-          provide: ProductsService,
+          token: ProductsService,
           use: productsService,
         },
       ]);
@@ -193,8 +193,8 @@ describe("UsersController", () => {
     });
   });
   describe("removeProduct()", () => {
-    beforeEach(() => TestContext.create());
-    afterEach(() => TestContext.reset());
+    beforeEach(() => PlatformTest.create());
+    afterEach(() => PlatformTest.reset());
     const user = new User();
     user._id = "userId";
     it("should return response from productsService", async () => {
@@ -203,9 +203,9 @@ describe("UsersController", () => {
         removeUserFromProduct: jest.fn(),
       };
 
-      const usersCtrl = await TestContext.invoke(UsersController, [
+      const usersCtrl = await PlatformTest.invoke(UsersController, [
         {
-          provide: ProductsService,
+          token: ProductsService,
           use: productsService,
         },
       ]);

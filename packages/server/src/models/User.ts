@@ -1,4 +1,4 @@
-import {Default, Property, Required} from "@tsed/common";
+import {Default, Property, Required} from "@tsed/schema";
 import {Model, Unique, Ref} from "@tsed/mongoose";
 import {UserInfo} from "@tsed/passport";
 import {ShoppingList} from "./ShoppingList";

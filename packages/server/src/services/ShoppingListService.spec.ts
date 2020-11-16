@@ -1,4 +1,4 @@
-import {TestContext} from "@tsed/testing";
+import {PlatformTest} from "@tsed/common";
 import {ShoppingListService} from "./ShoppingListService";
 import {ShoppingList} from "../models/ShoppingList";
 
@@ -17,19 +17,19 @@ async function getShoppinglistService(locals: any[]) {
   });
 
   return {
-    shoppingListService: await TestContext.invoke(ShoppingListService, locals) as ShoppingListService,
+    shoppingListService: await PlatformTest.invoke(ShoppingListService, locals) as ShoppingListService,
     shoppingListModel,
     prototype
   };
 }
 
 describe("ShoppingListService", () => {
-  beforeEach(() => TestContext.create());
-  afterEach(() => TestContext.reset());
+  beforeEach(() => PlatformTest.create());
+  afterEach(() => PlatformTest.reset());
   afterEach(() => jest.resetAllMocks());
   describe("find()", () => {
-    beforeEach(() => TestContext.create());
-    afterEach(() => TestContext.reset());
+    beforeEach(() => PlatformTest.create());
+    afterEach(() => PlatformTest.reset());
 
     it("should return all products from db", async () => {
       // GIVEN
@@ -37,9 +37,9 @@ describe("ShoppingListService", () => {
         findById: jest.fn().mockReturnValue([{id: "1234"}]),
       };
 
-      const shoppingListService = await TestContext.invoke(ShoppingListService, [
+      const shoppingListService = await PlatformTest.invoke(ShoppingListService, [
         {
-          provide: ShoppingList,
+          token: ShoppingList,
           use: products,
         },
       ]);

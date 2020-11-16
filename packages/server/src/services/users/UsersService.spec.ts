@@ -1,7 +1,7 @@
-import {TestContext} from "@tsed/testing";
+import {PlatformTest} from "@tsed/common";
+import {NotFound} from "@tsed/exceptions";
 import User from "../../models/User";
 import {UsersService} from "./UsersService";
-import {NotFound} from "ts-httpexceptions";
 
 async function getUsersService(locals: any[]) {
   const prototype = {
@@ -20,19 +20,19 @@ async function getUsersService(locals: any[]) {
   });
 
   return {
-    usersService: await TestContext.invoke(UsersService, locals) as UsersService,
+    usersService: await PlatformTest.invoke(UsersService, locals) as UsersService,
     userModel,
     prototype
   };
 }
 
 describe("UsersService", () => {
-  beforeEach(() => TestContext.create());
-  afterEach(() => TestContext.reset());
+  beforeEach(() => PlatformTest.create());
+  afterEach(() => PlatformTest.reset());
 
   describe("findOne()", () => {
-    beforeEach(() => TestContext.create());
-    afterEach(() => TestContext.reset());
+    beforeEach(() => PlatformTest.create());
+    afterEach(() => PlatformTest.reset());
     it("should return a specific user", async () => {
       // GIVEN
       const user = new User();

@@ -1,7 +1,8 @@
-import {Controller, Get, Inject, Req, Status} from "@tsed/common";
+import {Controller, Get, Inject, Req} from "@tsed/common";
+import {Status} from "@tsed/schema";
 import {UsersService} from "../../services/users/UsersService";
 import User from "../../models/User";
-import {Unauthorized} from "ts-httpexceptions";
+import {Unauthorized} from "@tsed/exceptions";
 
 @Controller("/")
 export class LoginCtrl {

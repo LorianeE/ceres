@@ -1,4 +1,4 @@
-import {GlobalAcceptMimesMiddleware, ServerLoader, ServerSettings} from "@tsed/common";
+import {GlobalAcceptMimesMiddleware, Configuration, PlatformApplication, Inject} from "@tsed/common";
 import * as bodyParser from "body-parser";
 import * as compress from "compression";
 import * as cookieParser from "cookie-parser";
@@ -9,11 +9,11 @@ import * as favicon from "serve-favicon";
 import "@tsed/ajv";
 import "@tsed/swagger";
 import "@tsed/mongoose";
+import "@tsed/platform-express";
 import * as path from "path";
 import * as dotenv from "dotenv";
 import * as session from "express-session";
 
-import "./middlewares/CustomGEHMiddleware";
 import {CreateRequestSessionMiddleware} from "./middlewares/CreateRequestSessionMiddleware";
 import User from "./models/User";
 
@@ -22,7 +22,9 @@ dotenv.config();
 const rootDir = __dirname;
 const clientDir = path.join(rootDir, "../../client/build");
 
-@ServerSettings({
+// @ts-ignore
+// @ts-ignore
+@Configuration({
   rootDir,
   acceptMimes: ["application/json"],
   httpPort: process.env.PORT || 8083,
@@ -42,22 +44,26 @@ const clientDir = path.join(rootDir, "../../client/build");
     },
   ],
   exclude: ["**/*.spec.ts"],
-  mongoose: {
-    urls: {
-      default: {
-        // Recommended: define default connection. All models without dbName will be assigned to this connection
-        url: process.env.NODE_ENV === "production" ? process.env.MONGO_DB_URL : "mongodb://localhost:27017/Ceres",
-        connectionOptions: {
-          useNewUrlParser: true,
-          useUnifiedTopology: true,
-        },
+  mongoose: [
+    {
+      id: "default",
+      // @ts-ignore
+      url: process.env.NODE_ENV === "production" ? process.env.MONGO_DB_URL : "mongodb://localhost:27017/Ceres",
+      connectionOptions: {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
       },
     },
-  }
+  ]
 })
-export class Server extends ServerLoader {
+export class Server {
+
+  @Inject()
+  app: PlatformApplication<Express.Application>;
+
   $beforeRoutesInit() {
-    this.use(cors())
+    this.app
+      .use(cors())
       .use(favicon(path.join(clientDir, "favicon.ico")))
       .use(GlobalAcceptMimesMiddleware)
       .use(cookieParser())
@@ -83,10 +89,11 @@ export class Server extends ServerLoader {
         }
       }));
 
-    this.use(CreateRequestSessionMiddleware);
+    this.app.use(CreateRequestSessionMiddleware);
 
     return null;
   }
+
   $afterRoutesInit() {
     const indexMiddleware = (req: any, res: any) => {
       if (!res.headersSent) {

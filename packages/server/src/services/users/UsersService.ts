@@ -1,7 +1,7 @@
 import {Inject, Service} from "@tsed/common";
 import {MongooseModel} from "@tsed/mongoose";
+import {NotFound} from "@tsed/exceptions";
 import User from "../../models/User";
-import {NotFound} from "ts-httpexceptions";
 
 @Service()
 export class UsersService {

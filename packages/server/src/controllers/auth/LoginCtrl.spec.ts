@@ -1,13 +1,13 @@
-import {inject, TestContext} from "@tsed/testing";
 import {LoginCtrl} from "./LoginCtrl";
 import User from "../../models/User";
 import {UsersService} from "../../services/users/UsersService";
-import {Unauthorized} from "ts-httpexceptions";
+import {Unauthorized} from "@tsed/exceptions";
+import {PlatformTest} from "@tsed/common";
 
 describe("LoginCtrl", () => {
   describe("getAuthenticatedUser()", () => {
-    beforeEach(() => TestContext.create());
-    afterEach(() => TestContext.reset());
+    beforeEach(() => PlatformTest.create());
+    afterEach(() => PlatformTest.reset());
 
     it("should return user if authenticated", async () => {
       // GIVEN
@@ -23,9 +23,9 @@ describe("LoginCtrl", () => {
         findOne: jest.fn().mockResolvedValue({id: "1", shoppingLists: ["1234"]}),
       };
 
-      const loginCtrl = await TestContext.invoke(LoginCtrl, [
+      const loginCtrl = await PlatformTest.invoke(LoginCtrl, [
         {
-          provide: UsersService,
+          token: UsersService,
           use: usersService,
         },
       ]);
@@ -40,7 +40,7 @@ describe("LoginCtrl", () => {
       });
     });
 
-    it("should return throw unauthorized if user not authenticated", inject([LoginCtrl], async (loginCtrl: LoginCtrl) => {
+    it("should return throw unauthorized if user not authenticated", PlatformTest.inject([LoginCtrl], async (loginCtrl: LoginCtrl) => {
       // GIVEN
       const req: any = {
         isAuthenticated: () => false
@@ -61,10 +61,10 @@ describe("LoginCtrl", () => {
     }));
   });
   describe("logout()", () => {
-    beforeEach(() => TestContext.create());
-    afterEach(() => TestContext.reset());
+    beforeEach(() => PlatformTest.create());
+    afterEach(() => PlatformTest.reset());
 
-    it("should return user", inject([LoginCtrl], async (loginCtrl: LoginCtrl) => {
+    it("should return user", PlatformTest.inject([LoginCtrl], async (loginCtrl: LoginCtrl) => {
       // GIVEN
       const req: any = {
         logout: jest.fn()
