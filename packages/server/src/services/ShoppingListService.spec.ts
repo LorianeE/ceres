@@ -3,14 +3,12 @@ import {ShoppingListService} from "./ShoppingListService";
 import {ShoppingList} from "../models/ShoppingList";
 
 async function getShoppinglistService(locals: any[]) {
-  const prototype = {
-    updateOne: jest.fn().mockReturnThis()
-  };
+  const prototype = {};
   const shoppingListModel = jest.fn().mockImplementation(() => {
     return prototype;
   });
   // @ts-ignore
-  shoppingListModel.find = jest.fn();
+  shoppingListModel.findOneAndUpdate = jest.fn().mockReturnValue({exec: () => jest.fn()});
   locals.push({
     token: ShoppingList,
     use: shoppingListModel
@@ -31,16 +29,18 @@ describe("ShoppingListService", () => {
     beforeEach(() => PlatformTest.create());
     afterEach(() => PlatformTest.reset());
 
-    it("should return all products from db", async () => {
+    it("should return a specific shopping list", async () => {
       // GIVEN
-      const products = {
-        findById: jest.fn().mockReturnValue([{id: "1234"}])
+      const shoppingList = {
+        findById: jest.fn().mockReturnValue({
+          exec: jest.fn().mockResolvedValue([{id: "1234"}])
+        })
       };
 
       const shoppingListService = await PlatformTest.invoke(ShoppingListService, [
         {
           token: ShoppingList,
-          use: products
+          use: shoppingList
         }
       ]);
 
@@ -49,25 +49,25 @@ describe("ShoppingListService", () => {
 
       // THEN
       expect(result).toEqual([{id: "1234"}]);
-      expect(products.findById).toHaveBeenCalled();
+      expect(shoppingList.findById).toHaveBeenCalled();
 
       expect(shoppingListService).toBeInstanceOf(ShoppingListService);
     });
   });
   describe("save()", () => {
-    it("should save shoppingList", async () => {
+    it("should save shoppingList without _id", async () => {
       // GIVEN
       const shoppingList = new ShoppingList();
       shoppingList.items = [];
 
-      const {shoppingListService, shoppingListModel, prototype} = await getShoppinglistService([]);
+      const {shoppingListService, shoppingListModel} = await getShoppinglistService([]);
 
       // WHEN
       await shoppingListService.save(shoppingList);
 
       // THEN
-      expect(shoppingListModel).toHaveBeenCalledWith(shoppingList);
-      expect(prototype.updateOne).toHaveBeenCalledWith(shoppingList, {upsert: true});
+      // @ts-ignore
+      expect(shoppingListModel.findOneAndUpdate).toHaveBeenCalledWith(expect.anything(), shoppingList, {upsert: true, new: true});
     });
   });
 });

@@ -1,7 +1,7 @@
 import {PlatformTest} from "@tsed/common";
 import {CheckUserIdMiddleware} from "./CheckUserIdMiddleware";
 import {Unauthorized} from "@tsed/exceptions";
-import User from "../models/User";
+import {User} from "../models/User";
 
 describe("CheckUserIdMiddleware", () => {
   beforeEach(PlatformTest.create);

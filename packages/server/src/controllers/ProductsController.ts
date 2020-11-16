@@ -1,4 +1,4 @@
-import {BodyParams, Controller, Get, Post} from "@tsed/common";
+import {BodyParams, Controller, Get, Post, QueryParams} from "@tsed/common";
 import {Returns, Summary} from "@tsed/schema";
 import {Product} from "../models/Product";
 import {ProductsService} from "../services/ProductsService";
@@ -8,10 +8,13 @@ export class ProductsController {
   constructor(private productsService: ProductsService) {}
 
   @Get("/")
-  @Summary("Get all generic products from database")
+  @Summary("Get all products from database")
   @(Returns(200, Array).Of(Product))
-  async getGenerics(): Promise<Product[]> {
-    return this.productsService.findAllGenerics();
+  async getAllProducts(@QueryParams("genericsOnly") genericsOnly: boolean): Promise<Product[]> {
+    if (genericsOnly) {
+      return this.productsService.findAllGenerics();
+    }
+    return this.productsService.findAll();
   }
 
   @Post("/")

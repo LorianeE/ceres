@@ -4,7 +4,7 @@ import {UserInfo} from "@tsed/passport";
 import {ShoppingList} from "./ShoppingList";
 
 @Model()
-export default class User extends UserInfo {
+export class User extends UserInfo {
   @Property()
   _id: string;
 
@@ -21,6 +21,6 @@ export default class User extends UserInfo {
   email: string;
 
   @Default([])
-  @Ref(ShoppingList)
+  @Ref("ShoppingList")
   shoppingLists: Ref<ShoppingList>[] = [];
 }

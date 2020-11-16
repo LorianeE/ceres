@@ -4,7 +4,7 @@ import {Server} from "../../../src/Server";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
 import {PassportMiddleware} from "@tsed/passport";
 import {UsersService} from "../../../src/services/users/UsersService";
-import User from "../../../src/models/User";
+import {User} from "../../../src/models/User";
 import {ShelfTypes} from "../../../src/models/ShelfTypes";
 import {ProductsService} from "../../../src/services/ProductsService";
 import {Product} from "../../../src/models/Product";
@@ -12,6 +12,7 @@ import {Product} from "../../../src/models/Product";
 describe("ShoppingLists", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
   let product: Product;
+  let dbUser: User;
 
   beforeEach(TestMongooseContext.bootstrap(Server));
   beforeEach(() => {
@@ -26,11 +27,10 @@ describe("ShoppingLists", () => {
         user.lastName = "Doe";
         user.firstName = "John";
         user.facebookId = "facebookId";
-        const dbUser = await usersService.create(user);
+        dbUser = await usersService.create(user);
 
         // Create new product and put it in DB
         const pdct = new Product();
-        pdct.productId = "apple";
         pdct.label = "Pommes";
         pdct.shelf = ShelfTypes.PRODUCE;
         product = await productsService.save(pdct);
@@ -47,20 +47,35 @@ describe("ShoppingLists", () => {
     it("should add and return the shopping list", async () => {
       // FIRST SAVE THE SHOPPING LIST
       const shoppingItem = {
-        product: product._id,
+        product: product._id.toString(),
         quantity: 1
       };
       const shoppingList = {
         items: [shoppingItem]
       };
-      const responsePost = await request.post("/rest/shopping-lists").send(shoppingList).expect(201);
+      const responsePost = await request.post(`/rest/users/${dbUser._id.toString()}/shopping-lists`).send(shoppingList).expect(201);
       const shoppingListId = responsePost.body.id;
 
       // THEN RETRIEVE IT
-      const responseGet = await request.get(`/rest/shopping-lists/${shoppingListId}`).expect(200);
+      const responseGet = await request.get(`/rest/users/${dbUser._id}/shopping-lists/${shoppingListId}`).expect(200);
       expect(responseGet.body.id).toEqual(shoppingListId);
       expect(responseGet.body.items[0].product).toEqual(product._id.toString());
       expect(responseGet.body.items[0].quantity).toEqual(1);
+
+      // THEN UPDATE IT
+      const updatedList = {
+        ...responseGet.body,
+        items: [
+          {
+            product: product._id.toString(),
+            quantity: 2
+          }
+        ]
+      };
+      const responsePut = await request.put(`/rest/users/${dbUser._id}/shopping-lists/${shoppingListId}`).send(updatedList).expect(200);
+      expect(responsePut.body.id).toEqual(shoppingListId);
+      expect(responsePut.body.items[0].product).toEqual(product._id.toString());
+      expect(responsePut.body.items[0].quantity).toEqual(2);
     });
   });
 });

@@ -13,7 +13,7 @@ import "@tsed/swagger";
 import "@tsed/mongoose";
 import "@tsed/platform-express";
 
-import User from "./models/User";
+import {User} from "./models/User";
 import {ServerResponse} from "http";
 import {join} from "path";
 const send = require("send");
@@ -57,7 +57,8 @@ function setCustomCacheControl(res: ServerResponse, path: string) {
       url: process.env.NODE_ENV === "production" ? String(process.env.MONGO_DB_URL) : "mongodb://localhost:27017/Ceres",
       connectionOptions: {
         useNewUrlParser: true,
-        useUnifiedTopology: true
+        useUnifiedTopology: true,
+        useFindAndModify: false
       }
     }
   ],

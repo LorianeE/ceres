@@ -1,3 +1,4 @@
+import * as mongoose from "mongoose";
 import {Inject, Service} from "@tsed/common";
 import {MongooseModel} from "@tsed/mongoose";
 import {ShoppingList} from "../models/ShoppingList";
@@ -13,7 +14,7 @@ export class ShoppingListService {
    * @returns {null|ShoppingList}
    */
   async find(id: string): Promise<ShoppingList | null> {
-    return this.shoppingList.findById(id);
+    return this.shoppingList.findById(id).exec();
   }
 
   /**
@@ -22,10 +23,11 @@ export class ShoppingListService {
    * @returns {Promise<ShoppingList>}
    */
   async save(shoppingList: ShoppingList): Promise<ShoppingList> {
-    const model = new this.shoppingList(shoppingList);
-
-    await model.updateOne(shoppingList, {upsert: true});
-
-    return model;
+    if (!shoppingList._id) {
+      // We have to create an _id if it is null so that findOneAndUpdate won't save a shoppingList with _id: null.
+      // We could use findByIdAndUpdate and not have the problem but it seems to be a typescript issue with it.
+      shoppingList._id = mongoose.Types.ObjectId().toString();
+    }
+    return this.shoppingList.findOneAndUpdate({_id: shoppingList._id}, shoppingList, {upsert: true, new: true}).exec();
   }
 }

@@ -1,6 +1,6 @@
 import {PlatformTest} from "@tsed/common";
 import {PassportFacebookCtrl} from "./PassportFacebookCtrl";
-import User from "../../models/User";
+import {User} from "../../models/User";
 
 describe("PassportFacebookCtrl", () => {
   describe("authenticate()", () => {

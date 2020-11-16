@@ -1,21 +1,23 @@
-import {$log, BodyParams, Context, Controller, Get, PathParams, Post, Put, Req, UseBefore} from "@tsed/common";
-import {Returns, Summary} from "@tsed/schema";
-import {BadRequest, NotFound} from "@tsed/exceptions";
-import {ShoppingList} from "../models/ShoppingList";
+import {BodyParams, Context, Controller, Get, PathParams, Post, Put, UseBefore, UseBeforeEach} from "@tsed/common";
 import {ShoppingListService} from "../services/ShoppingListService";
+import {Returns, Summary} from "@tsed/schema";
 import {Authenticate} from "@tsed/passport";
-import User from "../models/User";
-import {UsersService} from "../services/users/UsersService";
+import {CheckIsAllowedUserMiddleware} from "../middlewares/CheckIsAllowedUserMiddleware";
+import {ShoppingList} from "../models/ShoppingList";
+import {NotFound} from "@tsed/exceptions";
 import {CheckShoppingListIdMiddleware} from "../middlewares/CheckShoppingListIdMiddleware";
+import {UsersService} from "../services/users/UsersService";
+import {CheckUserIdMiddleware} from "../middlewares/CheckUserIdMiddleware";
 
-@Controller("/shopping-lists")
+@Controller("/:userId/shopping-lists")
+@Authenticate("facebook")
+@UseBeforeEach(CheckUserIdMiddleware)
 export class ShoppingListsController {
   constructor(private shoppingListService: ShoppingListService, private usersService: UsersService) {}
 
   @Get("/:shoppingListId")
-  @Summary("Get a specific shopping list")
-  @Authenticate("facebook")
-  @UseBefore(CheckShoppingListIdMiddleware)
+  @Summary("Get shopping list from a user")
+  @UseBefore(CheckIsAllowedUserMiddleware)
   @Returns(200, ShoppingList)
   async get(@Context() context: Context, @PathParams("shoppingListId") shoppingListId: string): Promise<ShoppingList> {
     const shoppingList = await this.shoppingListService.find(shoppingListId);
@@ -27,38 +29,24 @@ export class ShoppingListsController {
   }
 
   @Post("/")
-  @Summary("Post a new shopping list for current user")
-  @Authenticate("facebook")
+  @Summary("Post a new shopping list for given user")
   @Returns(201, ShoppingList)
-  async create(@BodyParams(ShoppingList) shoppingList: ShoppingList, @Req("user") user: User): Promise<ShoppingList> {
-    try {
-      const createdShoppingList = await this.shoppingListService.save(shoppingList);
-      await this.usersService.addShoppingList(user, createdShoppingList._id);
+  async create(@BodyParams(ShoppingList) shoppingList: ShoppingList, @PathParams("userId") userId: string): Promise<ShoppingList> {
+    const createdShoppingList = await this.shoppingListService.save(shoppingList);
+    await this.usersService.addShoppingList(userId, createdShoppingList._id);
 
-      return createdShoppingList;
-    } catch (e) {
-      $log.error(e);
-      throw e;
-    }
+    return createdShoppingList;
   }
 
   @Put("/:shoppingListId")
-  @Summary("Update a specific shopping list")
-  @Authenticate("facebook")
+  @Summary("Update shopping list from a user")
+  @UseBefore(CheckIsAllowedUserMiddleware)
   @UseBefore(CheckShoppingListIdMiddleware)
   @Returns(200, ShoppingList)
   async update(
     @PathParams("shoppingListId") shoppingListId: string,
     @BodyParams(ShoppingList) shoppingList: ShoppingList
   ): Promise<ShoppingList> {
-    if (shoppingList._id !== shoppingListId) {
-      throw new BadRequest("Shopping list id does not match param id");
-    }
-    try {
-      return this.shoppingListService.save(shoppingList);
-    } catch (e) {
-      $log.error(e);
-      throw e;
-    }
+    return this.shoppingListService.save(shoppingList);
   }
 }

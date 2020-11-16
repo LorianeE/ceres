@@ -2,7 +2,7 @@ import httpClient from './HttpClient';
 import { sortByLabel } from '../ProductsUtils';
 
 export async function getProductsList() {
-  const items = await httpClient.get('/rest/products');
+  const items = await httpClient.get('/rest/products?genericsOnly=true');
   return sortByLabel(items);
 }
 

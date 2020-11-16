@@ -1,6 +1,6 @@
 import {PlatformTest} from "@tsed/common";
 import {NotFound} from "@tsed/exceptions";
-import User from "../../models/User";
+import {User} from "../../models/User";
 import {UsersService} from "./UsersService";
 
 async function getUsersService(locals: any[]) {
@@ -11,9 +11,9 @@ async function getUsersService(locals: any[]) {
     return prototype;
   });
   // @ts-ignore
-  userModel.findOne = jest.fn();
+  userModel.findOne = jest.fn().mockReturnValue({exec: () => jest.fn()});
   // @ts-ignore
-  userModel.findById = jest.fn();
+  userModel.findById = jest.fn().mockReturnValue({exec: () => jest.fn()});
   locals.push({
     token: User,
     use: userModel
@@ -43,7 +43,9 @@ describe("UsersService", () => {
       const {usersService, userModel} = await getUsersService([]);
 
       // @ts-ignore
-      userModel.findOne = jest.fn().mockResolvedValue(user);
+      userModel.findOne = jest.fn().mockReturnValue({
+        exec: jest.fn().mockResolvedValue(user)
+      });
 
       // WHEN
       const result = await usersService.findOne({facebookId: "facebookId"});
@@ -88,10 +90,12 @@ describe("UsersService", () => {
       const {usersService, userModel} = await getUsersService([]);
 
       // @ts-ignore
-      userModel.findById = jest.fn().mockResolvedValue({...user, save});
+      userModel.findById = jest.fn().mockReturnValue({
+        exec: jest.fn().mockResolvedValue({...user, save})
+      });
 
       // WHEN
-      await usersService.addShoppingList(user, "1234");
+      await usersService.addShoppingList("userId", "1234");
 
       // THEN
       // @ts-ignore
@@ -109,12 +113,14 @@ describe("UsersService", () => {
       const {usersService, userModel} = await getUsersService([]);
 
       // @ts-ignore
-      userModel.findById = jest.fn().mockResolvedValue(null);
+      userModel.findById = jest.fn().mockReturnValue({
+        exec: jest.fn().mockResolvedValue(null)
+      });
 
       // WHEN
       let actualError;
       try {
-        await usersService.addShoppingList(user, "1234");
+        await usersService.addShoppingList("userId", "1234");
       } catch (err) {
         actualError = err;
       }
