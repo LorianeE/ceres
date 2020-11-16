@@ -12,9 +12,9 @@
     "test": "yarn lint && yarn test:coverage",
     "test:unit": "cross-env NODE_ENV=test jest",
     "test:coverage": "yarn test:unit",
-    "lint": "tslint --project tsconfig.json",
-    "lint:fix": "tslint --project tsconfig.json --fix",
-    "prettier": "prettier 'src/**/*.ts' --write"
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "prettier": "prettier '{src,test}/**/*.ts' --write"
   },
   "dependencies": {
     "@tsed/ajv": "6.9.0",
@@ -53,7 +53,7 @@
   },
   "devDependencies": {
     "@tsed/cli-plugin-jest": "1.8.1",
-    "@tsed/cli-plugin-tslint": "1.8.1",
+    "@tsed/cli-plugin-eslint": "2.1.1",
     "@tsed/testing-mongoose": "6.9.0",
     "@types/compression": "1.7.0",
     "@types/cookie-parser": "1.4.2",
@@ -63,14 +63,18 @@
     "@types/method-override": "0.0.31",
     "@types/node": "13.11.1",
     "@types/supertest": "2.0.8",
+    "@typescript-eslint/eslint-plugin": "4.8.0",
+    "@typescript-eslint/parser": "4.8.0",
     "concurrently": "5.1.0",
     "jest": "24.9.0",
+    "eslint": "^7.13.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-prettier": "^3.1.4",
     "nodemon": "2.0.3",
-    "prettier": "2.0.4",
+    "prettier": "^2.1.2",
     "supertest": "4.0.2",
     "ts-jest": "25.3.1",
     "ts-node": "9.0.0",
-    "tslint": "6.1.1",
     "typescript": "3.8.3"
   }
 }
