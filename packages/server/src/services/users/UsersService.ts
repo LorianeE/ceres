@@ -22,7 +22,7 @@ export class UsersService {
     return model.save();
   }
 
-  async addShoppingList(user: User, shoppingListId: string) {
+  async addShoppingList(user: User, shoppingListId: string): Promise<User> {
     const dbUser = await this.user.findById(user._id);
     if (dbUser) {
       dbUser.shoppingLists.push(shoppingListId);

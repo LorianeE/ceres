@@ -51,7 +51,7 @@ export class ProductsService {
     }
   }
 
-  async updateProduct(product: Product, userId: string) {
+  async updateProduct(product: Product, userId: string): Promise<Product> {
     const filter = {
       $and: [
         {
@@ -62,14 +62,16 @@ export class ProductsService {
         }
       ]
     };
-    const dbProduct = await this.product.findOneAndUpdate(filter, product);
+    const dbProduct = await this.product.findOneAndUpdate(filter, product, {
+      new: true
+    });
     if (dbProduct) {
-      return this.product.findOne(filter);
+      return dbProduct;
     }
     throw new NotFound("Could not find given product for this user");
   }
 
-  async removeUserFromProduct(productId: string, userId: string) {
+  async removeUserFromProduct(productId: string, userId: string): Promise<void> {
     const product = await this.product.findOne({
       $and: [
         {
@@ -80,16 +82,16 @@ export class ProductsService {
         }
       ]
     });
-    if (product) {
-      product.userIds = product.userIds.filter((el) => el !== userId);
-      // If userIds is empty, it means that the product is not associated with any user anymore,
-      // so we can remove it. If not, we update it to keep the association for the other involved users.
-      if (!product.userIds.length) {
-        return this.product.deleteOne({_id: product._id});
-      } else {
-        return product.save();
-      }
+    if (!product) {
+      throw new NotFound("Could not find given product for this user");
     }
-    throw new NotFound("Could not find given product for this user");
+    product.userIds = product.userIds.filter((el) => el !== userId);
+    // If userIds is empty, it means that the product is not associated with any user anymore,
+    // so we can remove it. If not, we update it to keep the association for the other involved users.
+    if (!product.userIds.length) {
+      await this.product.deleteOne({_id: product._id});
+    } else {
+      await product.save();
+    }
   }
 }

@@ -1,26 +1,35 @@
-import {GlobalAcceptMimesMiddleware, Configuration, PlatformApplication, Inject} from "@tsed/common";
-import bodyParser from "body-parser";
-import compress from "compression";
-import cookieParser from "cookie-parser";
-import methodOverride from "method-override";
-import cors from "cors";
-import express from "express";
-import favicon from "serve-favicon";
+import {GlobalAcceptMimesMiddleware, Configuration, PlatformApplication, Inject, Res} from "@tsed/common";
+import * as bodyParser from "body-parser";
+import * as compress from "compression";
+import * as cookieParser from "cookie-parser";
+import * as methodOverride from "method-override";
+import * as cors from "cors";
+import * as path from "path";
+import * as dotenv from "dotenv";
+import * as session from "express-session";
+import * as favicon from "serve-favicon";
 import "@tsed/ajv";
 import "@tsed/swagger";
 import "@tsed/mongoose";
 import "@tsed/platform-express";
-import * as path from "path";
-import * as dotenv from "dotenv";
-import session from "express-session";
 
-import {CreateRequestSessionMiddleware} from "./middlewares/CreateRequestSessionMiddleware";
 import User from "./models/User";
+import {ServerResponse} from "http";
+import {join} from "path";
+const send = require("send");
 
 dotenv.config();
 
 const rootDir = __dirname;
 const clientDir = path.join(rootDir, "../../client/build");
+
+function setCustomCacheControl(res: ServerResponse, path: string) {
+  if (send.mime.lookup(path) === "text/html") {
+    res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    res.setHeader("Pragma", "no-cache");
+    res.setHeader("expires", "0");
+  }
+}
 
 @Configuration({
   rootDir,
@@ -51,7 +60,16 @@ const clientDir = path.join(rootDir, "../../client/build");
         useUnifiedTopology: true
       }
     }
-  ]
+  ],
+  statics: {
+    "/": [
+      {
+        root: clientDir,
+        maxAge: "1d",
+        setHeaders: setCustomCacheControl
+      }
+    ]
+  }
 })
 export class Server {
   @Inject()
@@ -86,27 +104,12 @@ export class Server {
         })
       );
 
-    this.app.use(CreateRequestSessionMiddleware);
-
     return null;
   }
 
   $afterRoutesInit() {
-    const indexMiddleware = (req: any, res: any) => {
-      if (!res.headersSent) {
-        res.set({
-          "Cache-Control": "no-cache, no-store, must-revalidate",
-          Pragma: "no-cache",
-          expires: "0"
-        });
-      }
-      res.sendFile(path.join(clientDir, "index.html"));
-    };
-
-    const app = this.app;
-
-    app.get("/", indexMiddleware);
-    app.use("/", express.static(clientDir));
-    app.get("/*", indexMiddleware);
+    this.app.get(`/*`, (req: any, res: Res) => {
+      res.sendFile(join(clientDir, "index.html"));
+    });
   }
 }

@@ -30,12 +30,13 @@ export class UsersController {
   @Post("/:id/products")
   @Summary("Add a product to a user's list")
   // @Authenticate("facebook")
-  @Returns(201)
-  async addProduct(@PathParams("id") userId: string, @BodyParams(Product) product: Product, @Req("user") user: User) {
+  @Returns(201, Product)
+  async addProduct(@PathParams("id") userId: string, @BodyParams(Product) product: Product, @Req("user") user: User): Promise<Product> {
     await checkIfUserIsAllowed(user, userId);
     try {
+      // TODO: To move in usecase ?
       product.userIds.push(user._id);
-
+      // TODO: What if this product already exists ?
       return this.productsService.save(product);
     } catch (e) {
       $log.error(e);
@@ -52,7 +53,7 @@ export class UsersController {
     @PathParams("productId") productId: string,
     @BodyParams(Product) product: Product,
     @Req("user") user: User
-  ) {
+  ): Promise<Product> {
     await checkIfUserIsAllowed(user, userId);
 
     return this.productsService.updateProduct(product, userId);
@@ -62,7 +63,11 @@ export class UsersController {
   @Summary("Remove a product from a user's products list")
   @Authenticate("facebook")
   @Returns(204)
-  async removeProduct(@PathParams("userId") userId: string, @PathParams("productId") productId: string, @Req("user") user: User) {
+  async removeProduct(
+    @PathParams("userId") userId: string,
+    @PathParams("productId") productId: string,
+    @Req("user") user: User
+  ): Promise<void> {
     await checkIfUserIsAllowed(user, userId);
 
     return this.productsService.removeUserFromProduct(productId, userId);

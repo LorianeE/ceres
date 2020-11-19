@@ -9,7 +9,7 @@ export class PassportFacebookCtrl {
   @Get("/auth/facebook")
   @Authenticate("facebook", {scope: "email", failureRedirect: redirectUrl})
   @Redirect(redirectUrl)
-  authenticate(@Req("user") user: User) {
+  authenticate(@Req("user") user: User): User {
     // Facade
     return user;
   }
@@ -17,7 +17,7 @@ export class PassportFacebookCtrl {
   @Get("/auth/facebook/callback")
   @Authenticate("facebook", {failureRedirect: redirectUrl})
   @Redirect(redirectUrl)
-  callback(@Req("user") user: User) {
+  callback(@Req("user") user: User): User {
     // Facade
     return user;
   }

@@ -16,12 +16,12 @@ export class ProductsController {
 
   @Post("/")
   @Summary("Add products to database")
-  @Returns(204)
-  async addProducts(@BodyParams(Product) products: Product[]) {
-    const promises = products.map(async (product) => {
-      await this.productsService.save(product);
+  @(Returns(201, Array).Of(Product))
+  async addProducts(@BodyParams(Product) products: Product[]): Promise<Product[]> {
+    const promises = products.map((product) => {
+      return this.productsService.save(product);
     });
 
-    return await Promise.all(promises);
+    return Promise.all(promises);
   }
 }

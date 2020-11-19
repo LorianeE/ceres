@@ -157,8 +157,7 @@ describe("ProductsService", () => {
       product._id = "butter";
       product.shelf = ShelfTypes.COLD;
       const products = {
-        findOneAndUpdate: jest.fn().mockResolvedValue({_id: "butter", shelf: "grocery"}),
-        findOne: jest.fn().mockResolvedValue({_id: "butter", shelf: "cold"})
+        findOneAndUpdate: jest.fn().mockResolvedValue({_id: "butter", shelf: "cold"})
       };
       const productsService = await PlatformTest.invoke(ProductsService, [
         {
@@ -171,16 +170,6 @@ describe("ProductsService", () => {
       const result = await productsService.updateProduct(product, "userId");
 
       // THEN
-      expect(products.findOne).toHaveBeenCalledWith({
-        $and: [
-          {
-            _id: "butter"
-          },
-          {
-            userIds: "userId"
-          }
-        ]
-      });
       expect(products.findOneAndUpdate).toHaveBeenCalledWith(
         {
           $and: [
@@ -192,9 +181,9 @@ describe("ProductsService", () => {
             }
           ]
         },
-        product
+        product,
+        {new: true}
       );
-      expect(products.findOne).toHaveBeenCalled();
       expect(result).toEqual({_id: "butter", shelf: "cold"});
       expect(productsService).toBeInstanceOf(ProductsService);
     });
@@ -232,7 +221,8 @@ describe("ProductsService", () => {
             }
           ]
         },
-        product
+        product,
+        {new: true}
       );
       expect(actualError).toBeInstanceOf(NotFound);
       expect(productsService).toBeInstanceOf(ProductsService);
@@ -255,10 +245,10 @@ describe("ProductsService", () => {
       ]);
 
       // WHEN
-      const result = await productsService.removeUserFromProduct("productId", "userId");
+      await productsService.removeUserFromProduct("productId", "userId");
 
       // THEN
-      expect(result).toEqual([{_id: "butter", userIds: ["userId2"]}]);
+      expect(productsService).toBeInstanceOf(ProductsService);
       expect(products.findOne).toHaveBeenCalledWith({
         $and: [
           {
@@ -270,7 +260,6 @@ describe("ProductsService", () => {
         ]
       });
       expect(save).toHaveBeenCalledTimes(1);
-      expect(productsService).toBeInstanceOf(ProductsService);
     });
     it("should remove product if user ids list is empty after", async () => {
       // GIVEN
@@ -290,6 +279,7 @@ describe("ProductsService", () => {
       await productsService.removeUserFromProduct("productId", "userId");
 
       // THEN
+      expect(productsService).toBeInstanceOf(ProductsService);
       expect(products.findOne).toHaveBeenCalledWith({
         $and: [
           {
@@ -302,7 +292,6 @@ describe("ProductsService", () => {
       });
       expect(save).not.toHaveBeenCalled();
       expect(products.deleteOne).toHaveBeenCalledWith({_id: "butter"});
-      expect(productsService).toBeInstanceOf(ProductsService);
     });
     it("should throw notfound if findOne responds undefined", async () => {
       // GIVEN

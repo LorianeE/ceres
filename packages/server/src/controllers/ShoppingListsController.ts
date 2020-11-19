@@ -34,10 +34,10 @@ export class ShoppingListsController {
   }
 
   @Post("/")
-  @Summary("Post a shopping list")
+  @Summary("Post a new shopping list for current user")
   @Authenticate("facebook")
   @Returns(201, ShoppingList)
-  async create(@BodyParams(ShoppingList) shoppingList: ShoppingList, @Req("user") user: User) {
+  async create(@BodyParams(ShoppingList) shoppingList: ShoppingList, @Req("user") user: User): Promise<ShoppingList> {
     try {
       const createdShoppingList = await this.shoppingListService.save(shoppingList);
       await this.usersService.addShoppingList(user, createdShoppingList._id);
@@ -53,14 +53,18 @@ export class ShoppingListsController {
   @Summary("Update a specific shopping list")
   @Authenticate("facebook")
   @Returns(200, ShoppingList)
-  async update(@PathParams("id") id: string, @BodyParams(ShoppingList) shoppingList: ShoppingList, @Req("user") user: User) {
+  async update(
+    @PathParams("id") id: string,
+    @BodyParams(ShoppingList) shoppingList: ShoppingList,
+    @Req("user") user: User
+  ): Promise<ShoppingList> {
     if (shoppingList._id !== id) {
       throw new BadRequest("Shopping list id does not match param id");
     }
     await checkIfUserIsAllowed(user, id, this.usersService);
 
     try {
-      return await this.shoppingListService.save(shoppingList);
+      return this.shoppingListService.save(shoppingList);
     } catch (e) {
       $log.error(e);
       throw e;

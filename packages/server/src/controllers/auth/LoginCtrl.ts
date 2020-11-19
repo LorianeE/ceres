@@ -11,7 +11,7 @@ export class LoginCtrl {
 
   @Get("/auth/userinfo")
   @Status(200)
-  getAuthenticatedUser(@Req() req: Req, @Req("user") user: User) {
+  getAuthenticatedUser(@Req() req: Req, @Req("user") user: User): Promise<User | null> {
     if (req.isAuthenticated()) {
       return this.usersService.findOne({_id: user._id});
     }
@@ -20,7 +20,7 @@ export class LoginCtrl {
 
   @Get("/auth/logout")
   @Status(204)
-  logout(@Req() req: Req) {
+  logout(@Req() req: Req): void {
     req.logout();
   }
 }
