@@ -1,7 +1,7 @@
-import {TestContext} from "@tsed/testing";
-import Product from "../models/Product";
+import {Product} from "../models/Product";
 import {ShelfTypes} from "../models/ShelfTypes";
 import {ProductsService} from "./ProductsService";
+import {PlatformTest} from "@tsed/common";
 
 async function getProductService(locals: any[]) {
   const prototype = {
@@ -18,27 +18,27 @@ async function getProductService(locals: any[]) {
   });
 
   return {
-    productService: await TestContext.invoke(ProductsService, locals) as ProductsService,
+    productService: (await PlatformTest.invoke(ProductsService, locals)) as ProductsService,
     productModel,
     prototype
   };
 }
 
 describe("ProductsService", () => {
-  beforeEach(() => TestContext.create());
-  afterEach(() => TestContext.reset());
+  beforeEach(() => PlatformTest.create());
+  afterEach(() => PlatformTest.reset());
 
   describe("findAll()", () => {
-    beforeEach(() => TestContext.create());
-    afterEach(() => TestContext.reset());
-    it("should return all products from db", async () => {
+    beforeEach(() => PlatformTest.create());
+    afterEach(() => PlatformTest.reset());
+    it("should return all products from db without userIds", async () => {
       // GIVEN
       const products = {
-        find: jest.fn().mockResolvedValue([{id: "eggs"}])
+        find: jest.fn().mockResolvedValue([{_id: "eggs"}])
       };
-      const productsService = await TestContext.invoke(ProductsService, [
+      const productsService = await PlatformTest.invoke(ProductsService, [
         {
-          provide: Product,
+          token: Product,
           use: products
         }
       ]);
@@ -47,7 +47,7 @@ describe("ProductsService", () => {
       const result = await productsService.findAll();
 
       // THEN
-      expect(result).toEqual([{id: "eggs"}]);
+      expect(result).toEqual([{_id: "eggs"}]);
       expect(products.find).toHaveBeenCalled();
       expect(productsService).toBeInstanceOf(ProductsService);
     });

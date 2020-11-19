@@ -1,11 +1,10 @@
-import {Default, Property, Required} from "@tsed/common";
+import {Default, Property, Required} from "@tsed/schema";
 import {Model, Unique, Ref} from "@tsed/mongoose";
 import {UserInfo} from "@tsed/passport";
 import {ShoppingList} from "./ShoppingList";
 
 @Model()
 export default class User extends UserInfo {
-
   @Property()
   _id: string;
 

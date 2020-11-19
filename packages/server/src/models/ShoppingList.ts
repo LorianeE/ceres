@@ -1,4 +1,4 @@
-import {PropertyType, Required} from "@tsed/common";
+import {Required, CollectionOf} from "@tsed/schema";
 import {Model, ObjectID} from "@tsed/mongoose";
 import {ShoppingItem} from "./ShoppingItem";
 
@@ -8,6 +8,6 @@ export class ShoppingList {
   _id: string;
 
   @Required()
-  @PropertyType(ShoppingItem)
+  @CollectionOf(ShoppingItem)
   items: ShoppingItem[];
 }

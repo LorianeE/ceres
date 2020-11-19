@@ -1,7 +1,7 @@
 import {Inject, Service} from "@tsed/common";
 import {MongooseModel} from "@tsed/mongoose";
+import {NotFound} from "@tsed/exceptions";
 import User from "../../models/User";
-import {NotFound} from "ts-httpexceptions";
 
 @Service()
 export class UsersService {
@@ -12,7 +12,7 @@ export class UsersService {
    * Find a specific user.
    * @returns {null|User}
    */
-  async findOne(params: object): Promise<User | null> {
+  async findOne(params: Record<string, unknown>): Promise<User | null> {
     return this.user.findOne(params);
   }
 
@@ -22,14 +22,13 @@ export class UsersService {
     return model.save();
   }
 
-  async addShoppingList(user: User, shoppingListId: string) {
+  async addShoppingList(user: User, shoppingListId: string): Promise<User> {
     const dbUser = await this.user.findById(user._id);
     if (dbUser) {
       dbUser.shoppingLists.push(shoppingListId);
-      const model = new this.user(dbUser);
-      await model.updateOne(dbUser, {upsert: true});
+      await dbUser.save();
 
-      return model;
+      return dbUser;
     }
     throw new NotFound("User not found.");
   }

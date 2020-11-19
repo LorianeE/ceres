@@ -13,7 +13,7 @@ describe('ShoppingClient', () => {
   const normalizedShoppingList = {
     id: '1234',
     items: {
-      '1111': {
+      1111: {
         product: '1234',
         quantity: 1,
         id: '1111',

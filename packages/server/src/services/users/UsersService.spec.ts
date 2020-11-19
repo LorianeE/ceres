@@ -1,12 +1,11 @@
-import {TestContext} from "@tsed/testing";
+import {PlatformTest} from "@tsed/common";
+import {NotFound} from "@tsed/exceptions";
 import User from "../../models/User";
 import {UsersService} from "./UsersService";
-import {NotFound} from "ts-httpexceptions";
 
 async function getUsersService(locals: any[]) {
   const prototype = {
-    save: jest.fn().mockReturnThis(),
-    updateOne: jest.fn().mockReturnThis()
+    save: jest.fn().mockReturnThis()
   };
   const userModel = jest.fn().mockImplementation(() => {
     return prototype;
@@ -21,19 +20,19 @@ async function getUsersService(locals: any[]) {
   });
 
   return {
-    usersService: await TestContext.invoke(UsersService, locals) as UsersService,
+    usersService: (await PlatformTest.invoke(UsersService, locals)) as UsersService,
     userModel,
     prototype
   };
 }
 
 describe("UsersService", () => {
-  beforeEach(() => TestContext.create());
-  afterEach(() => TestContext.reset());
+  beforeEach(() => PlatformTest.create());
+  afterEach(() => PlatformTest.reset());
 
   describe("findOne()", () => {
-    beforeEach(() => TestContext.create());
-    afterEach(() => TestContext.reset());
+    beforeEach(() => PlatformTest.create());
+    afterEach(() => PlatformTest.reset());
     it("should return a specific user", async () => {
       // GIVEN
       const user = new User();
@@ -41,7 +40,7 @@ describe("UsersService", () => {
       user.lastName = "Doe";
       user.facebookId = "facebookId";
 
-      const {usersService, userModel, prototype} = await getUsersService([]);
+      const {usersService, userModel} = await getUsersService([]);
 
       // @ts-ignore
       userModel.findOne = jest.fn().mockResolvedValue(user);
@@ -84,19 +83,20 @@ describe("UsersService", () => {
       user.facebookId = "facebookId";
       user.shoppingLists = [];
 
-      const {usersService, userModel, prototype} = await getUsersService([]);
+      const save = jest.fn();
+
+      const {usersService, userModel} = await getUsersService([]);
 
       // @ts-ignore
-      userModel.findById = jest.fn().mockResolvedValue(user);
+      userModel.findById = jest.fn().mockResolvedValue({...user, save});
 
       // WHEN
       await usersService.addShoppingList(user, "1234");
 
       // THEN
-      expect(userModel).toHaveBeenCalledWith(user);
       // @ts-ignore
       expect(userModel.findById).toHaveBeenCalled();
-      expect(prototype.updateOne).toHaveBeenCalledTimes(1);
+      expect(save).toHaveBeenCalledTimes(1);
     });
     it("should throw error if user not found", async () => {
       // GIVEN
@@ -106,7 +106,7 @@ describe("UsersService", () => {
       user.facebookId = "facebookId";
       user.shoppingLists = [];
 
-      const {usersService, userModel, prototype} = await getUsersService([]);
+      const {usersService, userModel} = await getUsersService([]);
 
       // @ts-ignore
       userModel.findById = jest.fn().mockResolvedValue(null);
@@ -122,7 +122,6 @@ describe("UsersService", () => {
       // THEN
       // @ts-ignore
       expect(userModel.findById).toHaveBeenCalled();
-      expect(prototype.updateOne).not.toHaveBeenCalled();
       expect(actualError).toBeInstanceOf(NotFound);
     });
   });

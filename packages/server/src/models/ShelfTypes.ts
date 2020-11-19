@@ -4,5 +4,5 @@ export enum ShelfTypes {
   PRODUCE = "produce",
   GROCERY = "grocery",
   HYGIENE = "hygiene",
-  HOME = "home",
+  HOME = "home"
 }

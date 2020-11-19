@@ -1,11 +1,11 @@
-import {TestContext} from "@tsed/testing";
 import User from "../models/User";
 import {UsersService} from "../services/users/UsersService";
 import {FacebookProtocol} from "./FacebookProtocol";
+import {PlatformTest} from "@tsed/common";
 
 describe("FacebookProtocol", () => {
-  beforeEach(() => TestContext.create());
-  afterEach(() => TestContext.reset());
+  beforeEach(() => PlatformTest.create());
+  afterEach(() => PlatformTest.reset());
 
   describe(".$onVerify()", () => {
     it("should return a user if it exists and not create a new one", async () => {
@@ -30,9 +30,9 @@ describe("FacebookProtocol", () => {
         create: jest.fn()
       };
 
-      const protocol: FacebookProtocol = await TestContext.invoke(FacebookProtocol, [
+      const protocol: FacebookProtocol = await PlatformTest.invoke(FacebookProtocol, [
         {
-          provide: UsersService,
+          token: UsersService,
           use: usersService
         }
       ]);
@@ -72,9 +72,9 @@ describe("FacebookProtocol", () => {
         create: jest.fn().mockResolvedValue(expectedCreatedUser)
       };
 
-      const protocol: FacebookProtocol = await TestContext.invoke(FacebookProtocol, [
+      const protocol: FacebookProtocol = await PlatformTest.invoke(FacebookProtocol, [
         {
-          provide: UsersService,
+          token: UsersService,
           use: usersService
         }
       ]);
@@ -112,9 +112,9 @@ describe("FacebookProtocol", () => {
         create: jest.fn().mockResolvedValue(expectedCreatedUser)
       };
 
-      const protocol: FacebookProtocol = await TestContext.invoke(FacebookProtocol, [
+      const protocol: FacebookProtocol = await PlatformTest.invoke(FacebookProtocol, [
         {
-          provide: UsersService,
+          token: UsersService,
           use: usersService
         }
       ]);

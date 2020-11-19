@@ -7,17 +7,17 @@ const redirectUrl = process.env.NODE_ENV === "production" ? "/" : "http://localh
 @Controller("/")
 export class PassportFacebookCtrl {
   @Get("/auth/facebook")
-  @Authenticate("facebook", { scope: "email", failureRedirect: redirectUrl})
+  @Authenticate("facebook", {scope: "email", failureRedirect: redirectUrl})
   @Redirect(redirectUrl)
-  authenticate(@Req("user") user: User) {
+  authenticate(@Req("user") user: User): User {
     // Facade
     return user;
   }
 
   @Get("/auth/facebook/callback")
-  @Authenticate("facebook", { failureRedirect: redirectUrl })
+  @Authenticate("facebook", {failureRedirect: redirectUrl})
   @Redirect(redirectUrl)
-  callback(@Req("user") user: User) {
+  callback(@Req("user") user: User): User {
     // Facade
     return user;
   }
