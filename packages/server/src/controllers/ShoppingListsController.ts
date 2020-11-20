@@ -1,31 +1,24 @@
-import {$log, BodyParams, Context, Controller, Get, PathParams, Post, Put, Req} from "@tsed/common";
+import {$log, BodyParams, Context, Controller, Get, PathParams, Post, Put, Req, UseBefore} from "@tsed/common";
 import {Returns, Summary} from "@tsed/schema";
-import {BadRequest, NotFound, Unauthorized} from "@tsed/exceptions";
+import {BadRequest, NotFound} from "@tsed/exceptions";
 import {ShoppingList} from "../models/ShoppingList";
 import {ShoppingListService} from "../services/ShoppingListService";
 import {Authenticate} from "@tsed/passport";
 import User from "../models/User";
 import {UsersService} from "../services/users/UsersService";
-
-// TODO: Make a middleware of it
-async function checkIfUserIsAllowed(user: User, shoppingListId: string, usersService: UsersService) {
-  const userDB = await usersService.findOne({_id: user._id});
-  if (userDB && !userDB.shoppingLists.includes(shoppingListId)) {
-    throw new Unauthorized("Shopping list id does not match user's shopping lists.");
-  }
-}
+import {CheckShoppingListIdMiddleware} from "../middlewares/CheckShoppingListIdMiddleware";
 
 @Controller("/shopping-lists")
 export class ShoppingListsController {
   constructor(private shoppingListService: ShoppingListService, private usersService: UsersService) {}
 
-  @Get("/:id")
+  @Get("/:shoppingListId")
   @Summary("Get a specific shopping list")
   @Authenticate("facebook")
+  @UseBefore(CheckShoppingListIdMiddleware)
   @Returns(200, ShoppingList)
-  async get(@Context() context: Context, @PathParams("id") id: string, @Req("user") user: User): Promise<ShoppingList> {
-    await checkIfUserIsAllowed(user, id, this.usersService);
-    const shoppingList = await this.shoppingListService.find(id);
+  async get(@Context() context: Context, @PathParams("shoppingListId") shoppingListId: string): Promise<ShoppingList> {
+    const shoppingList = await this.shoppingListService.find(shoppingListId);
     if (!shoppingList) {
       throw new NotFound("Could not find shopping list");
     }
@@ -49,20 +42,18 @@ export class ShoppingListsController {
     }
   }
 
-  @Put("/:id")
+  @Put("/:shoppingListId")
   @Summary("Update a specific shopping list")
   @Authenticate("facebook")
+  @UseBefore(CheckShoppingListIdMiddleware)
   @Returns(200, ShoppingList)
   async update(
-    @PathParams("id") id: string,
-    @BodyParams(ShoppingList) shoppingList: ShoppingList,
-    @Req("user") user: User
+    @PathParams("shoppingListId") shoppingListId: string,
+    @BodyParams(ShoppingList) shoppingList: ShoppingList
   ): Promise<ShoppingList> {
-    if (shoppingList._id !== id) {
+    if (shoppingList._id !== shoppingListId) {
       throw new BadRequest("Shopping list id does not match param id");
     }
-    await checkIfUserIsAllowed(user, id, this.usersService);
-
     try {
       return this.shoppingListService.save(shoppingList);
     } catch (e) {

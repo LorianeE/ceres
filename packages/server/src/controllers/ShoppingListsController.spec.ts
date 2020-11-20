@@ -1,5 +1,5 @@
 import {PlatformTest} from "@tsed/common";
-import {BadRequest, NotFound, Unauthorized} from "@tsed/exceptions";
+import {BadRequest, NotFound} from "@tsed/exceptions";
 import {ShoppingListsController} from "./ShoppingListsController";
 import {ShoppingListService} from "../services/ShoppingListService";
 import {ShoppingList} from "../models/ShoppingList";
@@ -77,41 +77,6 @@ describe("ShoppingListsController", () => {
         expect(shoppingListService.find).toHaveBeenCalledTimes(1);
         expect(shoppingListService.find).toHaveBeenCalledWith("1");
         expect(actualError).toBeInstanceOf(NotFound);
-      });
-    });
-    describe("with an unauthorized user", () => {
-      const user = new User();
-      user.shoppingLists = ["2"];
-      it("should throw a Unauthorized error", async () => {
-        // GIVEN
-        const shoppingListService = {
-          find: jest.fn().mockResolvedValue({id: "1", items: []})
-        };
-        const usersService = {
-          findOne: jest.fn().mockResolvedValue({id: "123", shoppingLists: ["123"]})
-        };
-
-        const shoppingListCtrl = await PlatformTest.invoke(ShoppingListsController, [
-          {
-            token: ShoppingListService,
-            use: shoppingListService
-          },
-          {
-            token: UsersService,
-            use: usersService
-          }
-        ]);
-
-        // WHEN
-        let error;
-        try {
-          await shoppingListCtrl.get({}, "1", user);
-        } catch (err) {
-          error = err;
-        }
-
-        // THEN
-        expect(error).toBeInstanceOf(Unauthorized);
       });
     });
   });
