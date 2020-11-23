@@ -53,7 +53,12 @@ ItemShopModeOn.propTypes = {
   item: PropTypes.shape({
     id: PropTypes.string.isRequired,
     quantity: PropTypes.number.isRequired,
-    product: PropTypes.objectOf(PropTypes.object).isRequired,
+    product: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+      minimumQuantity: PropTypes.number.isRequired,
+      shelf: PropTypes.string.isRequired,
+    }).isRequired,
     comment: PropTypes.string,
   }).isRequired,
   removeItem: PropTypes.func.isRequired,

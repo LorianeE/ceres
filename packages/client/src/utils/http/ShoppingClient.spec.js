@@ -46,7 +46,7 @@ describe('ShoppingClient', () => {
       });
       it('should return items from shopping list from server', async () => {
         // WHEN
-        const result = await getShoppingList('1234');
+        const result = await getShoppingList('userId', '1234');
         // THEN
         expect(result).toEqual(normalizedShoppingList);
         expect(setShoppingListInStorage).toHaveBeenCalledTimes(1);
@@ -67,13 +67,13 @@ describe('ShoppingClient', () => {
         // WHEN
         let actualError;
         try {
-          await saveShoppingList(normalizedShoppingList);
+          await saveShoppingList('userId', normalizedShoppingList);
         } catch (e) {
           actualError = e;
         }
         // THEN
         expect(HttpClient.put).toHaveBeenCalledTimes(1);
-        expect(HttpClient.put).toHaveBeenCalledWith(`/rest/shopping-lists/${apiShoppingList.id}`, mappedShoppingList);
+        expect(HttpClient.put).toHaveBeenCalledWith(`/rest/users/userId/shopping-lists/${apiShoppingList.id}`, mappedShoppingList);
         expect(actualError).toEqual(undefined);
       });
     });

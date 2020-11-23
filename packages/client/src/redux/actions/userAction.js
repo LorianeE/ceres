@@ -28,9 +28,12 @@ export function logOut() {
   };
 }
 
+// TODO: Move in a shoppingListAction
 export function createNewShoppingList() {
-  return (dispatch) => {
-    createShoppingList().then((shoppingList) => {
+  // TODO: Make a selector of userId ?
+  return (dispatch, getState) => {
+    const userId = getState().user.id;
+    createShoppingList(userId).then((shoppingList) => {
       dispatch({ type: CREATE_NEW_SHOPPING_LIST, data: { shoppingListId: shoppingList.id } });
     });
   };

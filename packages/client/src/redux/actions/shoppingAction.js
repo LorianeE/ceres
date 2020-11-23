@@ -20,9 +20,10 @@ function fetchShoppingListFailure(err) {
 }
 
 export function fetchShoppingList(shoppingListId) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    const userId = getState().user.id;
     dispatch(beginApiCall());
-    getShoppingList(shoppingListId)
+    getShoppingList(userId, shoppingListId)
       .then((shoppinglist) => {
         dispatch(fetchShoppingListSuccess(shoppinglist));
       })
@@ -43,7 +44,11 @@ function addItem(item) {
 }
 
 function saveShoppingListAction(dispatch) {
-  return saveShoppingList(_.cloneDeep(store.getState().shoppingList))
+  const userId = store.getState().user.id;
+  // TODO: Cette action déclenche le rafraîchissement de la page...
+  dispatch(beginApiCall());
+  // Pourquoi on return pas une fonction qui utilise dispatch ici ? pour récupérer le getState() et faire ça plus proprement ?
+  return saveShoppingList(userId, _.cloneDeep(store.getState().shoppingList))
     .then((updatedShoppingList) => dispatch(fetchShoppingListSuccess(updatedShoppingList)))
     .catch((err) => {
       if (isAppOffline(err)) {

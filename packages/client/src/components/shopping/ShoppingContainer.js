@@ -5,7 +5,7 @@ import AddProductArea from './AddProductArea';
 import ShoppingList from './ShoppingList';
 import ShoppingHeader from './ShoppingHeader';
 import CreateListComponent from './CreateListComponent';
-import Spinner from '../common/Spinner';
+// import Spinner from '../common/Spinner';
 import SnackbarError from '../common/SnackbarError';
 import { getFilledShoppingList } from '../../utils/ShoppingListMapper';
 import { fetchProductsList } from '../../redux/actions/productsAction';
@@ -19,7 +19,7 @@ const ShoppingContainer = ({
   fetchProducts,
   fetchList,
   products,
-  loading,
+  // loading,
   shoppingList,
   shelves,
   changeItemQuantity,
@@ -85,9 +85,9 @@ const ShoppingContainer = ({
     }
   };
 
-  if (loading) {
-    return <Spinner />;
-  }
+  // if (loading) {
+  //   return <Spinner />;
+  // }
   return (
     <>
       {!userShoppingList ? (
@@ -121,7 +121,7 @@ ShoppingContainer.propTypes = {
   fetchProducts: PropTypes.func.isRequired,
   fetchList: PropTypes.func.isRequired,
   products: PropTypes.arrayOf(PropTypes.object).isRequired,
-  loading: PropTypes.bool.isRequired,
+  // loading: PropTypes.bool.isRequired,
   shoppingList: PropTypes.arrayOf(PropTypes.object).isRequired,
   shelves: PropTypes.arrayOf(PropTypes.string).isRequired,
   changeItemQuantity: PropTypes.func.isRequired,
@@ -136,7 +136,7 @@ const mapStateToProps = (state) => {
   return {
     userShoppingList: state.user.shoppingLists[0],
     products: sortByLabel([...state.products.dbList, ...state.products.userList]),
-    loading: state.apiCallsInProgress.apiCalls > 0,
+    // loading: state.apiCallsInProgress.apiCalls > 0,
     shoppingList: getFilledShoppingList(state.shoppingList.items, state.products.dbList),
     shelves: Array.from(
       new Set(getFilledShoppingList(state.shoppingList.items, state.products.dbList).map((item) => item.product.shelf))

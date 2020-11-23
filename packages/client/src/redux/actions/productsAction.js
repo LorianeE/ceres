@@ -36,8 +36,7 @@ function fetchDBProductsList() {
 export function fetchUserProductsList() {
   return (dispatch, getState) => {
     dispatch(beginApiCall());
-    // eslint-disable-next-line no-underscore-dangle
-    const userId = getState().user._id;
+    const userId = getState().user.id;
     getUserProductsList(userId)
       .then((products) => dispatch(fetchUserProductsListSuccess(products)))
       .catch((err) => dispatch(fetchUserProductsListFailure(err)));
