@@ -36,10 +36,7 @@ function changeItemComment(items, action) {
 
 function addItem(items, action) {
   const { quantity, product, comment } = action.data.item;
-  let { id } = action.data.item;
-  if (!id) {
-    id = Date.now();
-  }
+  const { id } = action.data.item;
   return {
     ...items,
     [id]: {
@@ -50,7 +47,7 @@ function addItem(items, action) {
     },
   };
 }
-
+// TODO: Faire un shoppinglistitem reducer spécialement pour gérer ça
 function shoppingList(state = initialState.shoppingList, action) {
   switch (action.type) {
     case types.CHANGE_SHOPPING_ITEM_QUANTITY:

@@ -1,8 +1,8 @@
-import React from 'react';
+import { useState } from 'react';
 import { useMediaQuery } from '@material-ui/core';
 
 const useIsOpen = () => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const isMobile = useMediaQuery('(max-width:600px)');
   const toggle = () => {
     if (isMobile || open) {

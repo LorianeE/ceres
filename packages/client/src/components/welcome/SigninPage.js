@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import logo from '../../logo.png';
 import loginBackground from '../../login_background.jpeg';
-import LoginUtils from '../../utils/LoginUtils';
+import LoginUtils from '../../utils/http/LoginClient';
 
 function Copyright() {
   return (

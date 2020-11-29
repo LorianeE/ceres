@@ -11,7 +11,7 @@ import Nav from './components/common/Nav';
 import TopBar from './components/common/TopBar';
 import routes from './routes';
 import DrawerContent from './components/common/DrawerContent';
-import useIsOpen from './utils/hooks';
+import useIsOpen from './redux/hooks/useIsOpen';
 import SigninPage from './components/welcome/SigninPage';
 import { getUserInfo, logOut } from './redux/actions/userAction';
 

@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { nanoid } from 'nanoid';
 import {
   RECEIVED_SHOPPING_LIST_SUCCESS,
   RECEIVED_SHOPPING_LIST_FAILURE,
@@ -10,7 +10,6 @@ import {
 import { beginApiCall } from './apiStatusAction';
 import { getErrMsg, isAppOffline } from './ErrorUtils';
 import { getShoppingList, saveShoppingList } from '../../utils/http/ShoppingClient';
-import store from '../configureStore';
 
 function fetchShoppingListSuccess(shoppinglist) {
   return { type: RECEIVED_SHOPPING_LIST_SUCCESS, data: { list: shoppinglist } };
@@ -20,14 +19,16 @@ function fetchShoppingListFailure(err) {
 }
 
 export function fetchShoppingList(shoppingListId) {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     const userId = getState().user.id;
     dispatch(beginApiCall());
-    getShoppingList(userId, shoppingListId)
-      .then((shoppinglist) => {
-        dispatch(fetchShoppingListSuccess(shoppinglist));
-      })
-      .catch((err) => dispatch(fetchShoppingListFailure(err)));
+
+    try {
+      const shoppinglist = await getShoppingList(userId, shoppingListId);
+      dispatch(fetchShoppingListSuccess(shoppinglist));
+    } catch (err) {
+      dispatch(fetchShoppingListFailure(err));
+    }
   };
 }
 
@@ -40,17 +41,18 @@ function changeItemComment(itemId, comment) {
 }
 
 function addItem(item) {
-  return { type: ADD_ITEM, data: { item } };
+  return { type: ADD_ITEM, data: { item: { id: nanoid(), ...item } } };
 }
 
-function saveShoppingListAction(dispatch) {
-  const userId = store.getState().user.id;
-  // TODO: Cette action déclenche le rafraîchissement de la page...
-  dispatch(beginApiCall());
-  // Pourquoi on return pas une fonction qui utilise dispatch ici ? pour récupérer le getState() et faire ça plus proprement ?
-  return saveShoppingList(userId, _.cloneDeep(store.getState().shoppingList))
-    .then((updatedShoppingList) => dispatch(fetchShoppingListSuccess(updatedShoppingList)))
-    .catch((err) => {
+function saveShoppingListAction() {
+  return async (dispatch, getState) => {
+    dispatch(beginApiCall());
+    const userId = getState().user.id;
+
+    try {
+      const updatedShoppingList = await saveShoppingList(userId, getState().shoppingList);
+      dispatch(fetchShoppingListSuccess(updatedShoppingList));
+    } catch (err) {
       if (isAppOffline(err)) {
         dispatch({
           type: SAVE_SHOPPING_LIST_FAILURE,
@@ -59,25 +61,27 @@ function saveShoppingListAction(dispatch) {
       } else {
         dispatch({ type: SAVE_SHOPPING_LIST_FAILURE, data: { errMsg: 'Impossible de sauvegarder la liste de courses.' } });
       }
-    });
+    }
+  };
 }
 
+// TODO: A cause des deux dispatchs sur ces fonctions ci-dessous on a 2 fois le rendu sur le front.
 export function changeItemQuantityAndSave(itemId, quantityToAdd) {
   return (dispatch) => {
     dispatch(changeItemQuantity(itemId, quantityToAdd));
-    saveShoppingListAction(dispatch);
+    dispatch(saveShoppingListAction());
   };
 }
 export function changeItemCommentAndSave(itemId, comment) {
   return (dispatch) => {
     dispatch(changeItemComment(itemId, comment));
-    saveShoppingListAction(dispatch);
+    dispatch(saveShoppingListAction());
   };
 }
 
 export function addItemAndSave(item) {
   return (dispatch) => {
     dispatch(addItem(item));
-    saveShoppingListAction(dispatch);
+    dispatch(saveShoppingListAction());
   };
 }

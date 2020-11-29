@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import AddProductArea from './AddProductArea';
-import ShoppingList from './ShoppingList';
-import ShoppingHeader from './ShoppingHeader';
-import CreateListComponent from './CreateListComponent';
+import AddProductArea from './components/AddProductArea';
+import ShoppingList from './components/ShoppingList';
+import ShoppingHeader from './components/ShoppingHeader';
+import CreateListComponent from './components/CreateListComponent';
 // import Spinner from '../common/Spinner';
 import SnackbarError from '../common/SnackbarError';
 import { getFilledShoppingList } from '../../utils/ShoppingListMapper';

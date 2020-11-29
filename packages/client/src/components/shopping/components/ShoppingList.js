@@ -5,8 +5,8 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import Typography from '@material-ui/core/Typography';
 
 import Box from '@material-ui/core/Box';
-import { SHELF_TYPES } from '../../data/shelf_types';
-import useStyles from './shoppingStyle';
+import { SHELF_TYPES } from '../../../data/shelf_types';
+import useStyles from '../shoppingStyle';
 import ShoppingListItem from './ShoppingListItem';
 
 const ShoppingList = ({ shoppingList, shelves, removeItem, shoppingMode, changeItemQuantity, changeItemComment }) => {

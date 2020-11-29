@@ -11,6 +11,8 @@ export async function getShoppingList(userId, shoppingListId) {
   throw new Error('No shopping list id.');
 }
 
+// TODO: A-t-on vraiment besoin de sauvegarder tout le temps comme ça en local storage ?
+
 export async function saveShoppingList(userId, normalizedShoppingList) {
   const mappedShoppingList = mapListFromNormalizedToApi(normalizedShoppingList);
   // Save to local storage before calling in case call fails

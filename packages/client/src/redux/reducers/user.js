@@ -19,9 +19,7 @@ function user(state = initialState.user, action) {
           shoppingLists: [...state.shoppingLists, action.data.shoppingListId],
         };
       }
-      return {
-        ...state,
-      };
+      return state;
 
     default:
       return state;

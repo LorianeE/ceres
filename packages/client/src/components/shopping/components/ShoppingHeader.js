@@ -4,7 +4,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import CancelRemoveItemButton from './CancelRemoveItemButton';
-import useStyles from './shoppingStyle';
+import useStyles from '../shoppingStyle';
 
 const ShoppingHeader = ({ shoppingMode, switchShoppingMode, hasRemovedItems, cancelRemoveItem }) => {
   const classes = useStyles();

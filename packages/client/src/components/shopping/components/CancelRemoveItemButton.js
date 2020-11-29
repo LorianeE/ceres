@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import RestoreIcon from '@material-ui/icons/Restore';
-import useStyles from './shoppingStyle';
+import useStyles from '../shoppingStyle';
 
 const CancelRemoveItemButton = ({ cancelRemoveItem }) => {
   const classes = useStyles();

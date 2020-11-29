@@ -4,8 +4,6 @@ import ItemShopModeOn from './item/ItemShopModeOn';
 import ItemShopModeOff from './item/ItemShopModeOff';
 
 const ShoppingListItem = ({ item, shoppingMode, removeItem, changeItemQuantity, changeItemComment }) => {
-  console.log('item');
-  console.log(item);
   if (shoppingMode) {
     return <ItemShopModeOn item={item} removeItem={removeItem} />;
   }
