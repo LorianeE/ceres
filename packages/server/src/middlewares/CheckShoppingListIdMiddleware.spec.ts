@@ -7,7 +7,7 @@ describe("CheckShoppingListIdMiddleware", () => {
   beforeEach(PlatformTest.create);
   afterEach(PlatformTest.reset);
 
-  it("should throw Unauthorized error if user id does not match authorized user id", async () => {
+  it("should throw BadRequest error if shopping list id does not match id in param", async () => {
     // GIVEN
     const checkShoppingListIdMiddleware = PlatformTest.get<CheckShoppingListIdMiddleware>(CheckShoppingListIdMiddleware);
     const shoppingListId = "shoppingListId";
@@ -25,7 +25,7 @@ describe("CheckShoppingListIdMiddleware", () => {
     // THEN
     expect(actualError).toBeInstanceOf(BadRequest);
   });
-  it("should not throw Unauthorized error if user id does match authorized user id", async () => {
+  it("should not throw BadRequest error if shopping list id does match id in param", async () => {
     // GIVEN
     const checkShoppingListIdMiddleware = PlatformTest.get<CheckShoppingListIdMiddleware>(CheckShoppingListIdMiddleware);
     const shoppingListId = "shoppingListId";

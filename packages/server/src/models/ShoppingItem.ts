@@ -1,7 +1,8 @@
 import {Minimum, Property, Required} from "@tsed/schema";
-import {ObjectID, Ref} from "@tsed/mongoose";
+import {Model, ObjectID, Ref} from "@tsed/mongoose";
 import {Product} from "./Product";
 
+@Model()
 export class ShoppingItem {
   @ObjectID("id")
   _id: string;

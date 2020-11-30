@@ -8,8 +8,12 @@ import {NotFound} from "@tsed/exceptions";
 import {CheckShoppingListIdMiddleware} from "../middlewares/CheckShoppingListIdMiddleware";
 import {UsersService} from "../services/users/UsersService";
 import {CheckUserIdMiddleware} from "../middlewares/CheckUserIdMiddleware";
+import {ShoppingListItemsController} from "./ShoppingListItemsController";
 
-@Controller("/:userId/shopping-lists")
+@Controller({
+  path: "/:userId/shopping-lists",
+  children: [ShoppingListItemsController]
+})
 @Authenticate("facebook")
 @UseBeforeEach(CheckUserIdMiddleware)
 export class ShoppingListsController {
