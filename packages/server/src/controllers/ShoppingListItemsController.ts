@@ -5,6 +5,7 @@ import {Authenticate} from "@tsed/passport";
 import {CheckIsAllowedUserMiddleware} from "../middlewares/CheckIsAllowedUserMiddleware";
 import {ShoppingItem} from "../models/ShoppingItem";
 import {CheckItemIdMiddleware} from "../middlewares/CheckItemIdMiddleware";
+import {PostShoppingItem} from "../models/PostShoppingItem";
 
 @Controller("/:shoppingListId/items")
 @Authenticate("facebook")
@@ -15,15 +16,21 @@ export class ShoppingListItemsController {
   @Post("/")
   @Summary("Post a new item in shopping list")
   @Returns(201, ShoppingItem)
-  async create(@BodyParams(ShoppingItem) item: ShoppingItem, @PathParams("shoppingListId") shoppingListId: string): Promise<ShoppingItem> {
-    return this.shoppingListService.addItem(shoppingListId, item);
+  async create(
+    @BodyParams(PostShoppingItem) item: PostShoppingItem,
+    @PathParams("shoppingListId") shoppingListId: string
+  ): Promise<ShoppingItem> {
+    return this.shoppingListService.addItem(shoppingListId, item as ShoppingItem);
   }
 
   @Put("/:itemId")
   @UseBefore(CheckItemIdMiddleware)
-  @Summary("Update shopping list item")
+  @Summary("Update shopping list item. If quantity for item to update is <= 0, item is deleted.")
   @Returns(200, ShoppingItem)
-  async update(@PathParams("shoppingListId") shoppingListId: string, @BodyParams(ShoppingItem) item: ShoppingItem): Promise<ShoppingItem> {
+  async update(
+    @PathParams("shoppingListId") shoppingListId: string,
+    @BodyParams(ShoppingItem) item: ShoppingItem
+  ): Promise<ShoppingItem | null> {
     return this.shoppingListService.updateItem(shoppingListId, item);
   }
 

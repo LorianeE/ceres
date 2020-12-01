@@ -31,6 +31,31 @@ describe("ProductsService", () => {
   beforeEach(() => PlatformTest.create());
   afterEach(() => PlatformTest.reset());
 
+  describe("findById()", () => {
+    beforeEach(() => PlatformTest.create());
+    afterEach(() => PlatformTest.reset());
+    it("should product with productId", async () => {
+      // GIVEN
+      const products = {
+        findById: jest.fn().mockReturnValue({
+          exec: jest.fn().mockResolvedValue({_id: "eggs"})
+        })
+      };
+      const productsService = await PlatformTest.invoke(ProductsService, [
+        {
+          token: Product,
+          use: products
+        }
+      ]);
+
+      // WHEN
+      const result = await productsService.findById("productId");
+
+      // THEN
+      expect(result).toEqual({_id: "eggs"});
+      expect(products.findById).toHaveBeenCalled();
+    });
+  });
   describe("findAll()", () => {
     beforeEach(() => PlatformTest.create());
     afterEach(() => PlatformTest.reset());

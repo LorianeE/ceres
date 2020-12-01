@@ -3,7 +3,8 @@ import {Inject, Service} from "@tsed/common";
 import {MongooseModel} from "@tsed/mongoose";
 import {ShoppingList} from "../models/ShoppingList";
 import {ShoppingItem} from "../models/ShoppingItem";
-import {NotFound} from "@tsed/exceptions";
+import {BadRequest, NotFound} from "@tsed/exceptions";
+import {ProductsService} from "./ProductsService";
 
 @Service()
 export class ShoppingListService {
@@ -11,6 +12,8 @@ export class ShoppingListService {
   private shoppingList: MongooseModel<ShoppingList>;
   @Inject(ShoppingItem)
   private shoppingItem: MongooseModel<ShoppingItem>;
+  @Inject(ProductsService)
+  private productService: ProductsService;
 
   /**
    * Find a shoppingList by its ID.
@@ -41,12 +44,18 @@ export class ShoppingListService {
   }
 
   async addItem(shoppingListId: string, item: ShoppingItem): Promise<ShoppingItem> {
+    // First check if product is valid
+    const product = await this.productService.findById(item.product.toString());
+    if (!product) {
+      throw new BadRequest("Product id from item is invalid.");
+    }
+    // Then push new item
     const itemModel = new this.shoppingItem(item);
     await this.shoppingList.findByIdAndUpdate(shoppingListId, {$push: {items: itemModel}}).exec();
     return itemModel;
   }
 
-  async updateItem(shoppingListId: string, item: ShoppingItem): Promise<ShoppingItem> {
+  async updateItem(shoppingListId: string, item: ShoppingItem): Promise<ShoppingItem | null> {
     const shoppingList = await this.shoppingList.findById(shoppingListId).exec();
     if (!shoppingList) {
       throw new NotFound("Shopping list not found.");
@@ -55,11 +64,16 @@ export class ShoppingListService {
       throw new NotFound("Given item not found in shopping list.");
     }
 
-    const itemModel = new this.shoppingItem(item);
-
-    shoppingList.items = shoppingList.items.map((e) => (e._id.toString() === item._id.toString() ? itemModel : e));
-    await shoppingList.save();
-    return itemModel;
+    if (item.quantity > 0) {
+      const itemModel = new this.shoppingItem(item);
+      shoppingList.items = shoppingList.items.map((e) => (e._id.toString() === item._id.toString() ? itemModel : e));
+      await shoppingList.save();
+      return itemModel;
+    } else {
+      shoppingList.items = shoppingList.items.filter((e) => e._id.toString() !== item._id.toString());
+      await shoppingList.save();
+      return null;
+    }
   }
 
   async deleteItem(shoppingListId: string, itemId: string): Promise<void> {

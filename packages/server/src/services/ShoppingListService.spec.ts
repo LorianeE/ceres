@@ -2,7 +2,9 @@ import {PlatformTest} from "@tsed/common";
 import {ShoppingListService} from "./ShoppingListService";
 import {ShoppingList} from "../models/ShoppingList";
 import {ShoppingItem} from "../models/ShoppingItem";
-import {NotFound} from "@tsed/exceptions";
+import {BadRequest, NotFound} from "@tsed/exceptions";
+import {ProductsService} from "./ProductsService";
+import {Product} from "../models/Product";
 
 describe("ShoppingListService", () => {
   beforeEach(() => PlatformTest.create());
@@ -89,6 +91,10 @@ describe("ShoppingListService", () => {
         return item;
       });
 
+      const productsService = {
+        findById: jest.fn().mockReturnValue(new Product())
+      };
+
       const shoppingListService = await PlatformTest.invoke(ShoppingListService, [
         {
           token: ShoppingList,
@@ -97,6 +103,10 @@ describe("ShoppingListService", () => {
         {
           token: ShoppingItem,
           use: shoppingItemModel
+        },
+        {
+          token: ProductsService,
+          use: productsService
         }
       ]);
 
@@ -107,6 +117,36 @@ describe("ShoppingListService", () => {
       expect(result).toEqual(item);
       expect(shoppingListModel.findByIdAndUpdate).toHaveBeenCalledTimes(1);
       expect(shoppingListModel.findByIdAndUpdate).toHaveBeenCalledWith("1234", {$push: {items: item}});
+    });
+    it("should throw BadRequest if product is not found", async () => {
+      // GIVEN
+      const item = new ShoppingItem();
+      item._id = "itemId";
+      item.product = "productId";
+      item.quantity = 1;
+
+      // GIVEN
+      const productService = {
+        findById: jest.fn().mockReturnValue(null)
+      };
+
+      const shoppingListService = await PlatformTest.invoke(ShoppingListService, [
+        {
+          token: ProductsService,
+          use: productService
+        }
+      ]);
+
+      // WHEN
+      let actualErr;
+      try {
+        await shoppingListService.addItem("1234", item);
+      } catch (err) {
+        actualErr = err;
+      }
+
+      // THEN
+      expect(actualErr).toBeInstanceOf(BadRequest);
     });
   });
   describe("updateItem()", () => {
@@ -162,12 +202,34 @@ describe("ShoppingListService", () => {
       const {shoppingListService, shoppingListModel, saveSpy} = await getShoppinglistService([], [item]);
 
       // WHEN
-      await shoppingListService.updateItem("shoppingListId", item);
+      const result = await shoppingListService.updateItem("shoppingListId", item);
 
       // THEN
       // @ts-ignore
       expect(shoppingListModel.findById).toHaveBeenCalled();
       expect(saveSpy).toHaveBeenCalled();
+      expect(result).toEqual(item);
+    });
+    it("should delete item from shoppingList if found but quantity <= 0", async () => {
+      // GIVEN
+      const shoppingList = new ShoppingList();
+      shoppingList._id = "shoppingListId";
+      shoppingList.items = [];
+      const item = new ShoppingItem();
+      item._id = "itemId";
+      item.product = "productId";
+      item.quantity = 0;
+
+      const {shoppingListService, shoppingListModel, saveSpy} = await getShoppinglistService([], [item]);
+
+      // WHEN
+      const result = await shoppingListService.updateItem("shoppingListId", item);
+
+      // THEN
+      // @ts-ignore
+      expect(shoppingListModel.findById).toHaveBeenCalled();
+      expect(saveSpy).toHaveBeenCalled();
+      expect(result).toBeNull();
     });
     it("should throw not found if shoppinglist not found", async () => {
       // GIVEN

@@ -9,6 +9,10 @@ export class ProductsService {
   @Inject(Product)
   private product: MongooseModel<Product>;
 
+  async findById(id: string): Promise<Product | null> {
+    return this.product.findById(id).exec();
+  }
+
   async findAll(): Promise<Product[]> {
     return this.product.find().exec();
   }
