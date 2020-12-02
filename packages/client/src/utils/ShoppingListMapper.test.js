@@ -52,6 +52,7 @@ describe('ShoppingListMapper', () => {
         id: '1234',
         items: [
           {
+            id: 'itemId',
             quantity: 1,
             product: 'productId',
           },

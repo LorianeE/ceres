@@ -5,7 +5,7 @@ function user(state = initialState.user, action) {
   switch (action.type) {
     case UPDATE_USER:
       return {
-        ...action.data.user,
+        ...action.payload.user,
         isLoggedIn: true,
       };
     case LOGOUT_USER:
@@ -16,7 +16,7 @@ function user(state = initialState.user, action) {
       if (state.isLoggedIn) {
         return {
           ...state,
-          shoppingLists: [...state.shoppingLists, action.data.shoppingListId],
+          shoppingLists: [...state.shoppingLists, action.payload.list.id],
         };
       }
       return state;

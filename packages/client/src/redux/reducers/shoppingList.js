@@ -2,11 +2,10 @@ import * as types from '../constants/ShoppingActionTypes';
 import initialState from '../initialState';
 
 function changeItemQuantity(items, action) {
-  const { itemId, quantityToAdd } = action.data;
+  const { itemId, quantityToAdd } = action.payload;
   const item = items[itemId];
   const newQuantity = item.quantity + quantityToAdd;
   if (newQuantity <= 0) {
-    item.quantity = newQuantity;
     const newStateItems = {
       ...items,
     };
@@ -17,13 +16,13 @@ function changeItemQuantity(items, action) {
     ...items,
     [itemId]: {
       ...item,
-      quantity: item.quantity + quantityToAdd,
+      quantity: newQuantity,
     },
   };
 }
 
 function changeItemComment(items, action) {
-  const { itemId, comment } = action.data;
+  const { itemId, comment } = action.payload;
   const item = items[itemId];
   return {
     ...items,
@@ -35,19 +34,13 @@ function changeItemComment(items, action) {
 }
 
 function addItem(items, action) {
-  const { quantity, product, comment } = action.data.item;
-  const { id } = action.data.item;
+  const { id } = action.payload.item;
   return {
     ...items,
-    [id]: {
-      id: id.toString(),
-      quantity,
-      product: product.id,
-      comment,
-    },
+    [id]: action.payload.item,
   };
 }
-// TODO: Faire un shoppinglistitem reducer spécialement pour gérer ça
+
 function shoppingList(state = initialState.shoppingList, action) {
   switch (action.type) {
     case types.CHANGE_SHOPPING_ITEM_QUANTITY:
@@ -66,7 +59,8 @@ function shoppingList(state = initialState.shoppingList, action) {
         items: addItem(state.items, action),
       };
     case types.RECEIVED_SHOPPING_LIST_SUCCESS:
-      return action.data.list;
+    case types.CREATE_NEW_SHOPPING_LIST:
+      return action.payload.list;
 
     default:
       return state;

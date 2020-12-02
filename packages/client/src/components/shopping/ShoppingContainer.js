@@ -9,8 +9,13 @@ import CreateListComponent from './components/CreateListComponent';
 import SnackbarError from '../common/SnackbarError';
 import { getFilledShoppingList } from '../../utils/ShoppingListMapper';
 import { fetchProductsList } from '../../redux/actions/productsAction';
-import { addItemAndSave, changeItemCommentAndSave, changeItemQuantityAndSave, fetchShoppingList } from '../../redux/actions/shoppingAction';
-import { createNewShoppingList } from '../../redux/actions/userAction';
+import {
+  addItemAndSave,
+  changeItemCommentAndSave,
+  changeItemQuantityAndSave,
+  fetchShoppingList,
+  createNewShoppingList,
+} from '../../redux/actions/shoppingAction';
 import { resetErrorMessage } from '../../redux/actions/errorAction';
 import { sortByLabel } from '../../utils/ProductsUtils';
 
@@ -80,6 +85,7 @@ const ShoppingContainer = ({
     } else {
       addItem({
         ...item,
+        product: item.product.id,
         quantity: 1,
       });
     }

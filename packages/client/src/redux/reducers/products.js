@@ -6,7 +6,7 @@ function products(state = initialState.products, action) {
     case types.RECEIVED_DB_LIST_SUCCESS:
       return {
         ...state,
-        dbList: action.data.dbList,
+        dbList: action.payload.dbList,
       };
     case types.RECEIVED_DB_LIST_FAILURE:
       return {
@@ -16,7 +16,7 @@ function products(state = initialState.products, action) {
     case types.RECEIVED_USER_PDT_LIST_SUCCESS:
       return {
         ...state,
-        userList: action.data.userList,
+        userList: action.payload.userList,
       };
     case types.RECEIVED_USER_PDT_LIST_FAILURE:
       return {

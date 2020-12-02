@@ -9,19 +9,19 @@ import { beginApiCall } from './apiStatusAction';
 import { getErrMsg } from './ErrorUtils';
 
 function fetchDBProductsListSuccess(products) {
-  return { type: RECEIVED_DB_LIST_SUCCESS, data: { dbList: products } };
+  return { type: RECEIVED_DB_LIST_SUCCESS, payload: { dbList: products } };
 }
 
 function fetchDBProductsListFailure(err) {
-  return { type: RECEIVED_DB_LIST_FAILURE, data: { errMsg: getErrMsg(err) } };
+  return { type: RECEIVED_DB_LIST_FAILURE, payload: { errMsg: getErrMsg(err) } };
 }
 
 function fetchUserProductsListSuccess(products) {
-  return { type: RECEIVED_USER_PDT_LIST_SUCCESS, data: { userList: products } };
+  return { type: RECEIVED_USER_PDT_LIST_SUCCESS, payload: { userList: products } };
 }
 
 function fetchUserProductsListFailure(err) {
-  return { type: RECEIVED_USER_PDT_LIST_FAILURE, data: { errMsg: getErrMsg(err) } };
+  return { type: RECEIVED_USER_PDT_LIST_FAILURE, payload: { errMsg: getErrMsg(err) } };
 }
 
 function fetchDBProductsList() {

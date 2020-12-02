@@ -1,5 +1,6 @@
 import * as types from '../constants/CommonActionTypes';
 import initialState from '../initialState';
+import { END_API_CALL } from '../constants/CommonActionTypes';
 
 function actionTypeEndsInSuccess(type) {
   return type.substring(type.length - 8) === '_SUCCESS';
@@ -15,7 +16,7 @@ function apiCallStatusReducer(state = initialState.apiCallsInProgress, action) {
       apiCalls: state.apiCalls + 1,
     };
   }
-  if (actionTypeEndsInSuccess(action.type) || actionTypeEndsInFailure(action.type)) {
+  if (actionTypeEndsInSuccess(action.type) || actionTypeEndsInFailure(action.type) || action.type === END_API_CALL) {
     return {
       ...state,
       apiCalls: state.apiCalls - 1,

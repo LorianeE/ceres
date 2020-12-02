@@ -1,7 +1,8 @@
 import { setShoppingListInStorage } from '../StorageUtils';
 import httpClient from './HttpClient';
-import { mapListFromApiToNormalized, mapListFromNormalizedToApi } from '../ShoppingListMapper';
+import { mapListFromApiToNormalized } from '../ShoppingListMapper';
 
+// TODO: Essayer d'utiliser redux-offline plutôt
 export async function getShoppingList(userId, shoppingListId) {
   if (shoppingListId) {
     const shoppingList = await httpClient.get(`/rest/users/${userId}/shopping-lists/${shoppingListId}`);
@@ -11,23 +12,16 @@ export async function getShoppingList(userId, shoppingListId) {
   throw new Error('No shopping list id.');
 }
 
-// TODO: A-t-on vraiment besoin de sauvegarder tout le temps comme ça en local storage ?
-
-export async function saveShoppingList(userId, normalizedShoppingList) {
-  const mappedShoppingList = mapListFromNormalizedToApi(normalizedShoppingList);
-  // Save to local storage before calling in case call fails
-  setShoppingListInStorage(mappedShoppingList);
-  const updatedShoppingList = await httpClient.put(`/rest/users/${userId}/shopping-lists/${mappedShoppingList.id}`, mappedShoppingList);
-  // Save to local storage after if response from server
-  setShoppingListInStorage(updatedShoppingList);
-  return mapListFromApiToNormalized(updatedShoppingList);
+export async function postShoppingList(userId, shoppingList) {
+  const newShoppingList = await httpClient.post(`/rest/users/${userId}/shopping-lists`, shoppingList);
+  setShoppingListInStorage(newShoppingList);
+  return mapListFromApiToNormalized(newShoppingList);
 }
 
-export async function createShoppingList(userId) {
-  const shoppingList = await httpClient.post(`/rest/users/${userId}/shopping-lists`, {
-    items: [],
-  });
-  setShoppingListInStorage(shoppingList);
-  // No need to normalize shoppingList since it is an empty new one
-  return shoppingList;
+export async function postItem(userId, shoppingListId, item) {
+  return httpClient.post(`/rest/users/${userId}/shopping-lists/${shoppingListId}/items`, item);
+}
+
+export async function putItem(userId, shoppingListId, item) {
+  return httpClient.put(`/rest/users/${userId}/shopping-lists/${shoppingListId}/items/${item.id}`, item);
 }

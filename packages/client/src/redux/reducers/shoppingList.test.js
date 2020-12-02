@@ -10,10 +10,10 @@ describe('shoppingList reducer', () => {
       };
       const action = {
         type: 'ADD_ITEM',
-        data: {
+        payload: {
           item: {
             id: 'someItemId',
-            product: { id: '5e99eaaad50dec61a6705f4e', productId: 'garlic', label: 'Ail', shelf: 'produce', minimumQuantity: 0 },
+            product: '5e99eaaad50dec61a6705f4e',
             quantity: 1,
           },
         },
@@ -43,7 +43,7 @@ describe('shoppingList reducer', () => {
       };
       const action = {
         type: 'CHANGE_SHOPPING_ITEM_QUANTITY',
-        data: {
+        payload: {
           itemId: 'itemId',
           quantityToAdd: 2,
         },
@@ -75,7 +75,7 @@ describe('shoppingList reducer', () => {
       };
       const action = {
         type: 'CHANGE_SHOPPING_ITEM_QUANTITY',
-        data: {
+        payload: {
           itemId: 'itemId',
           quantityToAdd: -1,
         },
