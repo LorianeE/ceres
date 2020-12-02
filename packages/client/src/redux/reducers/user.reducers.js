@@ -1,7 +1,7 @@
 import { UPDATE_USER, LOGOUT_USER, CREATE_NEW_SHOPPING_LIST } from '../constants/UserActionTypes';
 import initialState from '../initialState';
 
-function user(state = initialState.user, action) {
+function userReducers(state = initialState.user, action) {
   switch (action.type) {
     case UPDATE_USER:
       return {
@@ -26,4 +26,4 @@ function user(state = initialState.user, action) {
   }
 }
 
-export default user;
+export default userReducers;

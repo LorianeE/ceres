@@ -8,15 +8,15 @@ import CreateListComponent from './components/CreateListComponent';
 // import Spinner from '../common/Spinner';
 import SnackbarError from '../common/SnackbarError';
 import { getFilledShoppingList } from '../../utils/ShoppingListMapper';
-import { fetchProductsList } from '../../redux/actions/productsAction';
+import { fetchProductsList } from '../../redux/actions/products.actions';
 import {
   addItemAndSave,
   changeItemCommentAndSave,
   changeItemQuantityAndSave,
   fetchShoppingList,
   createNewShoppingList,
-} from '../../redux/actions/shoppingAction';
-import { resetErrorMessage } from '../../redux/actions/errorAction';
+} from '../../redux/actions/shopping.actions';
+import { resetErrorMessage } from '../../redux/actions/error.actions';
 import { sortByLabel } from '../../utils/ProductsUtils';
 
 const ShoppingContainer = ({

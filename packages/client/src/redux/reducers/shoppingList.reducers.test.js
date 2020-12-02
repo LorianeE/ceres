@@ -1,4 +1,4 @@
-import shoppingList from './shoppingList';
+import shoppingListReducers from './shoppingList.reducers';
 
 describe('shoppingList reducer', () => {
   describe('addItem', () => {
@@ -19,7 +19,7 @@ describe('shoppingList reducer', () => {
         },
       };
       // WHEN
-      const result = shoppingList(state, action);
+      const result = shoppingListReducers(state, action);
       // THEN
       expect(Object.values(result.items)[0]).toEqual({
         id: 'someItemId',
@@ -49,7 +49,7 @@ describe('shoppingList reducer', () => {
         },
       };
       // WHEN
-      const result = shoppingList(state, action);
+      const result = shoppingListReducers(state, action);
       // THEN
       expect(result).toEqual({
         items: {
@@ -81,7 +81,7 @@ describe('shoppingList reducer', () => {
         },
       };
       // WHEN
-      const result = shoppingList(state, action);
+      const result = shoppingListReducers(state, action);
       // THEN
       expect(result).toEqual({
         items: {},

@@ -5,8 +5,8 @@ import {
   RECEIVED_USER_PDT_LIST_FAILURE,
 } from '../constants/ProductsActionTypes';
 import { getProductsList, getUserProductsList } from '../../utils/http/ProductsClient';
-import { beginApiCall } from './apiStatusAction';
-import { getErrMsg } from './ErrorUtils';
+import { beginApiCall } from './apiStatus.actions';
+import { getErrMsg } from '../../utils/ErrorUtils';
 
 function fetchDBProductsListSuccess(products) {
   return { type: RECEIVED_DB_LIST_SUCCESS, payload: { dbList: products } };

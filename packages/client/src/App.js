@@ -13,7 +13,7 @@ import routes from './routes';
 import DrawerContent from './components/common/DrawerContent';
 import useIsOpen from './redux/hooks/useIsOpen';
 import SigninPage from './components/welcome/SigninPage';
-import { getUserInfo, logOut } from './redux/actions/userAction';
+import { getUserInfo, logOut } from './redux/actions/user.actions';
 
 // eslint-disable-next-line no-shadow
 function App({ userLoggedIn, getUserInfo, logOut, fetchUserCallInProgress }) {

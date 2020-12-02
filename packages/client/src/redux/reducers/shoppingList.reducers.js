@@ -41,7 +41,7 @@ function addItem(items, action) {
   };
 }
 
-function shoppingList(state = initialState.shoppingList, action) {
+function shoppingListReducers(state = initialState.shoppingList, action) {
   switch (action.type) {
     case types.CHANGE_SHOPPING_ITEM_QUANTITY:
       return {
@@ -67,4 +67,4 @@ function shoppingList(state = initialState.shoppingList, action) {
   }
 }
 
-export default shoppingList;
+export default shoppingListReducers;

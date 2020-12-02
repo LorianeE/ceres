@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import EnhancedTable from './components/EnhancedTable';
-import { fetchUserProductsList } from '../../redux/actions/productsAction';
+import { fetchUserProductsList } from '../../redux/actions/products.actions';
 import { SHELF_TYPES } from '../../data/shelf_types';
 
 const ProductsContainer = ({ userProducts, fetchProducts }) => {

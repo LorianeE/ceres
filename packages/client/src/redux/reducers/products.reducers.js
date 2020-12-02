@@ -1,7 +1,7 @@
 import * as types from '../constants/ProductsActionTypes';
 import initialState from '../initialState';
 
-function products(state = initialState.products, action) {
+function productsReducers(state = initialState.products, action) {
   switch (action.type) {
     case types.RECEIVED_DB_LIST_SUCCESS:
       return {
@@ -29,4 +29,4 @@ function products(state = initialState.products, action) {
   }
 }
 
-export default products;
+export default productsReducers;

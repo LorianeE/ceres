@@ -1,6 +1,6 @@
 import { UPDATE_USER, LOGOUT_USER } from '../constants/UserActionTypes';
 import LoginUtils from '../../utils/http/LoginClient';
-import { beginFetchUser, endFetchUser } from './apiStatusAction';
+import { beginFetchUser, endFetchUser } from './apiStatus.actions';
 
 export function getUserInfo() {
   return async (dispatch) => {

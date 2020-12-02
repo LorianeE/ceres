@@ -3,7 +3,7 @@ import * as shoppingTypes from '../constants/ShoppingActionTypes';
 import initialState from '../initialState';
 import { RESET_ERROR_MSG } from '../constants/CommonActionTypes';
 
-function error(state = initialState.error, action) {
+function errorReducers(state = initialState.error, action) {
   switch (action.type) {
     case shoppingTypes.UPDATE_ITEM_FAILURE:
     case shoppingTypes.POST_ITEM_FAILURE:
@@ -25,4 +25,4 @@ function error(state = initialState.error, action) {
   }
 }
 
-export default error;
+export default errorReducers;

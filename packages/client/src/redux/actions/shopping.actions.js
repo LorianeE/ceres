@@ -8,8 +8,8 @@ import {
   UPDATE_ITEM_FAILURE,
   POST_ITEM_FAILURE,
 } from '../constants/ShoppingActionTypes';
-import { beginApiCall, endApiCall } from './apiStatusAction';
-import { getErrMsg } from './ErrorUtils';
+import { beginApiCall, endApiCall } from './apiStatus.actions';
+import { getErrMsg } from '../../utils/ErrorUtils';
 import { getShoppingList, postItem, postShoppingList, putItem } from '../../utils/http/ShoppingClient';
 import { CREATE_NEW_SHOPPING_LIST } from '../constants/UserActionTypes';
 
