@@ -1,36 +1,11 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React from 'react';
 import EnhancedTable from './components/EnhancedTable';
-import { fetchUserProductsList } from '../../redux/actions/products.actions';
-import { SHELF_TYPES } from '../../data/shelf_types';
+import { useUserProducts } from '../../redux/hooks/useUserProducts';
 
-const ProductsContainer = ({ userProducts, fetchProducts }) => {
-  useEffect(() => {
-    if (!userProducts.length) {
-      fetchProducts();
-    }
-  }, [fetchProducts, userProducts.length]);
+const ProductsContainer = () => {
+  const { userProducts } = useUserProducts();
 
   return <EnhancedTable rows={userProducts} />;
 };
 
-ProductsContainer.propTypes = {
-  userProducts: PropTypes.arrayOf(PropTypes.object).isRequired,
-  fetchProducts: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = (state) => {
-  return {
-    userProducts: state.products.userList.map((product) => {
-      product.shelf = SHELF_TYPES[product.shelf];
-      return product;
-    }),
-  };
-};
-
-const mapDispatchToProps = {
-  fetchProducts: fetchUserProductsList,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProductsContainer);
+export default ProductsContainer;
