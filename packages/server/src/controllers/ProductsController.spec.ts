@@ -5,14 +5,15 @@ import {ShelfTypes} from "../models/ShelfTypes";
 import {PlatformTest} from "@tsed/common";
 
 describe("ProductsController", () => {
-  describe("get()", () => {
+  describe("getAllProducts()", () => {
     beforeEach(() => PlatformTest.create());
     afterEach(() => PlatformTest.reset());
 
-    it("should return a result from mocked service", async () => {
+    it("should return a result from mocked service with genericsOnly false", async () => {
       // GIVEN
       const productsService = {
-        findAll: jest.fn().mockResolvedValue([{id: "eggs"}])
+        findAllGenerics: jest.fn().mockResolvedValue([{id: "eggs"}]),
+        findAll: jest.fn().mockResolvedValue([{id: "eggs"}, {id: "apple"}])
       };
 
       const productsCtrl = await PlatformTest.invoke(ProductsController, [
@@ -23,11 +24,35 @@ describe("ProductsController", () => {
       ]);
 
       // WHEN
-      const result = await productsCtrl.get();
+      const result = await productsCtrl.getAllProducts(false);
+
+      // THEN
+      expect(result).toEqual([{id: "eggs"}, {id: "apple"}]);
+      expect(productsService.findAll).toHaveBeenCalled();
+
+      expect(productsCtrl).toBeInstanceOf(ProductsController);
+      expect(productsCtrl.productsService).toEqual(productsService);
+    });
+    it("should return a result from mocked service with genericsOnly true", async () => {
+      // GIVEN
+      const productsService = {
+        findAllGenerics: jest.fn().mockResolvedValue([{id: "eggs"}]),
+        findAll: jest.fn().mockResolvedValue([{id: "eggs"}, {id: "apple"}])
+      };
+
+      const productsCtrl = await PlatformTest.invoke(ProductsController, [
+        {
+          token: ProductsService,
+          use: productsService
+        }
+      ]);
+
+      // WHEN
+      const result = await productsCtrl.getAllProducts(true);
 
       // THEN
       expect(result).toEqual([{id: "eggs"}]);
-      expect(productsService.findAll).toHaveBeenCalled();
+      expect(productsService.findAllGenerics).toHaveBeenCalled();
 
       expect(productsCtrl).toBeInstanceOf(ProductsController);
       expect(productsCtrl.productsService).toEqual(productsService);
@@ -35,7 +60,6 @@ describe("ProductsController", () => {
   });
   describe("addProducts()", () => {
     const product = new Product();
-    product.productId = "apple";
     product.label = "Pommes";
     product.shelf = ShelfTypes.PRODUCE;
 

@@ -5,7 +5,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, matchPath } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import routes from '../../routes';
@@ -14,7 +14,13 @@ import { useStyles } from '../../style';
 const TopBar = ({ handleDrawerToggle, logout }) => {
   const classes = useStyles();
   const location = useLocation();
-  const currentRoute = routes.find((route) => location.pathname === route.path);
+  const currentRoute = routes.find((route) => {
+    return matchPath(location.pathname, {
+      path: route.path,
+      exact: true,
+      strict: false,
+    });
+  });
 
   const onClick = () => {
     logout();

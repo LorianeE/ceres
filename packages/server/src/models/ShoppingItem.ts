@@ -1,7 +1,8 @@
-import {Minimum, Property, Required} from "@tsed/schema";
-import {ObjectID, Ref} from "@tsed/mongoose";
+import {Property, Required} from "@tsed/schema";
+import {Model, ObjectID, Ref} from "@tsed/mongoose";
 import {Product} from "./Product";
 
+@Model()
 export class ShoppingItem {
   @ObjectID("id")
   _id: string;
@@ -11,7 +12,6 @@ export class ShoppingItem {
   product: Ref<Product>;
 
   @Required()
-  @Minimum(1)
   quantity: number;
 
   @Property()

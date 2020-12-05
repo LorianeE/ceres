@@ -2,7 +2,7 @@ import {Inject, Req} from "@tsed/common";
 import {Args, OnVerify, Protocol} from "@tsed/passport";
 import {Strategy, StrategyOption} from "passport-facebook";
 import {UsersService} from "../services/users/UsersService";
-import User from "../models/User";
+import {User} from "../models/User";
 
 @Protocol<StrategyOption>({
   name: "facebook",

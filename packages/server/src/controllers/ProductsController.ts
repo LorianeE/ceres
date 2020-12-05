@@ -1,4 +1,4 @@
-import {BodyParams, Controller, Get, Post} from "@tsed/common";
+import {BodyParams, Controller, Get, Post, QueryParams} from "@tsed/common";
 import {Returns, Summary} from "@tsed/schema";
 import {Product} from "../models/Product";
 import {ProductsService} from "../services/ProductsService";
@@ -10,7 +10,10 @@ export class ProductsController {
   @Get("/")
   @Summary("Get all products from database")
   @(Returns(200, Array).Of(Product))
-  async get(): Promise<Product[]> {
+  async getAllProducts(@QueryParams("genericsOnly") genericsOnly: boolean): Promise<Product[]> {
+    if (genericsOnly) {
+      return this.productsService.findAllGenerics();
+    }
     return this.productsService.findAll();
   }
 

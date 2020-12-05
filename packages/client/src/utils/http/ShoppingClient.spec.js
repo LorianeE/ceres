@@ -1,5 +1,5 @@
 import HttpClient from './HttpClient';
-import { getShoppingList, saveShoppingList } from './ShoppingClient';
+import { getShoppingList } from './ShoppingClient';
 import { setShoppingListInStorage } from '../StorageUtils';
 
 jest.mock('./HttpClient');
@@ -46,35 +46,11 @@ describe('ShoppingClient', () => {
       });
       it('should return items from shopping list from server', async () => {
         // WHEN
-        const result = await getShoppingList('1234');
+        const result = await getShoppingList('userId', '1234');
         // THEN
         expect(result).toEqual(normalizedShoppingList);
         expect(setShoppingListInStorage).toHaveBeenCalledTimes(1);
         expect(HttpClient.get).toHaveBeenCalledTimes(1);
-      });
-    });
-  });
-  describe('saveShoppingListItems', () => {
-    describe('when everything is ok', () => {
-      beforeEach(() => {
-        HttpClient.put.mockResolvedValue(apiShoppingList);
-      });
-      it('should call server an no error is thrown', async () => {
-        const mappedShoppingList = {
-          id: '1234',
-          items: [{ product: '1234', quantity: 1 }],
-        };
-        // WHEN
-        let actualError;
-        try {
-          await saveShoppingList(normalizedShoppingList);
-        } catch (e) {
-          actualError = e;
-        }
-        // THEN
-        expect(HttpClient.put).toHaveBeenCalledTimes(1);
-        expect(HttpClient.put).toHaveBeenCalledWith(`/rest/shopping-lists/${apiShoppingList.id}`, mappedShoppingList);
-        expect(actualError).toEqual(undefined);
       });
     });
   });

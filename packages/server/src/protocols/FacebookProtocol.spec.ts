@@ -1,4 +1,4 @@
-import User from "../models/User";
+import {User} from "../models/User";
 import {UsersService} from "../services/users/UsersService";
 import {FacebookProtocol} from "./FacebookProtocol";
 import {PlatformTest} from "@tsed/common";

@@ -1,7 +1,7 @@
 import {Controller, Get, Inject, Req} from "@tsed/common";
 import {Status} from "@tsed/schema";
 import {UsersService} from "../../services/users/UsersService";
-import User from "../../models/User";
+import {User} from "../../models/User";
 import {Unauthorized} from "@tsed/exceptions";
 
 @Controller("/")

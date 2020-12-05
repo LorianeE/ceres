@@ -1,7 +1,3 @@
-const isMongoId = (text) => {
-  return text.toString().match(/^[0-9a-fA-F]{24}$/);
-};
-
 export function mapListFromApiToNormalized(apiShoppinglist) {
   return {
     ...apiShoppinglist,
@@ -15,18 +11,9 @@ export function mapListFromApiToNormalized(apiShoppinglist) {
 }
 
 export function mapListFromNormalizedToApi(normalizedShoppingList) {
-  const itemsArray = Object.values(normalizedShoppingList.items);
-  // Remove every no-mongodb-ids
   return {
     ...normalizedShoppingList,
-    items: itemsArray.map((item) => {
-      if (item.id && !isMongoId(item.id)) {
-        const apiItem = item;
-        delete apiItem.id;
-        return apiItem;
-      }
-      return item;
-    }),
+    items: Object.values(normalizedShoppingList.items),
   };
 }
 

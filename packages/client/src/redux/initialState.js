@@ -5,7 +5,7 @@ export default {
   shoppingList: {},
   products: {
     dbList: [],
-    userList: [],
+    userList: undefined,
   },
   error: {
     errorMsg: '',

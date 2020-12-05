@@ -1,6 +1,6 @@
 import {Controller, Get, Redirect, Req} from "@tsed/common";
 import {Authenticate} from "@tsed/passport";
-import User from "../../models/User";
+import {User} from "../../models/User";
 
 const redirectUrl = process.env.NODE_ENV === "production" ? "/" : "http://localhost:3000/";
 

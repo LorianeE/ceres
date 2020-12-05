@@ -1,5 +1,5 @@
 import {LoginCtrl} from "./LoginCtrl";
-import User from "../../models/User";
+import {User} from "../../models/User";
 import {UsersService} from "../../services/users/UsersService";
 import {Unauthorized} from "@tsed/exceptions";
 import {PlatformTest} from "@tsed/common";

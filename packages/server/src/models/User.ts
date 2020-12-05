@@ -1,11 +1,12 @@
 import {Default, Property, Required} from "@tsed/schema";
-import {Model, Unique, Ref} from "@tsed/mongoose";
+import {Model, Unique, Ref, ObjectID} from "@tsed/mongoose";
 import {UserInfo} from "@tsed/passport";
 import {ShoppingList} from "./ShoppingList";
 
 @Model()
-export default class User extends UserInfo {
+export class User extends UserInfo {
   @Property()
+  @ObjectID("id")
   _id: string;
 
   @Unique()
@@ -21,6 +22,6 @@ export default class User extends UserInfo {
   email: string;
 
   @Default([])
-  @Ref(ShoppingList)
+  @Ref("ShoppingList")
   shoppingLists: Ref<ShoppingList>[] = [];
 }
