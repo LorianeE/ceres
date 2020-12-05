@@ -5,6 +5,7 @@ import {ShoppingItem} from "../models/ShoppingItem";
 import {BadRequest, NotFound} from "@tsed/exceptions";
 import {ProductsService} from "./ProductsService";
 import {Product} from "../models/Product";
+import {StoreItem} from "../models/StoreItem";
 
 describe("ShoppingListService", () => {
   beforeEach(() => PlatformTest.create());
@@ -198,8 +199,12 @@ describe("ShoppingListService", () => {
       item._id = "itemId";
       item.product = "productId";
       item.quantity = 1;
+      const item2 = new StoreItem();
+      item2._id = "itemId2";
+      item2.product = "productId2";
+      item2.quantity = 2;
 
-      const {shoppingListService, shoppingListModel, saveSpy} = await getShoppinglistService([], [item]);
+      const {shoppingListService, shoppingListModel, saveSpy} = await getShoppinglistService([], [item, item2]);
 
       // WHEN
       const result = await shoppingListService.updateItem("shoppingListId", item);
