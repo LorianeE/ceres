@@ -21,7 +21,10 @@ const DrawerContent = ({ onClick }) => {
       <img src={logo} alt="Ceres logo" className={classes.fitPicture} />
       <Divider />
       <List>
-        {menu.map(({ id, text, icon, path }) => {
+        {menu.map(({ id, text, icon, inDrawer, path }) => {
+          if (!inDrawer) {
+            return null;
+          }
           const ListIconComponent = icon;
           return (
             <ListItem key={id} button onClick={onClickWithTimeOut} component={Link} to={path}>

@@ -8,6 +8,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import CreateIcon from '@material-ui/icons/Create';
 import PropTypes from 'prop-types';
 import { lighten, makeStyles } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
 
 const useToolbarStyles = makeStyles((theme) => ({
   root: {
@@ -17,8 +18,8 @@ const useToolbarStyles = makeStyles((theme) => ({
   highlight:
     theme.palette.type === 'light'
       ? {
-          color: theme.palette.secondary.main,
-          backgroundColor: lighten(theme.palette.secondary.light, 0.85),
+          color: theme.palette.secondary.dark,
+          backgroundColor: lighten(theme.palette.secondary.main, 0.75),
         }
       : {
           color: theme.palette.text.primary,
@@ -31,7 +32,12 @@ const useToolbarStyles = makeStyles((theme) => ({
 
 const EnhancedTableToolbar = (props) => {
   const classes = useToolbarStyles();
-  const { numSelected } = props;
+  const { numSelected, selectedProducts, deleteProducts, unSelectProducts } = props;
+
+  const onDelete = () => {
+    deleteProducts(selectedProducts);
+    unSelectProducts();
+  };
 
   return (
     <Toolbar
@@ -51,14 +57,14 @@ const EnhancedTableToolbar = (props) => {
 
       {numSelected === 1 && (
         <Tooltip title="Modifier">
-          <IconButton aria-label="modifier">
+          <IconButton aria-label="modifier" component={Link} to={`/products/${selectedProducts[0]}/edit`}>
             <CreateIcon />
           </IconButton>
         </Tooltip>
       )}
       {numSelected > 0 && (
         <Tooltip title="Supprimer">
-          <IconButton aria-label="supprimer">
+          <IconButton aria-label="supprimer" onClick={onDelete}>
             <DeleteIcon />
           </IconButton>
         </Tooltip>
@@ -69,6 +75,9 @@ const EnhancedTableToolbar = (props) => {
 
 EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
+  selectedProducts: PropTypes.arrayOf(PropTypes.string).isRequired,
+  deleteProducts: PropTypes.func.isRequired,
+  unSelectProducts: PropTypes.func.isRequired,
 };
 
 export default EnhancedTableToolbar;

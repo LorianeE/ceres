@@ -11,11 +11,13 @@ import Checkbox from '@material-ui/core/Checkbox';
 import TablePagination from '@material-ui/core/TablePagination';
 import EnhancedTableToolbar from './EnhancedTableToolbar';
 import EnhancedTableHead from './EnhancedTableHead';
+import { SHELF_TYPES } from '../../../data/shelf_types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
     maxWidth: 850,
+    marginTop: '20px',
   },
   paper: {
     width: '100%',
@@ -58,7 +60,7 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-const EnhancedTable = ({ rows }) => {
+const EnhancedTable = ({ rows, deleteProducts }) => {
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('label');
@@ -109,10 +111,17 @@ const EnhancedTable = ({ rows }) => {
 
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
+  const unSelectProducts = () => setSelected([]);
+
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar
+          selectedProducts={selected}
+          numSelected={selected.length}
+          deleteProducts={deleteProducts}
+          unSelectProducts={unSelectProducts}
+        />
         <TableContainer>
           <Table aria-labelledby="tableTitle" size="medium" aria-label="enhanced table">
             <EnhancedTableHead
@@ -144,11 +153,11 @@ const EnhancedTable = ({ rows }) => {
                       <TableCell padding="checkbox">
                         <Checkbox checked={isItemSelected} inputProps={{ 'aria-labelledby': labelId }} />
                       </TableCell>
-                      <TableCell component="th" id={labelId} scope="row" padding="none">
+                      <TableCell component="th" id={labelId} scope="row" padding="none" style={{ width: '45%' }}>
                         {row.label}
                       </TableCell>
                       <TableCell component="th" id={labelId} scope="row" padding="default">
-                        {row.shelf}
+                        {SHELF_TYPES[row.shelf]}
                       </TableCell>
                       <TableCell align="right" style={{ paddingLeft: '0px' }}>
                         {row.minimumQuantity}
@@ -178,6 +187,7 @@ const EnhancedTable = ({ rows }) => {
 EnhancedTable.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   rows: PropTypes.array.isRequired,
+  deleteProducts: PropTypes.func.isRequired,
 };
 
 export default EnhancedTable;

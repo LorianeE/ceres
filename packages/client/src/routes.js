@@ -8,6 +8,7 @@ import Store from './components/store/Store';
 import Menu from './components/menu/Menu';
 import Recipes from './components/recipes/Recipes';
 import ProductsContainer from './components/products/ProductsContainer';
+import EditProductForm from './components/products/EditProductForm';
 
 const routes = [
   {
@@ -15,6 +16,7 @@ const routes = [
     text: 'Liste de courses',
     icon: ShoppingCartIcon,
     path: '/shoppinglist',
+    inDrawer: true,
     component: ShoppingContainer,
   },
   {
@@ -22,6 +24,7 @@ const routes = [
     text: 'Réserve',
     icon: KitchenIcon,
     path: '/store',
+    inDrawer: true,
     component: Store,
   },
   {
@@ -29,6 +32,7 @@ const routes = [
     text: 'Menu',
     icon: RestaurantMenuIcon,
     path: '/menu',
+    inDrawer: true,
     component: Menu,
   },
   {
@@ -36,6 +40,7 @@ const routes = [
     text: 'Recettes',
     icon: MenuBookIcon,
     path: '/recipes',
+    inDrawer: true,
     component: Recipes,
   },
   {
@@ -43,7 +48,22 @@ const routes = [
     text: 'Mes produits',
     icon: PersonIcon,
     path: '/products',
+    inDrawer: true,
     component: ProductsContainer,
+  },
+  {
+    id: 6,
+    text: 'Ajouter un nouveau produit',
+    path: '/products/add',
+    inDrawer: false,
+    component: EditProductForm,
+  },
+  {
+    id: 7,
+    text: 'Editer un produit',
+    path: '/products/:id/edit',
+    inDrawer: false,
+    component: EditProductForm,
   },
 ];
 

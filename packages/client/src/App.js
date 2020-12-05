@@ -49,7 +49,8 @@ function App({ userLoggedIn, getUserInfo, logOut, fetchUserCallInProgress }) {
                   path={item.path}
                   component={() => {
                     const Component = item.component;
-                    return <Component />;
+                    const { props } = item;
+                    return <Component {...props} />;
                   }}
                 />
               ))}

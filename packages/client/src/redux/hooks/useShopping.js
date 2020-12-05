@@ -6,7 +6,7 @@ import { getUserDefaultShoppingListId } from '../selectors/user.selectors';
 import { getGenericProducts, getUserProducts } from '../selectors/products.selectors';
 import { getShoppingListItems } from '../selectors/shopping.selectors';
 import { getErrorMessage } from '../selectors/error.selectors';
-import { fetchProductsList } from '../actions/products.actions';
+import { fetchProductsList, fetchUserProductsList } from '../actions/products.actions';
 import {
   addItemAndSave,
   changeItemCommentAndSave,
@@ -24,7 +24,7 @@ export function useShopping() {
 
   const genericProducts = useSelector(getGenericProducts);
   const userProducts = useSelector(getUserProducts);
-  const allProducts = [...genericProducts, ...userProducts];
+  const allProducts = genericProducts && userProducts ? [...genericProducts, ...userProducts] : [];
 
   const userShoppingList = useSelector(getUserDefaultShoppingListId);
   const shoppingItems = useSelector(getShoppingListItems);
@@ -81,10 +81,16 @@ export function useShopping() {
   };
 
   useEffect(() => {
-    if (!allProducts.length) {
+    if (!genericProducts.length) {
       dispatch(fetchProductsList());
     }
-  }, [dispatch, allProducts.length]);
+  }, [dispatch, genericProducts.length]);
+
+  useEffect(() => {
+    if (!Array.isArray(userProducts)) {
+      dispatch(fetchUserProductsList());
+    }
+  }, [dispatch, userProducts]);
 
   useEffect(() => {
     if (userShoppingList && !filledShoppingList.length) {
