@@ -1,4 +1,4 @@
-import {Default, Enum, Required} from "@tsed/schema";
+import {Default, Enum, Groups, Required} from "@tsed/schema";
 import {Model, ObjectID, Ref} from "@tsed/mongoose";
 import {ShelfTypes} from "./ShelfTypes";
 import {User} from "./User";
@@ -6,6 +6,7 @@ import {User} from "./User";
 @Model()
 export class Product {
   @ObjectID("id")
+  @Groups("!creation")
   _id: string;
 
   @Required()

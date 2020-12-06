@@ -3,6 +3,7 @@ import {StoreController} from "./StoreController";
 import {StoreService} from "../services/StoreService";
 import {Store} from "../models/Store";
 import {StoreItem} from "../models/StoreItem";
+import {NotFound} from "@tsed/exceptions";
 
 describe("StoreController", () => {
   describe("getStore()", () => {
@@ -28,6 +29,30 @@ describe("StoreController", () => {
       expect(result).toEqual({id: "1", items: []});
       expect(storeService.getUserStore).toHaveBeenCalledTimes(1);
       expect(storeService.getUserStore).toHaveBeenCalledWith("userId");
+    });
+    it("should throw notfound if store not found", async () => {
+      // GIVEN
+      const storeService = {
+        getUserStore: jest.fn().mockResolvedValue(null)
+      };
+
+      const storeCtrl = await PlatformTest.invoke(StoreController, [
+        {
+          token: StoreService,
+          use: storeService
+        }
+      ]);
+
+      // WHEN
+      let actualError;
+      try {
+        await storeCtrl.getStore("userId");
+      } catch (err) {
+        actualError = err;
+      }
+
+      // THEN
+      expect(actualError).toBeInstanceOf(NotFound);
     });
   });
   describe("addStore()", () => {

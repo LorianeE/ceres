@@ -19,12 +19,8 @@ export class StoreService {
     return storeModel.save();
   }
 
-  async getUserStore(userId: string): Promise<Store> {
-    const store = await this.store.findOne({users: userId}).exec();
-    if (!store) {
-      throw new NotFound("User does not have any store.");
-    }
-    return store;
+  async getUserStore(userId: string): Promise<Store | null> {
+    return this.store.findOne({users: userId}).exec();
   }
 
   async addStoreForUser(userId: string, store: Store): Promise<Store> {
@@ -43,6 +39,14 @@ export class StoreService {
       return storeModel;
     }
     return dbStore;
+  }
+
+  async getItemFromStoreByProductId(storeId: string, productId: string): Promise<StoreItem | undefined> {
+    const store = await this.store.findById(storeId).exec();
+    if (!store) {
+      throw new NotFound("Store not found");
+    }
+    return store.items.find((item) => item.product.toString() === productId);
   }
 
   async addItemToStore(storeId: string, item: StoreItem): Promise<StoreItem> {

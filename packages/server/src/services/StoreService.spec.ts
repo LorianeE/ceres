@@ -71,33 +71,6 @@ describe("StoreService", () => {
       expect(result).toEqual({id: "1234"});
       expect(store.findOne).toHaveBeenCalledWith({users: "1234"});
     });
-    it("should throw notfound if user does not have store", async () => {
-      // GIVEN
-      const store = {
-        findOne: jest.fn().mockReturnValue({
-          exec: jest.fn().mockResolvedValue(null)
-        })
-      };
-
-      const storeService = await PlatformTest.invoke(StoreService, [
-        {
-          token: Store,
-          use: store
-        }
-      ]);
-
-      // WHEN
-      let actualError;
-      try {
-        await storeService.getUserStore("1234");
-      } catch (err) {
-        actualError = err;
-      }
-
-      // THEN
-      expect(actualError).toBeInstanceOf(NotFound);
-      expect(store.findOne).toHaveBeenCalledWith({users: "1234"});
-    });
   });
   describe("addStoreForUser()", () => {
     beforeEach(() => PlatformTest.create());
@@ -476,6 +449,59 @@ describe("StoreService", () => {
           items: {_id: item._id}
         }
       });
+    });
+  });
+  describe("getItemFromStoreByProductId()", () => {
+    beforeEach(() => PlatformTest.create());
+    afterEach(() => PlatformTest.reset());
+    it("should return a item from store", async () => {
+      // GIVEN
+      const store = {
+        findById: jest.fn().mockReturnValue({
+          exec: jest.fn().mockResolvedValue({id: "1234", items: [{_id: "itemId", product: "productId"}]})
+        })
+      };
+
+      const storeService = await PlatformTest.invoke(StoreService, [
+        {
+          token: Store,
+          use: store
+        }
+      ]);
+
+      // WHEN
+      const result = await storeService.getItemFromStoreByProductId("storeId", "productId");
+
+      // THEN
+      expect(result).toEqual({_id: "itemId", product: "productId"});
+      expect(store.findById).toHaveBeenCalledWith("storeId");
+    });
+    it("should throw notfound if store not found", async () => {
+      // GIVEN
+      const store = {
+        findById: jest.fn().mockReturnValue({
+          exec: jest.fn().mockResolvedValue(null)
+        })
+      };
+
+      const storeService = await PlatformTest.invoke(StoreService, [
+        {
+          token: Store,
+          use: store
+        }
+      ]);
+
+      // WHEN
+      let actualError;
+      try {
+        await storeService.getItemFromStoreByProductId("storeId", "productId");
+      } catch (err) {
+        actualError = err;
+      }
+
+      // THEN
+      expect(actualError).toBeInstanceOf(NotFound);
+      expect(store.findById).toHaveBeenCalledWith("storeId");
     });
   });
 });
