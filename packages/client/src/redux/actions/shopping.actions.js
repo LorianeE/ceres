@@ -7,11 +7,14 @@ import {
   ADD_ITEM,
   UPDATE_ITEM_FAILURE,
   POST_ITEM_FAILURE,
+  MOVE_ITEM_FAILURE,
 } from '../constants/ShoppingActionTypes';
 import { beginApiCall, endApiCall } from './apiStatus.actions';
 import { getErrMsg } from '../../utils/ErrorUtils';
-import { getShoppingList, postItem, postShoppingList, putItem } from '../../utils/http/ShoppingClient';
+import { getShoppingList, postItem, postShopItemToStore, postShoppingList, putItem } from '../../utils/http/ShoppingClient';
 import { CREATE_NEW_SHOPPING_LIST } from '../constants/UserActionTypes';
+import { fetchStore } from './store.actions';
+import { CHANGE_STORE_ITEM_QUANTITY } from '../constants/StoreActionTypes';
 
 function fetchShoppingListSuccess(shoppinglist) {
   return { type: RECEIVED_SHOPPING_LIST_SUCCESS, payload: { list: shoppinglist } };
@@ -117,5 +120,32 @@ export function createNewShoppingList() {
     };
     const shoppingList = await postShoppingList(userId, emptyShoppingList);
     dispatch({ type: CREATE_NEW_SHOPPING_LIST, payload: { list: shoppingList } });
+  };
+}
+
+export function moveShopItemToStore(itemId, quantityToMove) {
+  return async (dispatch, getState) => {
+    const userId = getState().user.id;
+    const shoppingListId = getState().shoppingList.id;
+    const storeId = getState().store.id;
+    dispatch(beginApiCall());
+    try {
+      await postShopItemToStore(userId, shoppingListId, itemId, quantityToMove);
+      dispatch(endApiCall());
+      // Update shopping list in store
+      dispatch(fetchShoppingList(shoppingListId));
+      // Update store
+      dispatch(fetchStore(storeId));
+    } catch (err) {
+      dispatch({ type: MOVE_ITEM_FAILURE, payload: { errMsg: getErrMsg(err) } });
+    }
+  };
+}
+
+export function moveShopItemToStoreAndSave(itemId, quantityToMove) {
+  return (dispatch) => {
+    dispatch(changeItemQuantity(itemId, -quantityToMove));
+    dispatch({ type: CHANGE_STORE_ITEM_QUANTITY, payload: { itemId, quantityToMove } });
+    dispatch(moveShopItemToStore(itemId, quantityToMove));
   };
 }

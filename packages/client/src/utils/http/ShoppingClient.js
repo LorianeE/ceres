@@ -25,3 +25,7 @@ export async function postItem(userId, shoppingListId, item) {
 export async function putItem(userId, shoppingListId, item) {
   return httpClient.put(`/rest/users/${userId}/shopping-lists/${shoppingListId}/items/${item.id}`, item);
 }
+
+export async function postShopItemToStore(userId, shoppingListId, itemId, quantityToMove) {
+  return httpClient.post(`/rest/users/${userId}/shopping-lists/${shoppingListId}/items/${itemId}/store`, { quantityToMove });
+}

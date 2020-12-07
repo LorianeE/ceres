@@ -3,6 +3,7 @@ export default {
     isLoggedIn: false,
   },
   shoppingList: {},
+  store: {},
   products: {
     dbList: [],
     userList: undefined,
