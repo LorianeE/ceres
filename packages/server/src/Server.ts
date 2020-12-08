@@ -40,7 +40,7 @@ function setCustomCacheControl(res: ServerResponse, path: string) {
     "/rest": [`${rootDir}/controllers/**/*.ts`]
   },
   componentsScan: [
-    `${rootDir}/protocols/*{.ts,.js}` // scan protocols directory
+    `${rootDir}/protocols/*.ts` // scan protocols directory
   ],
   passport: {
     userInfoModel: User
