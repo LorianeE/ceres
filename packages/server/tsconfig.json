@@ -17,13 +17,15 @@
     "importHelpers": true,
     "newLine": "LF",
     "noEmit": true,
+    "resolveJsonModule": true,
     "lib": [
       "es7",
       "dom",
       "esnext.asynciterable"
     ],
     "typeRoots": [
-      "./node_modules/@types"
+      "./node_modules/@types",
+      "../../node_modules/@types"
     ]
   },
   "include": [
