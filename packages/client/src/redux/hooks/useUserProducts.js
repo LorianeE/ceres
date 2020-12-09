@@ -12,7 +12,7 @@ export function useUserProducts() {
     if (!userProductsList.length) {
       dispatch(fetchUserProductsList());
     }
-  }, [dispatch, userProductsList.length]);
+  }, [dispatch, userProductsList]);
 
   return {
     userProducts: userProductsList,
