@@ -1,12 +1,9 @@
 import httpClient from './HttpClient';
 import { mapStoreFromApiToNormalized } from '../StoreMapper';
 
-export async function getStore(userId, storeId) {
-  if (storeId) {
-    const store = await httpClient.get(`/rest/users/${userId}/store/${storeId}`);
-    return mapStoreFromApiToNormalized(store);
-  }
-  throw new Error('No store id.');
+export async function getStore(userId) {
+  const store = await httpClient.get(`/rest/users/${userId}/store`);
+  return mapStoreFromApiToNormalized(store);
 }
 
 export async function postStore(userId, store) {

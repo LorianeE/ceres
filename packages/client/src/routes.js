@@ -4,11 +4,11 @@ import RestaurantMenuIcon from '@material-ui/icons/RestaurantMenu';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import PersonIcon from '@material-ui/icons/Person';
 import ShoppingContainer from './components/shopping/ShoppingContainer';
-import Store from './components/store/Store';
 import Menu from './components/menu/Menu';
 import Recipes from './components/recipes/Recipes';
 import ProductsContainer from './components/products/ProductsContainer';
 import EditProductForm from './components/products/EditProductForm';
+import StoreContainer from './components/store/StoreContainer';
 
 const routes = [
   {
@@ -25,7 +25,7 @@ const routes = [
     icon: KitchenIcon,
     path: '/store',
     inDrawer: true,
-    component: Store,
+    component: StoreContainer,
   },
   {
     id: 3,

@@ -19,13 +19,13 @@ function fetchStoreFailure(err) {
   return { type: RECEIVED_STORE_FAILURE, payload: { errMsg: getErrMsg(err) } };
 }
 
-export function fetchStore(storeId) {
+export function fetchStore() {
   return async (dispatch, getState) => {
     const userId = getState().user.id;
     dispatch(beginApiCall());
 
     try {
-      const store = await getStore(userId, storeId);
+      const store = await getStore(userId);
       dispatch(fetchStoreSuccess(store));
     } catch (err) {
       dispatch(fetchStoreFailure(err));
@@ -78,7 +78,7 @@ export function changeStoreItemQuantityAndSave(itemId, quantityToAdd) {
   return (dispatch, getState) => {
     const item = getState().store.items[itemId];
     dispatch({ type: CHANGE_STORE_ITEM_QUANTITY, payload: { itemId, quantityToAdd } });
-    dispatch(updateStoreItem(item, { quantityToAdd }));
+    dispatch(updateStoreItem(item, quantityToAdd));
   };
 }
 

@@ -1,11 +1,11 @@
 import React from 'react';
-import AddProductArea from './components/AddProductArea';
 import ShoppingList from './components/ShoppingList';
 import ShoppingHeader from './components/ShoppingHeader';
 import CreateListComponent from './components/CreateListComponent';
 // import Spinner from '../common/Spinner';
 import SnackbarError from '../common/SnackbarError';
 import { useShopping } from '../../redux/hooks/useShopping';
+import AddProductArea from '../common/AddProductArea';
 
 const ShoppingContainer = () => {
   // if (loading) {

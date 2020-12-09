@@ -81,10 +81,10 @@ export function useShopping() {
   };
 
   useEffect(() => {
-    if (!genericProducts.length) {
+    if (!genericProducts) {
       dispatch(fetchProductsList());
     }
-  }, [dispatch, genericProducts.length]);
+  }, [dispatch, genericProducts]);
 
   useEffect(() => {
     if (!Array.isArray(userProducts)) {

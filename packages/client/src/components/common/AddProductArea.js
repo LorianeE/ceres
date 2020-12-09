@@ -5,7 +5,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
-import useStyles from '../shoppingStyle';
+import useStyles from './addProductAreaStyle';
 
 const AddProductArea = ({ addItem, products }) => {
   const classes = useStyles();
