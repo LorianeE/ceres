@@ -53,7 +53,7 @@ function shoppingListReducers(state = initialState.shoppingList, action) {
         ...state,
         items: changeItemComment(state.items, action),
       };
-    case types.ADD_ITEM:
+    case types.ADD_SHOPPING_ITEM:
       return {
         ...state,
         items: addItem(state.items, action),

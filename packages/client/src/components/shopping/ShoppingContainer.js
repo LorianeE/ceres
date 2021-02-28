@@ -20,7 +20,7 @@ const ShoppingContainer = () => {
     shoppingMode,
     switchShoppingMode,
     itemsRemoved,
-    removeItem,
+    moveShopItemToStore,
     cancelRemoveItem,
     addItemFromProductArea,
     changeItemQuantity,
@@ -45,7 +45,7 @@ const ShoppingContainer = () => {
           <ShoppingList
             shoppingList={shoppingList}
             shelves={shelves}
-            removeItem={removeItem}
+            moveShopItemToStore={moveShopItemToStore}
             shoppingMode={shoppingMode}
             changeItemQuantity={changeItemQuantity}
             changeItemComment={changeItemComment}

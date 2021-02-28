@@ -9,10 +9,12 @@ import { getErrorMessage } from '../selectors/error.selectors';
 import { fetchProductsList, fetchUserProductsList } from '../actions/products.actions';
 import {
   addItemAndSave,
+  cancelMoveShopItemToStoreAndSave,
   changeItemCommentAndSave,
   changeItemQuantityAndSave,
   createNewShoppingList,
   fetchShoppingList,
+  moveShopItemToStoreAndSave,
 } from '../actions/shopping.actions';
 import { resetErrorMessage } from '../actions/error.actions';
 
@@ -37,7 +39,10 @@ export function useShopping() {
     }
     setShoppingMode(!shoppingMode);
   };
-
+  /**
+   * @deprecated Use moveShopItemToStore
+   * @param itemId
+   */
   const removeItem = (itemId) => {
     const removedItem = filledShoppingList.find((item) => item.id === itemId);
     dispatch(changeItemQuantityAndSave(itemId, -1));
@@ -48,19 +53,19 @@ export function useShopping() {
     setItemsRemoved([...itemsRemoved, newLastItemRemoved]);
   };
 
+  const moveShopItemToStore = (itemId) => {
+    const removedItem = filledShoppingList.find((item) => item.id === itemId);
+    dispatch(moveShopItemToStoreAndSave(itemId, 1));
+    const newLastItemRemoved = {
+      ...removedItem,
+      quantity: 1,
+    };
+    setItemsRemoved([...itemsRemoved, newLastItemRemoved]);
+  };
+
   const cancelRemoveItem = () => {
     const lastItemRemoved = itemsRemoved[itemsRemoved.length - 1];
-    const itemInList = filledShoppingList.find((item) => item.id === lastItemRemoved.id);
-    if (itemInList) {
-      dispatch(changeItemQuantityAndSave(itemInList.id, lastItemRemoved.quantity));
-    } else {
-      dispatch(
-        addItemAndSave({
-          ...lastItemRemoved,
-          product: lastItemRemoved.product.id,
-        })
-      );
-    }
+    dispatch(cancelMoveShopItemToStoreAndSave(lastItemRemoved, 1));
     const newItemsRemoved = itemsRemoved.slice(0, itemsRemoved.length - 1);
     setItemsRemoved(newItemsRemoved);
   };
@@ -111,6 +116,7 @@ export function useShopping() {
     removeItem,
     cancelRemoveItem,
     addItemFromProductArea,
+    moveShopItemToStore,
     changeItemQuantity: (itemId, quantityToAdd) => dispatch(changeItemQuantityAndSave(itemId, quantityToAdd)),
     changeItemComment: (itemId, comment) => dispatch(changeItemCommentAndSave(itemId, comment)),
     createList: () => dispatch(createNewShoppingList()),

@@ -7,7 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Typography from '@material-ui/core/Typography';
 
-const ItemShopModeOn = ({ item, removeItem }) => {
+const ItemShopModeOn = ({ item, moveShopItemToStore }) => {
   const [checked, setChecked] = useState(false);
 
   const removeAddedItemWithTimeOut = (e) => {
@@ -15,7 +15,7 @@ const ItemShopModeOn = ({ item, removeItem }) => {
     setChecked(true);
     setTimeout(() => {
       setChecked(false);
-      removeItem(id);
+      moveShopItemToStore(id);
     }, 200);
   };
 
@@ -61,7 +61,7 @@ ItemShopModeOn.propTypes = {
     }).isRequired,
     comment: PropTypes.string,
   }).isRequired,
-  removeItem: PropTypes.func.isRequired,
+  moveShopItemToStore: PropTypes.func.isRequired,
 };
 
 export default ItemShopModeOn;
