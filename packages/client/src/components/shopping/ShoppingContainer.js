@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ShoppingList from './components/ShoppingList';
 import ShoppingHeader from './components/ShoppingHeader';
 import CreateListComponent from './components/CreateListComponent';
@@ -19,6 +19,7 @@ const ShoppingContainer = () => {
     error,
     shoppingMode,
     switchShoppingMode,
+    turnShoppingModeOff,
     itemsRemoved,
     moveShopItemToStore,
     cancelRemoveItem,
@@ -28,6 +29,12 @@ const ShoppingContainer = () => {
     createList,
     resetErrorMsg,
   } = useShopping();
+
+  useEffect(() => {
+    if (!shoppingList.length && shoppingMode) {
+      turnShoppingModeOff();
+    }
+  }, [turnShoppingModeOff, shoppingList, shoppingMode]);
 
   return (
     <>

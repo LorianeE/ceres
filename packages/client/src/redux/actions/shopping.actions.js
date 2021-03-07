@@ -125,6 +125,9 @@ export function createNewShoppingList() {
 }
 
 function getItemFromProductId(productId, normalizedItemList) {
+  if (!normalizedItemList) {
+    return undefined;
+  }
   return Object.values(normalizedItemList).find((item) => item.product === productId);
 }
 

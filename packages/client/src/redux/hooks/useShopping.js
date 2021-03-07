@@ -17,6 +17,8 @@ import {
   moveShopItemToStoreAndSave,
 } from '../actions/shopping.actions';
 import { resetErrorMessage } from '../actions/error.actions';
+import { getStoreId } from '../selectors/store.selectors';
+import { fetchStore } from '../actions/store.actions';
 
 export function useShopping() {
   const dispatch = useDispatch();
@@ -33,11 +35,18 @@ export function useShopping() {
   const filledShoppingList = getFilledShoppingList(shoppingItems, allProducts);
   const shelves = Array.from(new Set(filledShoppingList.map((item) => item.product.shelf))).sort();
 
+  const userStore = useSelector(getStoreId);
+
   const switchShoppingMode = () => {
-    if (shoppingMode) {
+    if (filledShoppingList && filledShoppingList.length) {
       setItemsRemoved([]);
+      setShoppingMode(!shoppingMode);
     }
-    setShoppingMode(!shoppingMode);
+  };
+
+  const turnShoppingModeOff = () => {
+    setItemsRemoved([]);
+    setShoppingMode(false);
   };
   /**
    * @deprecated Use moveShopItemToStore
@@ -85,6 +94,8 @@ export function useShopping() {
     }
   };
 
+  // TODO: Déplacer ces useEffect dans l'App pour que ça se lance au démarrage, peu importe sur quelle page on est au départ.
+
   useEffect(() => {
     if (!genericProducts) {
       dispatch(fetchProductsList());
@@ -103,6 +114,12 @@ export function useShopping() {
     }
   }, [dispatch, filledShoppingList.length, userShoppingList]);
 
+  useEffect(() => {
+    if (!userStore) {
+      dispatch(fetchStore());
+    }
+  }, [dispatch, userStore]);
+
   return {
     userShoppingList,
     products: sortByLabel(allProducts),
@@ -112,6 +129,7 @@ export function useShopping() {
     resetErrorMsg: () => dispatch(resetErrorMessage()),
     shoppingMode,
     switchShoppingMode,
+    turnShoppingModeOff,
     itemsRemoved,
     removeItem,
     cancelRemoveItem,
