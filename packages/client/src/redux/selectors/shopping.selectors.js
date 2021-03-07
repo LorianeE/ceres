@@ -3,5 +3,5 @@ export function getShoppingList(state) {
 }
 
 export function getShoppingListItems(state) {
-  return state.shoppingList.items;
+  return state.shoppingList?.items;
 }

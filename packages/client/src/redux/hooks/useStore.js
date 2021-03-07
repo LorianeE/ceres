@@ -48,11 +48,11 @@ export function useStore() {
   }, [dispatch, userProducts]);
 
   useEffect(() => {
-    // TODO: Attention à la boucle infinie en cas d'absence de storeId: du coup créer un store par défaut ?
-    if (!storeId) {
-      dispatch(fetchStore(storeId));
+    // TODO: Attention en cas d'absence de store: du coup créer un store par défaut ?
+    if (!storeItems) {
+      dispatch(fetchStore());
     }
-  }, [dispatch, storeId]);
+  }, [dispatch, storeItems]);
 
   return {
     storeId,

@@ -2,8 +2,8 @@ export default {
   user: {
     isLoggedIn: false,
   },
-  shoppingList: {},
-  store: {},
+  shoppingList: null,
+  store: null,
   products: {
     dbList: undefined,
     userList: undefined,

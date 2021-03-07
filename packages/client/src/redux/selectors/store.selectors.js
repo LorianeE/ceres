@@ -1,7 +1,7 @@
 export function getStoreId(state) {
-  return state.store.id;
+  return state.store?.id;
 }
 
 export function getStoreItems(state) {
-  return state.store.items;
+  return state.store?.items;
 }

@@ -19,7 +19,7 @@ const ProductsContainer = () => {
       >
         Ajouter un nouveau produit
       </Button>
-      <EnhancedTable rows={userProducts} deleteProducts={deleteProducts} />
+      {userProducts && <EnhancedTable rows={userProducts} deleteProducts={deleteProducts} />}
     </div>
   );
 };

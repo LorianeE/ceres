@@ -109,10 +109,10 @@ export function useShopping() {
   }, [dispatch, userProducts]);
 
   useEffect(() => {
-    if (userShoppingList && !filledShoppingList.length) {
+    if (userShoppingList && !shoppingItems) {
       dispatch(fetchShoppingList(userShoppingList));
     }
-  }, [dispatch, filledShoppingList.length, userShoppingList]);
+  }, [dispatch, shoppingItems, userShoppingList]);
 
   useEffect(() => {
     if (!userStore) {
