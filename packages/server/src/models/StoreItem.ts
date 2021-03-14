@@ -9,7 +9,7 @@ export class StoreItem {
   _id: string;
 
   @Required()
-  @Ref(Product)
+  @Ref(() => Product)
   product: Ref<Product>;
 
   @Required()

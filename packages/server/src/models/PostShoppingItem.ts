@@ -4,7 +4,7 @@ import {Product} from "./Product";
 
 export class PostShoppingItem {
   @Required()
-  @Ref(Product)
+  @Ref(() => Product)
   product: Ref<Product>;
 
   @Required()

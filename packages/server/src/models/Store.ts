@@ -13,6 +13,6 @@ export class Store {
   items: StoreItem[];
 
   @Default([])
-  @Ref("User")
+  @Ref(() => User)
   users: Ref<User>[] = [];
 }

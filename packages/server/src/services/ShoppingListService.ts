@@ -1,4 +1,4 @@
-import * as mongoose from "mongoose";
+import mongoose from "mongoose";
 import {Inject, Service} from "@tsed/common";
 import {MongooseModel} from "@tsed/mongoose";
 import {ShoppingList} from "../models/ShoppingList";

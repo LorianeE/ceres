@@ -1,4 +1,4 @@
-import {Default, Property, Required} from "@tsed/schema";
+import {Default, Groups, Property, Required} from "@tsed/schema";
 import {Model, Unique, Ref, ObjectID} from "@tsed/mongoose";
 import {UserInfo} from "@tsed/passport";
 import {ShoppingList} from "./ShoppingList";
@@ -6,6 +6,7 @@ import {ShoppingList} from "./ShoppingList";
 @Model()
 export class User extends UserInfo {
   @Property()
+  @Groups("!creation")
   @ObjectID("id")
   _id: string;
 
@@ -22,6 +23,6 @@ export class User extends UserInfo {
   email: string;
 
   @Default([])
-  @Ref("ShoppingList")
+  @Ref(() => ShoppingList)
   shoppingLists: Ref<ShoppingList>[] = [];
 }

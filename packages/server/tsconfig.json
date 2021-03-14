@@ -18,6 +18,7 @@
     "newLine": "LF",
     "noEmit": true,
     "resolveJsonModule": true,
+    "esModuleInterop": true,
     "lib": [
       "es7",
       "dom",

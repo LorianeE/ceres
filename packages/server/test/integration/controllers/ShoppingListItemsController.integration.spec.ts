@@ -1,5 +1,5 @@
-import {PlatformTest} from "@tsed/common";
-import * as SuperTest from "supertest";
+import {PlatformContext, PlatformTest} from "@tsed/common";
+import SuperTest from "supertest";
 import {Server} from "../../../src/Server";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
 import {PassportMiddleware} from "@tsed/passport";
@@ -54,8 +54,8 @@ describe("ShoppingListItems", () => {
 
         userId = dbUser._id.toString();
 
-        jest.spyOn(passportMiddleware, "use").mockImplementation((req) => {
-          req.user = dbUser;
+        jest.spyOn(passportMiddleware, "use").mockImplementation(async (ctx: PlatformContext) => {
+          ctx.getRequest().user = dbUser;
         });
       }
     )
