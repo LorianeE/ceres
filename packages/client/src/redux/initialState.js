@@ -5,8 +5,8 @@ export default {
   shoppingList: null,
   store: null,
   products: {
-    dbList: undefined,
-    userList: undefined,
+    dbList: null,
+    userList: null,
   },
   error: {
     errorMsg: '',

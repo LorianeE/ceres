@@ -7,5 +7,5 @@ export function getUserIsLoggedIn(state) {
 }
 
 export function getUserDefaultShoppingListId(state) {
-  return state.user.shoppingLists[0];
+  return state.user.shoppingLists?.[0];
 }

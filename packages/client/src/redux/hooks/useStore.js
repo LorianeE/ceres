@@ -1,11 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
 import { sortByLabel } from '../../utils/ProductsUtils';
 import { getGenericProducts, getUserProducts } from '../selectors/products.selectors';
 import { getErrorMessage } from '../selectors/error.selectors';
-import { fetchProductsList, fetchUserProductsList } from '../actions/products.actions';
 import { resetErrorMessage } from '../actions/error.actions';
-import { addStoreItemAndSave, changeStoreItemQuantityAndSave, createNewStore, fetchStore } from '../actions/store.actions';
+import { addStoreItemAndSave, changeStoreItemQuantityAndSave, createNewStore } from '../actions/store.actions';
 import { getStoreId, getStoreItems } from '../selectors/store.selectors';
 import { getFilledStore } from '../../utils/StoreMapper';
 
@@ -34,25 +32,6 @@ export function useStore() {
       );
     }
   };
-
-  useEffect(() => {
-    if (!genericProducts) {
-      dispatch(fetchProductsList());
-    }
-  }, [dispatch, genericProducts]);
-
-  useEffect(() => {
-    if (!Array.isArray(userProducts)) {
-      dispatch(fetchUserProductsList());
-    }
-  }, [dispatch, userProducts]);
-
-  useEffect(() => {
-    // TODO: Attention en cas d'absence de store: du coup créer un store par défaut ?
-    if (!storeItems) {
-      dispatch(fetchStore());
-    }
-  }, [dispatch, storeItems]);
 
   return {
     storeId,
