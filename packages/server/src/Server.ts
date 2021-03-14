@@ -75,29 +75,7 @@ function setCustomCacheControl(res: ServerResponse, path: string) {
       }
     ]
   },
-  middlewares: [
-    cors(),
-    favicon(path.join(clientDir, "favicon.ico")),
-    cookieParser(),
-    compress({}),
-    methodOverride(),
-    bodyParser.json(),
-    bodyParser.urlencoded({
-      extended: true
-    }),
-    session({
-      secret: process.env.SESSION_SECRET || "mydefaultsecret",
-      resave: true,
-      saveUninitialized: true,
-      // maxAge: 36000,
-      cookie: {
-        path: "/",
-        httpOnly: true,
-        secure: false,
-        maxAge: undefined
-      }
-    })
-  ],
+  middlewares: [cors(), favicon(path.join(clientDir, "favicon.ico")), cookieParser(), compress({}), methodOverride()],
   cache: {
     ttl: 300, // default TTL
     store: mongooseStore,
@@ -111,6 +89,32 @@ function setCustomCacheControl(res: ServerResponse, path: string) {
 export class Server {
   @Inject()
   app: PlatformApplication<Express.Application>;
+
+  $beforeRoutesInit() {
+    this.app
+      .use(bodyParser.json())
+      .use(
+        bodyParser.urlencoded({
+          extended: true
+        })
+      )
+      .use(
+        session({
+          secret: process.env.SESSION_SECRET || "mydefaultsecret",
+          resave: true,
+          saveUninitialized: true,
+          // maxAge: 36000,
+          cookie: {
+            path: "/",
+            httpOnly: true,
+            secure: false,
+            maxAge: undefined
+          }
+        })
+      );
+
+    return null;
+  }
 
   $afterRoutesInit() {
     this.app.get(`/*`, (req: any, res: Res) => {
