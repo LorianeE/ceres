@@ -5,7 +5,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
-import useStyles from '../shoppingStyle';
+import useStyles from './addProductAreaStyle';
 
 const AddProductArea = ({ addItem, products }) => {
   const classes = useStyles();
@@ -16,7 +16,7 @@ const AddProductArea = ({ addItem, products }) => {
     setProductToAdd(value);
   };
 
-  const onClick = () => {
+  const handleAddProduct = () => {
     if (productToAdd) {
       setProductToAdd(null);
       addItem({
@@ -36,10 +36,15 @@ const AddProductArea = ({ addItem, products }) => {
           getOptionSelected={(option, value) => value && option.name === value.name}
           renderInput={(params) => <TextField {...params} label="Produit à ajouter" variant="outlined" />}
           onChange={onAutocompleteChange}
+          onKeyDown={(event) => {
+            if (event.key === 'Enter') {
+              handleAddProduct();
+            }
+          }}
         />
       </Grid>
       <Grid item xs={1}>
-        <Fab color="primary" aria-label="add" size="small" onClick={onClick}>
+        <Fab color="primary" aria-label="add" size="small" onClick={handleAddProduct}>
           <AddIcon />
         </Fab>
       </Grid>

@@ -2,10 +2,11 @@ export default {
   user: {
     isLoggedIn: false,
   },
-  shoppingList: {},
+  shoppingList: null,
+  store: null,
   products: {
-    dbList: [],
-    userList: undefined,
+    dbList: null,
+    userList: null,
   },
   error: {
     errorMsg: '',

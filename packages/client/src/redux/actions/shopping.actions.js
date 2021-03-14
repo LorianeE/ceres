@@ -4,7 +4,7 @@ import {
   RECEIVED_SHOPPING_LIST_FAILURE,
   CHANGE_SHOPPING_ITEM_QUANTITY,
   CHANGE_SHOPPING_ITEM_COMMENT,
-  ADD_ITEM,
+  ADD_SHOPPING_ITEM,
   UPDATE_ITEM_FAILURE,
   POST_ITEM_FAILURE,
 } from '../constants/ShoppingActionTypes';
@@ -12,10 +12,12 @@ import { beginApiCall, endApiCall } from './apiStatus.actions';
 import { getErrMsg } from '../../utils/ErrorUtils';
 import { getShoppingList, postItem, postShoppingList, putItem } from '../../utils/http/ShoppingClient';
 import { CREATE_NEW_SHOPPING_LIST } from '../constants/UserActionTypes';
+import { addStoreItemAndSave, changeStoreItemQuantityAndSave } from './store.actions';
 
 function fetchShoppingListSuccess(shoppinglist) {
   return { type: RECEIVED_SHOPPING_LIST_SUCCESS, payload: { list: shoppinglist } };
 }
+
 function fetchShoppingListFailure(err) {
   return { type: RECEIVED_SHOPPING_LIST_FAILURE, payload: { errMsg: getErrMsg(err) } };
 }
@@ -37,11 +39,13 @@ export function fetchShoppingList(shoppingListId) {
 function changeItemQuantity(itemId, quantityToAdd) {
   return { type: CHANGE_SHOPPING_ITEM_QUANTITY, payload: { itemId, quantityToAdd } };
 }
+
 function changeItemComment(itemId, comment) {
   return { type: CHANGE_SHOPPING_ITEM_COMMENT, payload: { itemId, comment } };
 }
-function addItem(item) {
-  return { type: ADD_ITEM, payload: { item: { id: nanoid(), ...item } } };
+
+function addShoppingItem(item) {
+  return { type: ADD_SHOPPING_ITEM, payload: { item: { id: nanoid(), ...item } } };
 }
 
 export function postNewItem(item) {
@@ -104,7 +108,7 @@ export function changeItemCommentAndSave(itemId, comment) {
 
 export function addItemAndSave(item) {
   return (dispatch) => {
-    dispatch(addItem(item));
+    dispatch(addShoppingItem(item));
     dispatch(postNewItem(item));
   };
 }
@@ -117,5 +121,56 @@ export function createNewShoppingList() {
     };
     const shoppingList = await postShoppingList(userId, emptyShoppingList);
     dispatch({ type: CREATE_NEW_SHOPPING_LIST, payload: { list: shoppingList } });
+  };
+}
+
+function getItemFromProductId(productId, normalizedItemList) {
+  if (!normalizedItemList) {
+    return undefined;
+  }
+  return Object.values(normalizedItemList).find((item) => item.product === productId);
+}
+
+export function moveShopItemToStoreAndSave(itemId, quantityToMove) {
+  return (dispatch, getState) => {
+    const shoppingItems = getState().shoppingList.items;
+    const storeItems = getState().store.items;
+    const productId = shoppingItems[itemId].product;
+    const matchingItemInStore = getItemFromProductId(productId, storeItems);
+
+    dispatch(changeItemQuantityAndSave(itemId, -quantityToMove));
+    if (matchingItemInStore) {
+      dispatch(changeStoreItemQuantityAndSave(matchingItemInStore.id, quantityToMove));
+    } else {
+      const itemToAddInStore = {
+        product: shoppingItems[itemId].product,
+        quantity: quantityToMove,
+      };
+      dispatch(addStoreItemAndSave(itemToAddInStore, quantityToMove));
+    }
+  };
+}
+
+export function cancelMoveShopItemToStoreAndSave(lastItemRemoved, quantityToMove) {
+  return (dispatch, getState) => {
+    const shoppingItems = getState().shoppingList.items;
+    const storeItems = getState().store.items;
+    const productId = lastItemRemoved.product.id;
+
+    const itemInList = getItemFromProductId(productId, shoppingItems);
+    const matchingItemInStore = getItemFromProductId(productId, storeItems);
+
+    if (itemInList) {
+      dispatch(changeItemQuantityAndSave(itemInList.id, lastItemRemoved.quantity));
+    } else {
+      dispatch(
+        addItemAndSave({
+          ...lastItemRemoved,
+          product: lastItemRemoved.product.id,
+        })
+      );
+    }
+    // There must be a matchingItemInStore since we just put it there and that is what we want to cancel.
+    dispatch(changeStoreItemQuantityAndSave(matchingItemInStore.id, -quantityToMove));
   };
 }

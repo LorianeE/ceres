@@ -1,4 +1,4 @@
-import {BodyParams, Context, Controller, Get, PathParams, Post, Put, UseBefore, UseBeforeEach} from "@tsed/common";
+import {BodyParams, Controller, Get, PathParams, Post, Put, UseBefore, UseBeforeEach} from "@tsed/common";
 import {ShoppingListService} from "../services/ShoppingListService";
 import {Returns, Summary} from "@tsed/schema";
 import {Authenticate} from "@tsed/passport";
@@ -23,7 +23,7 @@ export class ShoppingListsController {
   @Summary("Get shopping list from a user")
   @UseBefore(CheckIsAllowedUserMiddleware)
   @Returns(200, ShoppingList)
-  async get(@Context() context: Context, @PathParams("shoppingListId") shoppingListId: string): Promise<ShoppingList> {
+  async get(@PathParams("shoppingListId") shoppingListId: string): Promise<ShoppingList> {
     const shoppingList = await this.shoppingListService.find(shoppingListId);
     if (!shoppingList) {
       throw new NotFound("Could not find shopping list");

@@ -1,11 +1,11 @@
-import React from 'react';
-import AddProductArea from './components/AddProductArea';
+import React, { useEffect } from 'react';
 import ShoppingList from './components/ShoppingList';
 import ShoppingHeader from './components/ShoppingHeader';
 import CreateListComponent from './components/CreateListComponent';
 // import Spinner from '../common/Spinner';
 import SnackbarError from '../common/SnackbarError';
 import { useShopping } from '../../redux/hooks/useShopping';
+import AddProductArea from '../common/AddProductArea';
 
 const ShoppingContainer = () => {
   // if (loading) {
@@ -19,8 +19,9 @@ const ShoppingContainer = () => {
     error,
     shoppingMode,
     switchShoppingMode,
+    turnShoppingModeOff,
     itemsRemoved,
-    removeItem,
+    moveShopItemToStore,
     cancelRemoveItem,
     addItemFromProductArea,
     changeItemQuantity,
@@ -28,6 +29,12 @@ const ShoppingContainer = () => {
     createList,
     resetErrorMsg,
   } = useShopping();
+
+  useEffect(() => {
+    if (!shoppingList.length && shoppingMode) {
+      turnShoppingModeOff();
+    }
+  }, [turnShoppingModeOff, shoppingList, shoppingMode]);
 
   return (
     <>
@@ -45,7 +52,7 @@ const ShoppingContainer = () => {
           <ShoppingList
             shoppingList={shoppingList}
             shelves={shelves}
-            removeItem={removeItem}
+            moveShopItemToStore={moveShopItemToStore}
             shoppingMode={shoppingMode}
             changeItemQuantity={changeItemQuantity}
             changeItemComment={changeItemComment}

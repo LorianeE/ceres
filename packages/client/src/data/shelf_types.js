@@ -17,3 +17,18 @@ export const SHELF_TYPES = createEnum({
   home: 'Maison',
   grocery: 'Épicerie',
 });
+
+export const PRODUCT_PLACES_ARRAY = [
+  'Frigo',
+  'Placards',
+  'Salle de bain',
+]
+
+export const PRODUCT_PLACES = createEnum({
+  cold: 'Frigo',
+  drinks: 'Placards',
+  produce: 'Placards',
+  hygiene: 'Salle de bain',
+  home: 'Placards',
+  grocery: 'Placards',
+});

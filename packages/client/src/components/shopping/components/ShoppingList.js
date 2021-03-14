@@ -9,7 +9,7 @@ import { SHELF_TYPES } from '../../../data/shelf_types';
 import useStyles from '../shoppingStyle';
 import ShoppingListItem from './ShoppingListItem';
 
-const ShoppingList = ({ shoppingList, shelves, removeItem, shoppingMode, changeItemQuantity, changeItemComment }) => {
+const ShoppingList = ({ shoppingList, shelves, moveShopItemToStore, shoppingMode, changeItemQuantity, changeItemComment }) => {
   const classes = useStyles();
 
   if (!shoppingList.length) {
@@ -33,7 +33,7 @@ const ShoppingList = ({ shoppingList, shelves, removeItem, shoppingMode, changeI
                       key={item.product.id}
                       item={item}
                       shoppingMode={shoppingMode}
-                      removeItem={removeItem}
+                      moveShopItemToStore={moveShopItemToStore}
                       changeItemQuantity={changeItemQuantity}
                       changeItemComment={changeItemComment}
                     />
@@ -50,7 +50,7 @@ const ShoppingList = ({ shoppingList, shelves, removeItem, shoppingMode, changeI
 ShoppingList.propTypes = {
   shoppingList: PropTypes.arrayOf(PropTypes.object).isRequired,
   shelves: PropTypes.arrayOf(PropTypes.string).isRequired,
-  removeItem: PropTypes.func.isRequired,
+  moveShopItemToStore: PropTypes.func.isRequired,
   shoppingMode: PropTypes.bool.isRequired,
   changeItemQuantity: PropTypes.func.isRequired,
   changeItemComment: PropTypes.func.isRequired,

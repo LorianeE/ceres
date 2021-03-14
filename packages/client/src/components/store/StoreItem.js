@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import ItemComment from './ItemComment';
-import ItemQuantity from '../../../common/item/ItemQuantity';
+import ListItem from '@material-ui/core/ListItem';
+import Grid from '@material-ui/core/Grid';
+import ListItemText from '@material-ui/core/ListItemText';
+import ItemQuantity from '../common/item/ItemQuantity';
 
-const ShoppingListItem = ({ item, changeItemQuantity, changeItemComment }) => {
+const StoreItem = ({ item, changeItemQuantity }) => {
   return (
     <Box>
       <ListItem button disableRipple style={{ cursor: 'default' }}>
@@ -18,16 +17,13 @@ const ShoppingListItem = ({ item, changeItemQuantity, changeItemComment }) => {
           <Grid item xs sm md style={{ marginTop: 'auto', marginBottom: 'auto', maxWidth: '230px' }}>
             <ListItemText id={`list-item-text-${item.id}`} primary={item.product.label} />
           </Grid>
-          <Grid item xs={12} sm={12} md style={{ marginTop: 'auto' }}>
-            <ItemComment item={item} changeItemComment={changeItemComment} />
-          </Grid>
         </Grid>
       </ListItem>
     </Box>
   );
 };
 
-ShoppingListItem.propTypes = {
+StoreItem.propTypes = {
   item: PropTypes.shape({
     id: PropTypes.string.isRequired,
     quantity: PropTypes.number.isRequired,
@@ -37,10 +33,8 @@ ShoppingListItem.propTypes = {
       minimumQuantity: PropTypes.number.isRequired,
       shelf: PropTypes.string.isRequired,
     }).isRequired,
-    comment: PropTypes.string,
   }).isRequired,
   changeItemQuantity: PropTypes.func.isRequired,
-  changeItemComment: PropTypes.func.isRequired,
 };
 
-export default ShoppingListItem;
+export default StoreItem;

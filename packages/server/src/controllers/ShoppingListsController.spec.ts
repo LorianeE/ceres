@@ -34,7 +34,7 @@ describe("ShoppingListsController", () => {
         ]);
 
         // WHEN
-        const result = await shoppingListCtrl.get({}, "1", user);
+        const result = await shoppingListCtrl.get("1", user);
 
         // THEN
         expect(result).toEqual({id: "1", items: []});
@@ -67,7 +67,7 @@ describe("ShoppingListsController", () => {
         // WHEN
         let actualError;
         try {
-          await shoppingListCtrl.get({}, "1", user);
+          await shoppingListCtrl.get("1", user);
         } catch (e) {
           actualError = e;
         }

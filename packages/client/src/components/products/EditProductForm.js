@@ -9,6 +9,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import { IconButton } from '@material-ui/core';
 import { useEditProductForm } from '../../redux/hooks/useEditProductForm';
 import { SHELF_TYPES, SHELF_TYPES_ARRAY } from '../../data/shelf_types';
 
@@ -37,10 +39,30 @@ const EditProductForm = () => {
 
   const { product, addProduct, editProduct } = useEditProductForm();
 
+  const [isLabelDirty, setIsLabelDirty] = useState(false);
+  const [isShelfDirty, setIsShelfDirty] = useState(false);
+
+  const getLabelDirty = () => {
+    if (!isLabelDirty) {
+      setIsLabelDirty(true);
+    }
+  };
+  const getShelfDirty = () => {
+    if (!isShelfDirty) {
+      setIsShelfDirty(true);
+    }
+  };
+
   const [label, setLabel] = useState('');
-  const changeLabel = (e) => setLabel(e.target.value);
+  const changeLabel = (e) => {
+    getLabelDirty();
+    setLabel(e.target.value);
+  };
   const [shelf, setShelf] = useState('');
-  const changeShelf = (e) => setShelf(e.target.value);
+  const changeShelf = (e) => {
+    getShelfDirty();
+    setShelf(e.target.value);
+  };
   const [minimumQuantity, setMinimumQuantity] = useState(0);
   const changeMinQuantity = (e) => setMinimumQuantity(e.target.value);
 
@@ -78,11 +100,20 @@ const EditProductForm = () => {
 
   return (
     <div className={classes.paper}>
+      <IconButton
+        color="primary"
+        aria-label="upload picture"
+        component="span"
+        style={{ alignSelf: 'start' }}
+        onClick={() => history.push('/products')}
+      >
+        <ArrowBackIcon />
+      </IconButton>
       <form className={classes.form} onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
-              error={!label.length}
+              error={isLabelDirty && !label.length}
               name="label"
               variant="outlined"
               required
@@ -91,12 +122,13 @@ const EditProductForm = () => {
               label="Label"
               value={label}
               onChange={changeLabel}
+              onBlur={getLabelDirty}
             />
           </Grid>
           <Grid item xs={12}>
-            <FormControl variant="outlined" fullWidth error={!shelf.length}>
+            <FormControl variant="outlined" fullWidth error={isShelfDirty && !shelf.length}>
               <InputLabel id="shelf-label">Rayon</InputLabel>
-              <Select labelId="shelf-label" id="shelf" value={shelf} onChange={changeShelf} label="Rayon">
+              <Select labelId="shelf-label" id="shelf" value={shelf} onChange={changeShelf} onBlur={getShelfDirty} label="Rayon">
                 {SHELF_TYPES_ARRAY.map((type) => (
                   <MenuItem value={type} key={type}>
                     {SHELF_TYPES[type]}

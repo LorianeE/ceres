@@ -1,4 +1,4 @@
-import * as types from '../constants/ShoppingActionTypes';
+import * as types from '../constants/StoreActionTypes';
 import initialState from '../initialState';
 
 function changeItemQuantity(items, action) {
@@ -21,18 +21,6 @@ function changeItemQuantity(items, action) {
   };
 }
 
-function changeItemComment(items, action) {
-  const { itemId, comment } = action.payload;
-  const item = items[itemId];
-  return {
-    ...items,
-    [itemId]: {
-      ...item,
-      comment,
-    },
-  };
-}
-
 function addItem(items, action) {
   const { id } = action.payload.item;
   return {
@@ -41,30 +29,25 @@ function addItem(items, action) {
   };
 }
 
-function shoppingListReducers(state = initialState.shoppingList, action) {
+function storeReducers(state = initialState.store, action) {
   switch (action.type) {
-    case types.CHANGE_SHOPPING_ITEM_QUANTITY:
+    case types.CHANGE_STORE_ITEM_QUANTITY:
       return {
         ...state,
         items: changeItemQuantity(state.items, action),
       };
-    case types.CHANGE_SHOPPING_ITEM_COMMENT:
-      return {
-        ...state,
-        items: changeItemComment(state.items, action),
-      };
-    case types.ADD_SHOPPING_ITEM:
+    case types.ADD_STORE_ITEM:
       return {
         ...state,
         items: addItem(state.items, action),
       };
-    case types.RECEIVED_SHOPPING_LIST_SUCCESS:
-    case types.CREATE_NEW_SHOPPING_LIST:
-      return action.payload.list;
+    case types.RECEIVED_STORE_SUCCESS:
+    case types.CREATE_NEW_STORE:
+      return action.payload.store;
 
     default:
       return state;
   }
 }
 
-export default shoppingListReducers;
+export default storeReducers;

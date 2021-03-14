@@ -1,18 +1,18 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { sortByLabel } from '../../utils/ProductsUtils';
 import { getFilledShoppingList } from '../../utils/ShoppingListMapper';
 import { getUserDefaultShoppingListId } from '../selectors/user.selectors';
 import { getGenericProducts, getUserProducts } from '../selectors/products.selectors';
 import { getShoppingListItems } from '../selectors/shopping.selectors';
 import { getErrorMessage } from '../selectors/error.selectors';
-import { fetchProductsList, fetchUserProductsList } from '../actions/products.actions';
 import {
   addItemAndSave,
+  cancelMoveShopItemToStoreAndSave,
   changeItemCommentAndSave,
   changeItemQuantityAndSave,
   createNewShoppingList,
-  fetchShoppingList,
+  moveShopItemToStoreAndSave,
 } from '../actions/shopping.actions';
 import { resetErrorMessage } from '../actions/error.actions';
 
@@ -32,12 +32,20 @@ export function useShopping() {
   const shelves = Array.from(new Set(filledShoppingList.map((item) => item.product.shelf))).sort();
 
   const switchShoppingMode = () => {
-    if (shoppingMode) {
+    if (filledShoppingList && filledShoppingList.length) {
       setItemsRemoved([]);
+      setShoppingMode(!shoppingMode);
     }
-    setShoppingMode(!shoppingMode);
   };
 
+  const turnShoppingModeOff = () => {
+    setItemsRemoved([]);
+    setShoppingMode(false);
+  };
+  /**
+   * @deprecated Use moveShopItemToStore
+   * @param itemId
+   */
   const removeItem = (itemId) => {
     const removedItem = filledShoppingList.find((item) => item.id === itemId);
     dispatch(changeItemQuantityAndSave(itemId, -1));
@@ -48,19 +56,19 @@ export function useShopping() {
     setItemsRemoved([...itemsRemoved, newLastItemRemoved]);
   };
 
+  const moveShopItemToStore = (itemId) => {
+    const removedItem = filledShoppingList.find((item) => item.id === itemId);
+    dispatch(moveShopItemToStoreAndSave(itemId, 1));
+    const newLastItemRemoved = {
+      ...removedItem,
+      quantity: 1,
+    };
+    setItemsRemoved([...itemsRemoved, newLastItemRemoved]);
+  };
+
   const cancelRemoveItem = () => {
     const lastItemRemoved = itemsRemoved[itemsRemoved.length - 1];
-    const itemInList = filledShoppingList.find((item) => item.id === lastItemRemoved.id);
-    if (itemInList) {
-      dispatch(changeItemQuantityAndSave(itemInList.id, lastItemRemoved.quantity));
-    } else {
-      dispatch(
-        addItemAndSave({
-          ...lastItemRemoved,
-          product: lastItemRemoved.product.id,
-        })
-      );
-    }
+    dispatch(cancelMoveShopItemToStoreAndSave(lastItemRemoved, 1));
     const newItemsRemoved = itemsRemoved.slice(0, itemsRemoved.length - 1);
     setItemsRemoved(newItemsRemoved);
   };
@@ -80,24 +88,6 @@ export function useShopping() {
     }
   };
 
-  useEffect(() => {
-    if (!genericProducts.length) {
-      dispatch(fetchProductsList());
-    }
-  }, [dispatch, genericProducts.length]);
-
-  useEffect(() => {
-    if (!Array.isArray(userProducts)) {
-      dispatch(fetchUserProductsList());
-    }
-  }, [dispatch, userProducts]);
-
-  useEffect(() => {
-    if (userShoppingList && !filledShoppingList.length) {
-      dispatch(fetchShoppingList(userShoppingList));
-    }
-  }, [dispatch, filledShoppingList.length, userShoppingList]);
-
   return {
     userShoppingList,
     products: sortByLabel(allProducts),
@@ -107,10 +97,12 @@ export function useShopping() {
     resetErrorMsg: () => dispatch(resetErrorMessage()),
     shoppingMode,
     switchShoppingMode,
+    turnShoppingModeOff,
     itemsRemoved,
     removeItem,
     cancelRemoveItem,
     addItemFromProductArea,
+    moveShopItemToStore,
     changeItemQuantity: (itemId, quantityToAdd) => dispatch(changeItemQuantityAndSave(itemId, quantityToAdd)),
     changeItemComment: (itemId, comment) => dispatch(changeItemCommentAndSave(itemId, comment)),
     createList: () => dispatch(createNewShoppingList()),

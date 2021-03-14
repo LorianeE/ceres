@@ -9,7 +9,7 @@ export function useEditProductForm() {
 
   const productId = useParams().id;
   const userProductsList = useSelector(getUserProducts);
-  const product = userProductsList.find((pdt) => pdt.id === productId);
+  const product = userProductsList && userProductsList.find((pdt) => pdt.id === productId);
 
   useEffect(() => {
     if (!Array.isArray(userProductsList)) {

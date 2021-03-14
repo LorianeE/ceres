@@ -9,7 +9,7 @@ describe('shoppingList reducer', () => {
         items,
       };
       const action = {
-        type: 'ADD_ITEM',
+        type: 'ADD_SHOPPING_ITEM',
         payload: {
           item: {
             id: 'someItemId',

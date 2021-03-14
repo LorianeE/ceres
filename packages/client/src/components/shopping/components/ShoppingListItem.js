@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import ItemShopModeOn from './item/ItemShopModeOn';
 import ItemShopModeOff from './item/ItemShopModeOff';
 
-const ShoppingListItem = ({ item, shoppingMode, removeItem, changeItemQuantity, changeItemComment }) => {
+const ShoppingListItem = ({ item, shoppingMode, moveShopItemToStore, changeItemQuantity, changeItemComment }) => {
   if (shoppingMode) {
-    return <ItemShopModeOn item={item} removeItem={removeItem} />;
+    return <ItemShopModeOn item={item} moveShopItemToStore={moveShopItemToStore} />;
   }
   return <ItemShopModeOff item={item} changeItemQuantity={changeItemQuantity} changeItemComment={changeItemComment} />;
 };
@@ -23,7 +23,7 @@ ShoppingListItem.propTypes = {
     comment: PropTypes.string,
   }).isRequired,
   shoppingMode: PropTypes.bool.isRequired,
-  removeItem: PropTypes.func.isRequired,
+  moveShopItemToStore: PropTypes.func.isRequired,
   changeItemQuantity: PropTypes.func.isRequired,
   changeItemComment: PropTypes.func.isRequired,
 };

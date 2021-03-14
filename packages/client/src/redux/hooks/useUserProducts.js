@@ -9,10 +9,10 @@ export function useUserProducts() {
   const userProductsList = useSelector(getUserProducts);
 
   useEffect(() => {
-    if (!userProductsList.length) {
+    if (!userProductsList) {
       dispatch(fetchUserProductsList());
     }
-  }, [dispatch, userProductsList.length]);
+  }, [dispatch, userProductsList]);
 
   return {
     userProducts: userProductsList,
