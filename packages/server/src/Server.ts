@@ -8,6 +8,7 @@ import path from "path";
 import dotenv from "dotenv";
 import session from "express-session";
 import favicon from "serve-favicon";
+import mongoose from "mongoose";
 
 import "@tsed/ajv";
 import "@tsed/swagger";
@@ -19,6 +20,7 @@ import {ServerResponse} from "http";
 import {join} from "path";
 
 const send = require("send");
+const mongooseStore = require("cache-manager-mongoose");
 
 dotenv.config();
 
@@ -95,7 +97,16 @@ function setCustomCacheControl(res: ServerResponse, path: string) {
         maxAge: undefined
       }
     })
-  ]
+  ],
+  cache: {
+    ttl: 300, // default TTL
+    store: mongooseStore,
+    mongoose,
+    modelOptions: {
+      collection: "caches",
+      versionKey: false
+    }
+  }
 })
 export class Server {
   @Inject()
