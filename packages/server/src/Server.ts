@@ -1,13 +1,15 @@
-import {GlobalAcceptMimesMiddleware, Configuration, PlatformApplication, Inject, Res} from "@tsed/common";
-import * as bodyParser from "body-parser";
-import * as compress from "compression";
-import * as cookieParser from "cookie-parser";
-import * as methodOverride from "method-override";
-import * as cors from "cors";
-import * as path from "path";
-import * as dotenv from "dotenv";
-import * as session from "express-session";
-import * as favicon from "serve-favicon";
+import {Configuration, PlatformApplication, Inject, Res} from "@tsed/common";
+import bodyParser from "body-parser";
+import compress from "compression";
+import cookieParser from "cookie-parser";
+import methodOverride from "method-override";
+import cors from "cors";
+import path from "path";
+import dotenv from "dotenv";
+import session from "express-session";
+import favicon from "serve-favicon";
+import mongoose from "mongoose";
+
 import "@tsed/ajv";
 import "@tsed/swagger";
 import "@tsed/mongoose";
@@ -16,7 +18,9 @@ import "@tsed/platform-express";
 import {User} from "./models/User";
 import {ServerResponse} from "http";
 import {join} from "path";
+
 const send = require("send");
+const mongooseStore = require("cache-manager-mongoose");
 
 dotenv.config();
 
@@ -70,43 +74,43 @@ function setCustomCacheControl(res: ServerResponse, path: string) {
         setHeaders: setCustomCacheControl
       }
     ]
+  },
+  middlewares: [
+    cors(),
+    favicon(path.join(clientDir, "favicon.ico")),
+    cookieParser(),
+    compress({}),
+    methodOverride(),
+    bodyParser.json(),
+    bodyParser.urlencoded({
+      extended: true
+    }),
+    session({
+      secret: process.env.SESSION_SECRET || "mydefaultsecret",
+      resave: true,
+      saveUninitialized: true,
+      // maxAge: 36000,
+      cookie: {
+        path: "/",
+        httpOnly: true,
+        secure: false,
+        maxAge: undefined
+      }
+    })
+  ],
+  cache: {
+    ttl: 300, // default TTL
+    store: mongooseStore,
+    mongoose,
+    modelOptions: {
+      collection: "caches",
+      versionKey: false
+    }
   }
 })
 export class Server {
   @Inject()
   app: PlatformApplication<Express.Application>;
-
-  $beforeRoutesInit() {
-    this.app
-      .use(cors())
-      .use(favicon(path.join(clientDir, "favicon.ico")))
-      .use(GlobalAcceptMimesMiddleware)
-      .use(cookieParser())
-      .use(compress({}))
-      .use(methodOverride())
-      .use(bodyParser.json())
-      .use(
-        bodyParser.urlencoded({
-          extended: true
-        })
-      )
-      .use(
-        session({
-          secret: process.env.SESSION_SECRET || "mydefaultsecret",
-          resave: true,
-          saveUninitialized: true,
-          // maxAge: 36000,
-          cookie: {
-            path: "/",
-            httpOnly: true,
-            secure: false,
-            maxAge: undefined
-          }
-        })
-      );
-
-    return null;
-  }
 
   $afterRoutesInit() {
     this.app.get(`/*`, (req: any, res: Res) => {

@@ -8,7 +8,7 @@ export class ShoppingItem {
   _id: string;
 
   @Required()
-  @Ref(Product)
+  @Ref(() => Product)
   product: Ref<Product>;
 
   @Required()

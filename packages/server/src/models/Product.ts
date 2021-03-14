@@ -19,6 +19,6 @@ export class Product {
   @Default(0)
   minimumQuantity: number = 0;
 
-  @Ref("User")
+  @Ref(() => User)
   users: Ref<User>[] = [];
 }
