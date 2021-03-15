@@ -6,9 +6,6 @@ import { getFetchUserCallInProgress } from '../selectors/apiCallsInProgress.sele
 import { fetchProductsList } from '../actions/products.actions';
 import { fetchShoppingList } from '../actions/shopping.actions';
 import { fetchStore } from '../actions/store.actions';
-import { getStoreItems } from '../selectors/store.selectors';
-import { getGenericProducts } from '../selectors/products.selectors';
-import { getShoppingListItems } from '../selectors/shopping.selectors';
 
 export function useInitializeApp() {
   const dispatch = useDispatch();
@@ -17,35 +14,30 @@ export function useInitializeApp() {
 
   const fetchUserCallInProgress = useSelector(getFetchUserCallInProgress);
 
-  const storeItems = useSelector(getStoreItems);
-
-  const genericProducts = useSelector(getGenericProducts);
-
   const userShoppingList = useSelector(getUserDefaultShoppingListId);
-  const shoppingItems = useSelector(getShoppingListItems);
 
   useEffect(() => {
     dispatch(getUserInfo());
   }, [dispatch]);
 
   useEffect(() => {
-    if (userLoggedIn && !genericProducts) {
+    if (userLoggedIn) {
       dispatch(fetchProductsList());
     }
-  }, [userLoggedIn, dispatch, genericProducts]);
+  }, [userLoggedIn, dispatch]);
 
   useEffect(() => {
-    if (userLoggedIn && userShoppingList && !shoppingItems) {
+    if (userLoggedIn) {
       dispatch(fetchShoppingList(userShoppingList));
     }
-  }, [userLoggedIn, dispatch, shoppingItems, userShoppingList]);
+  }, [userLoggedIn, dispatch, userShoppingList]);
 
   useEffect(() => {
     // TODO: Attention en cas d'absence de store: du coup créer un store par défaut ?
-    if (userLoggedIn && !storeItems) {
+    if (userLoggedIn) {
       dispatch(fetchStore());
     }
-  }, [userLoggedIn, dispatch, storeItems]);
+  }, [userLoggedIn, dispatch]);
 
   return {
     userLoggedIn,
