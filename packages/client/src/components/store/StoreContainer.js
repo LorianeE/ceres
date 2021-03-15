@@ -1,17 +1,17 @@
 import React from 'react';
 import SnackbarError from '../common/SnackbarError';
 import { useStore } from '../../redux/hooks/useStore';
-import CreateStoreComponent from './CreateStoreComponent';
 import AddProductArea from '../common/AddProductArea';
 import Store from './Store';
+import Spinner from '../common/Spinner';
 
 const StoreContainer = () => {
-  const { storeId, storeItems, products, error, addStoreItem, changeStoreItemQuantity, createStore, resetErrorMsg } = useStore();
+  const { storeId, storeItems, products, error, addStoreItem, changeStoreItemQuantity, resetErrorMsg } = useStore();
 
   return (
     <>
       {!storeId ? (
-        <CreateStoreComponent createStore={createStore} />
+        <Spinner />
       ) : (
         <div style={{ marginTop: '30px' }}>
           <AddProductArea products={products} addItem={addStoreItem} />

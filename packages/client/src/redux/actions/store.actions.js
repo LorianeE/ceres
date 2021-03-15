@@ -12,6 +12,17 @@ import { beginApiCall, endApiCall } from './apiStatus.actions';
 import { getErrMsg } from '../../utils/ErrorUtils';
 import { getStore, postStoreItem, postStore, putStoreItem } from '../../utils/http/StoreClient';
 
+export function createNewStore() {
+  return async (dispatch, getState) => {
+    const userId = getState().user.id;
+    const emptyStore = {
+      items: [],
+    };
+    const store = await postStore(userId, emptyStore);
+    dispatch({ type: CREATE_NEW_STORE, payload: { store } });
+  };
+}
+
 function fetchStoreSuccess(store) {
   return { type: RECEIVED_STORE_SUCCESS, payload: { store } };
 }
@@ -29,6 +40,9 @@ export function fetchStore() {
       dispatch(fetchStoreSuccess(store));
     } catch (err) {
       dispatch(fetchStoreFailure(err));
+      if (err.response?.status === 404) {
+        dispatch(createNewStore());
+      }
     }
   };
 }
@@ -42,7 +56,7 @@ export function postNewStoreItem(item) {
       await postStoreItem(userId, storeId, item);
       dispatch(endApiCall());
       // Update shopping list in store
-      dispatch(fetchStore(storeId));
+      dispatch(fetchStore());
     } catch (err) {
       dispatch({ type: POST_STORE_ITEM_FAILURE, payload: { errMsg: getErrMsg(err) } });
     }
@@ -62,7 +76,7 @@ export function updateStoreItem(item, quantityToAdd) {
       await putStoreItem(userId, storeId, updatedItem);
       dispatch(endApiCall());
       // Update shopping list in store
-      dispatch(fetchStore(storeId));
+      dispatch(fetchStore());
     } catch (err) {
       if (err.response.data.message === 'INVALID_ITEM_ID') {
         dispatch(endApiCall());
@@ -86,16 +100,5 @@ export function addStoreItemAndSave(item) {
   return (dispatch) => {
     dispatch({ type: ADD_STORE_ITEM, payload: { item: { id: nanoid(), ...item } } });
     dispatch(postNewStoreItem(item));
-  };
-}
-
-export function createNewStore() {
-  return async (dispatch, getState) => {
-    const userId = getState().user.id;
-    const emptyStore = {
-      items: [],
-    };
-    const store = await postStore(userId, emptyStore);
-    dispatch({ type: CREATE_NEW_STORE, payload: { store } });
   };
 }

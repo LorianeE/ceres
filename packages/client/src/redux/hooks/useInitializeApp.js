@@ -23,6 +23,7 @@ export function useInitializeApp() {
   useEffect(() => {
     if (userLoggedIn) {
       dispatch(fetchProductsList());
+      dispatch(fetchStore());
     }
   }, [userLoggedIn, dispatch]);
 
@@ -31,13 +32,6 @@ export function useInitializeApp() {
       dispatch(fetchShoppingList(userShoppingList));
     }
   }, [userLoggedIn, dispatch, userShoppingList]);
-
-  useEffect(() => {
-    // TODO: Attention en cas d'absence de store: du coup créer un store par défaut ?
-    if (userLoggedIn) {
-      dispatch(fetchStore());
-    }
-  }, [userLoggedIn, dispatch]);
 
   return {
     userLoggedIn,

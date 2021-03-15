@@ -3,7 +3,7 @@ import { sortByLabel } from '../../utils/ProductsUtils';
 import { getGenericProducts, getUserProducts } from '../selectors/products.selectors';
 import { getErrorMessage } from '../selectors/error.selectors';
 import { resetErrorMessage } from '../actions/error.actions';
-import { addStoreItemAndSave, changeStoreItemQuantityAndSave, createNewStore } from '../actions/store.actions';
+import { addStoreItemAndSave, changeStoreItemQuantityAndSave } from '../actions/store.actions';
 import { getStoreId, getStoreItems } from '../selectors/store.selectors';
 import { getFilledStore } from '../../utils/StoreMapper';
 
@@ -41,6 +41,5 @@ export function useStore() {
     resetErrorMsg: () => dispatch(resetErrorMessage()),
     addStoreItem,
     changeStoreItemQuantity: (itemId, quantityToAdd) => dispatch(changeStoreItemQuantityAndSave(itemId, quantityToAdd)),
-    createStore: () => dispatch(createNewStore()),
   };
 }
