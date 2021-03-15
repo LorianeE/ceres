@@ -37,4 +37,9 @@ ShoppingHeader.propTypes = {
   cancelRemoveItem: PropTypes.func.isRequired,
 };
 
+ShoppingHeader.whyDidYouRender = {
+  logOnDifferentValues: true,
+  customName: 'Menu',
+};
+
 export default ShoppingHeader;

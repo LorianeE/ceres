@@ -64,4 +64,6 @@ const ShoppingContainer = () => {
   );
 };
 
+ShoppingContainer.whyDidYouRender = true;
+
 export default ShoppingContainer;

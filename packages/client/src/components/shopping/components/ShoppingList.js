@@ -56,4 +56,9 @@ ShoppingList.propTypes = {
   changeItemComment: PropTypes.func.isRequired,
 };
 
+ShoppingList.whyDidYouRender = {
+  logOnDifferentValues: true,
+  customName: 'Menu',
+};
+
 export default ShoppingList;
