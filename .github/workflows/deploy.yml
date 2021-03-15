@@ -30,8 +30,6 @@ jobs:
     - run: yarn install --frozen-lockfile
 
     - name: Build app
-      env:
-        REACT_APP_BACKEND_URL: http://ceres-webapp.herokuapp.com
       run: yarn build
 
     # Runs a single command using the runners shell
