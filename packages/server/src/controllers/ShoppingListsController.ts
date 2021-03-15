@@ -1,4 +1,4 @@
-import {BodyParams, Controller, Get, PathParams, Post, Put, UseBefore, UseBeforeEach} from "@tsed/common";
+import {BodyParams, Controller, Get, PathParams, Put, UseBefore, UseBeforeEach} from "@tsed/common";
 import {ShoppingListService} from "../services/ShoppingListService";
 import {Returns, Summary} from "@tsed/schema";
 import {Authenticate} from "@tsed/passport";
@@ -6,18 +6,16 @@ import {CheckIsAllowedUserShopListMiddleware} from "../middlewares/CheckIsAllowe
 import {ShoppingList} from "../models/ShoppingList";
 import {NotFound} from "@tsed/exceptions";
 import {CheckShoppingListIdMiddleware} from "../middlewares/CheckShoppingListIdMiddleware";
-import {UsersService} from "../services/users/UsersService";
-import {CheckUserIdMiddleware} from "../middlewares/CheckUserIdMiddleware";
 import {ShoppingListItemsController} from "./ShoppingListItemsController";
 
 @Controller({
-  path: "/:userId/shopping-lists",
+  path: "/shopping-lists",
   children: [ShoppingListItemsController]
 })
 @Authenticate("facebook")
-@UseBeforeEach(CheckUserIdMiddleware)
+@UseBeforeEach(CheckIsAllowedUserShopListMiddleware)
 export class ShoppingListsController {
-  constructor(private shoppingListService: ShoppingListService, private usersService: UsersService) {}
+  constructor(private shoppingListService: ShoppingListService) {}
 
   @Get("/:shoppingListId")
   @Summary("Get shopping list from a user")
@@ -30,16 +28,6 @@ export class ShoppingListsController {
     }
 
     return shoppingList;
-  }
-
-  @Post("/")
-  @Summary("Post a new shopping list for given user")
-  @Returns(201, ShoppingList)
-  async create(@BodyParams(ShoppingList) shoppingList: ShoppingList, @PathParams("userId") userId: string): Promise<ShoppingList> {
-    const createdShoppingList = await this.shoppingListService.save(shoppingList);
-    await this.usersService.addShoppingList(userId, createdShoppingList._id);
-
-    return createdShoppingList;
   }
 
   @Put("/:shoppingListId")

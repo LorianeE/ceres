@@ -6,14 +6,13 @@ import {StoreService} from "../services/StoreService";
 import {StoreItem} from "../models/StoreItem";
 import {CheckItemIdMiddleware} from "../middlewares/CheckItemIdMiddleware";
 import {NotFound} from "@tsed/exceptions";
-import {UsersService} from "../services/users/UsersService";
 import {CheckIsAllowedUserStoreMiddleware} from "../middlewares/CheckIsAllowedUserStoreMiddleware";
 
 @Controller("/stores")
 @Authenticate("facebook")
 @UseBeforeEach(CheckIsAllowedUserStoreMiddleware)
 export class StoreController {
-  constructor(private storeService: StoreService, private usersService: UsersService) {}
+  constructor(private storeService: StoreService) {}
 
   @Get("/:storeId")
   @Summary("Get a store")
