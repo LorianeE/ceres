@@ -1,7 +1,7 @@
 import httpClient from './HttpClient';
 
 function getFacebookLoginUrl() {
-  return `${process.env.REACT_APP_BACKEND_URL}/rest/auth/facebook`;
+  return `/rest/auth/facebook`;
 }
 
 async function getUserInfo() {

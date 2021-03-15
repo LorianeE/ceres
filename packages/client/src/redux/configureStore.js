@@ -8,11 +8,18 @@ const logger = createLogger({
   collapsed: true,
 });
 
-const store = createStore(
-  rootReducer,
-  // eslint-disable-next-line no-underscore-dangle
-  compose(applyMiddleware(thunk, logger), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
-  // eslint-enable
-);
+const enhancers = [];
+const middleware = [thunk, logger];
 
-export default store;
+if (process.env.NODE_ENV === 'development') {
+  // eslint-disable-next-line no-underscore-dangle
+  const devToolsExtension = window.__REDUX_DEVTOOLS_EXTENSION__;
+
+  if (typeof devToolsExtension === 'function') {
+    enhancers.push(devToolsExtension());
+  }
+}
+
+export default function configureStore(preloadedState) {
+  return createStore(rootReducer, preloadedState, compose(applyMiddleware(...middleware), ...enhancers));
+}

@@ -1,4 +1,4 @@
-FROM node:12.13.0-alpine
+FROM node:14.16.0-alpine
 WORKDIR /app
 
 RUN apk update && npm install -g yarn@1.15.2

@@ -1,23 +1,20 @@
-import {Configuration, PlatformApplication, Inject, Res} from "@tsed/common";
+import "@tsed/ajv";
+import {Configuration, Inject, PlatformApplication, Res} from "@tsed/common";
+import "@tsed/mongoose";
+import "@tsed/platform-express";
+import "@tsed/swagger";
 import bodyParser from "body-parser";
 import compress from "compression";
 import cookieParser from "cookie-parser";
-import methodOverride from "method-override";
 import cors from "cors";
-import path from "path";
 import dotenv from "dotenv";
 import session from "express-session";
-import favicon from "serve-favicon";
+import {ServerResponse} from "http";
+import methodOverride from "method-override";
 import mongoose from "mongoose";
-
-import "@tsed/ajv";
-import "@tsed/swagger";
-import "@tsed/mongoose";
-import "@tsed/platform-express";
+import path, {join} from "path";
 
 import {User} from "./models/User";
-import {ServerResponse} from "http";
-import {join} from "path";
 
 const send = require("send");
 const mongooseStore = require("cache-manager-mongoose");
@@ -77,7 +74,7 @@ function setCustomCacheControl(res: ServerResponse, path: string) {
   },
   middlewares: [
     cors(),
-    favicon(path.join(clientDir, "favicon.ico")),
+    // favicon(path.join(clientDir, "favicon.ico")),
     cookieParser(),
     compress({}),
     methodOverride(),
