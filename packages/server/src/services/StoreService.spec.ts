@@ -44,6 +44,35 @@ describe("StoreService", () => {
       expect(storeModel.findOneAndUpdate).toHaveBeenCalledWith(expect.anything(), store, {upsert: true, new: true});
     });
   });
+  describe("find()", () => {
+    beforeEach(() => PlatformTest.create());
+    afterEach(() => PlatformTest.reset());
+
+    it("should return a specific shopping list", async () => {
+      // GIVEN
+      const store = {
+        findById: jest.fn().mockReturnValue({
+          exec: jest.fn().mockResolvedValue({id: "1234"})
+        })
+      };
+
+      const storeService = await PlatformTest.invoke(StoreService, [
+        {
+          token: Store,
+          use: store
+        }
+      ]);
+
+      // WHEN
+      const result = await storeService.find("1234");
+
+      // THEN
+      expect(result).toEqual({id: "1234"});
+      expect(store.findById).toHaveBeenCalled();
+
+      expect(storeService).toBeInstanceOf(StoreService);
+    });
+  });
   describe("getItemFromStoreByProductId()", () => {
     beforeEach(() => PlatformTest.create());
     afterEach(() => PlatformTest.reset());

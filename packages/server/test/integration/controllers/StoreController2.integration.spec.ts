@@ -16,8 +16,6 @@ describe("Store with store already existing with other user", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
   let dbUser: User;
   let dbUser2: User;
-  let userId: string;
-  let userId2: string;
   let product: Product;
   let dbStore: Store;
 
@@ -52,23 +50,18 @@ describe("Store with store already existing with other user", () => {
         user.facebookId = "facebookId";
         dbUser = await usersService.create(user);
 
-        userId = dbUser._id.toString();
-
         const user2 = new User();
         user2.lastName = "Doe";
         user2.firstName = "Jane";
         user2.facebookId = "fbId";
         user2.store = dbStore._id;
         dbUser2 = await usersService.create(user2);
-
-        userId2 = dbUser2._id.toString();
       }
     )
   );
   afterAll(TestMongooseContext.reset);
 
   describe("Manipulate a user's store", () => {
-    let userStore: Store;
     beforeEach(
       TestMongooseContext.inject([PassportMiddleware], async (passportMiddleware: PassportMiddleware) => {
         jest.spyOn(passportMiddleware, "use").mockImplementation(async (ctx: PlatformContext) => {
@@ -76,26 +69,25 @@ describe("Store with store already existing with other user", () => {
         });
       })
     );
+    it("should get user store and get BadRequest", async () => {
+      await request.get(`/rest/stores/1234`).expect(400);
+    });
     it("should get user store and get NotFound", async () => {
-      await request.get(`/rest/users/${userId}/store`).expect(404);
+      await request.get(`/rest/stores/551137c2f9e1fac808a5f572`).expect(404);
     });
     it("should post user store with store already existing", async () => {
       const store = {
         id: dbStore._id,
         items: dbStore.items
       };
-      const response = await request.post(`/rest/users/${userId}/store`).send(store).expect(201);
-      userStore = response.body;
+      const response = await request.post(`/rest/users/${dbUser._id}/store`).send(store).expect(201);
+      const userStore = response.body;
       expect(userStore.items[0].product).toEqual(product._id.toString());
       expect(userStore.items[0].quantity).toEqual(2);
 
       // Store is here for user1
-      const {body: storeForUser1} = await request.get(`/rest/users/${userId}/store`).expect(200);
+      const {body: storeForUser1} = await request.get(`/rest/stores/${userStore.id}`).expect(200);
       expect(storeForUser1.id).toEqual(dbStore._id.toString());
-    });
-    it("should get user store", async () => {
-      const response = await request.get(`/rest/users/${userId}/store`).expect(200);
-      expect(response.body).toEqual(userStore);
     });
   });
   describe("Verify store is still here for user 2", () => {
@@ -107,7 +99,7 @@ describe("Store with store already existing with other user", () => {
       })
     );
     it("should get user 2 store", async () => {
-      const {body: storeForUser2} = await request.get(`/rest/users/${userId2}/store`).expect(200);
+      const {body: storeForUser2} = await request.get(`/rest/stores/${dbStore._id}`).expect(200);
       expect(storeForUser2.id).toEqual(dbStore._id.toString());
     });
   });

@@ -2,14 +2,14 @@ import {BodyParams, Controller, Delete, PathParams, Post, Put, UseBefore, UseBef
 import {ShoppingListService} from "../services/ShoppingListService";
 import {Returns, Summary} from "@tsed/schema";
 import {Authenticate} from "@tsed/passport";
-import {CheckIsAllowedUserMiddleware} from "../middlewares/CheckIsAllowedUserMiddleware";
+import {CheckIsAllowedUserShopListMiddleware} from "../middlewares/CheckIsAllowedUserShopListMiddleware";
 import {ShoppingItem} from "../models/ShoppingItem";
 import {CheckItemIdMiddleware} from "../middlewares/CheckItemIdMiddleware";
 import {PostShoppingItem} from "../models/PostShoppingItem";
 
 @Controller("/:shoppingListId/items")
 @Authenticate("facebook")
-@UseBeforeEach(CheckIsAllowedUserMiddleware)
+@UseBeforeEach(CheckIsAllowedUserShopListMiddleware)
 export class ShoppingListItemsController {
   constructor(private shoppingListService: ShoppingListService) {}
 

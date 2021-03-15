@@ -5,7 +5,6 @@ import {Store} from "../models/Store";
 import {StoreItem} from "../models/StoreItem";
 import {BadRequest, NotFound} from "@tsed/exceptions";
 import {ProductsService} from "./ProductsService";
-import {UsersService} from "./users/UsersService";
 
 @Service()
 export class StoreService {
@@ -15,8 +14,6 @@ export class StoreService {
   private storeItem: MongooseModel<StoreItem>;
   @Inject(ProductsService)
   private productService: ProductsService;
-  @Inject(UsersService)
-  private usersService: UsersService;
 
   async save(store: Store): Promise<Store> {
     if (!store._id) {
@@ -32,16 +29,8 @@ export class StoreService {
       .exec();
   }
 
-  async getUserStore(userId: string): Promise<Store | null> {
-    const user = await this.usersService.findOne({_id: userId});
-    if (user) {
-      // Check if user has a store
-      if (!user.store) {
-        throw new NotFound("User does not have any store.");
-      }
-      return await this.store.findById(user.store).exec();
-    }
-    throw new NotFound("User not found.");
+  async find(storeId: string): Promise<Store | null> {
+    return this.store.findById(storeId).exec();
   }
 
   async getItemFromStoreByProductId(storeId: string, productId: string): Promise<StoreItem | undefined> {

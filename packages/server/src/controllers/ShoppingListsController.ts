@@ -2,7 +2,7 @@ import {BodyParams, Controller, Get, PathParams, Post, Put, UseBefore, UseBefore
 import {ShoppingListService} from "../services/ShoppingListService";
 import {Returns, Summary} from "@tsed/schema";
 import {Authenticate} from "@tsed/passport";
-import {CheckIsAllowedUserMiddleware} from "../middlewares/CheckIsAllowedUserMiddleware";
+import {CheckIsAllowedUserShopListMiddleware} from "../middlewares/CheckIsAllowedUserShopListMiddleware";
 import {ShoppingList} from "../models/ShoppingList";
 import {NotFound} from "@tsed/exceptions";
 import {CheckShoppingListIdMiddleware} from "../middlewares/CheckShoppingListIdMiddleware";
@@ -21,7 +21,7 @@ export class ShoppingListsController {
 
   @Get("/:shoppingListId")
   @Summary("Get shopping list from a user")
-  @UseBefore(CheckIsAllowedUserMiddleware)
+  @UseBefore(CheckIsAllowedUserShopListMiddleware)
   @Returns(200, ShoppingList)
   async get(@PathParams("shoppingListId") shoppingListId: string): Promise<ShoppingList> {
     const shoppingList = await this.shoppingListService.find(shoppingListId);
@@ -44,7 +44,7 @@ export class ShoppingListsController {
 
   @Put("/:shoppingListId")
   @Summary("Update shopping list from a user")
-  @UseBefore(CheckIsAllowedUserMiddleware)
+  @UseBefore(CheckIsAllowedUserShopListMiddleware)
   @UseBefore(CheckShoppingListIdMiddleware)
   @Returns(200, ShoppingList)
   async update(
