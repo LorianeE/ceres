@@ -30,19 +30,16 @@ function fetchStoreFailure(err) {
   return { type: RECEIVED_STORE_FAILURE, payload: { errMsg: getErrMsg(err) } };
 }
 
-export function fetchStore() {
+export function fetchStore(storeId) {
   return async (dispatch, getState) => {
     const userId = getState().user.id;
     dispatch(beginApiCall());
 
     try {
-      const store = await getStore(userId);
+      const store = await getStore(userId, storeId);
       dispatch(fetchStoreSuccess(store));
     } catch (err) {
       dispatch(fetchStoreFailure(err));
-      if (err.response?.status === 404) {
-        dispatch(createNewStore());
-      }
     }
   };
 }
@@ -56,7 +53,7 @@ export function postNewStoreItem(item) {
       await postStoreItem(userId, storeId, item);
       dispatch(endApiCall());
       // Update shopping list in store
-      dispatch(fetchStore());
+      dispatch(fetchStore(storeId));
     } catch (err) {
       dispatch({ type: POST_STORE_ITEM_FAILURE, payload: { errMsg: getErrMsg(err) } });
     }
@@ -76,7 +73,7 @@ export function updateStoreItem(item, quantityToAdd) {
       await putStoreItem(userId, storeId, updatedItem);
       dispatch(endApiCall());
       // Update shopping list in store
-      dispatch(fetchStore());
+      dispatch(fetchStore(storeId));
     } catch (err) {
       if (err.response.data.message === 'INVALID_ITEM_ID') {
         dispatch(endApiCall());
