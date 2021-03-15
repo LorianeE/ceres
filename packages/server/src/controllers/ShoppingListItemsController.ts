@@ -2,15 +2,14 @@ import {BodyParams, Controller, Delete, PathParams, Post, Put, UseBefore, UseBef
 import {ShoppingListService} from "../services/ShoppingListService";
 import {Returns, Summary} from "@tsed/schema";
 import {Authenticate} from "@tsed/passport";
-import {CheckIsAllowedUserMiddleware} from "../middlewares/CheckIsAllowedUserMiddleware";
+import {CheckIsAllowedUserShopListMiddleware} from "../middlewares/CheckIsAllowedUserShopListMiddleware";
 import {ShoppingItem} from "../models/ShoppingItem";
 import {CheckItemIdMiddleware} from "../middlewares/CheckItemIdMiddleware";
 import {PostShoppingItem} from "../models/PostShoppingItem";
-import {PostMoveItemToStore} from "../models/PostMoveItemToStore";
 
 @Controller("/:shoppingListId/items")
 @Authenticate("facebook")
-@UseBeforeEach(CheckIsAllowedUserMiddleware)
+@UseBeforeEach(CheckIsAllowedUserShopListMiddleware)
 export class ShoppingListItemsController {
   constructor(private shoppingListService: ShoppingListService) {}
 
@@ -33,18 +32,6 @@ export class ShoppingListItemsController {
     @BodyParams(ShoppingItem) item: ShoppingItem
   ): Promise<ShoppingItem | null> {
     return this.shoppingListService.updateItem(shoppingListId, item);
-  }
-
-  @Post("/:itemId/store")
-  @Summary("")
-  @Returns(204)
-  async postItemFromShoppinglistToStore(
-    @PathParams("shoppingListId") shoppingListId: string,
-    @PathParams("userId") userId: string,
-    @PathParams("itemId") itemId: string,
-    @BodyParams(PostMoveItemToStore) body: PostMoveItemToStore
-  ): Promise<void> {
-    return this.shoppingListService.moveItemToStore(itemId, shoppingListId, userId, body.quantityToMove);
   }
 
   @Delete("/:itemId")

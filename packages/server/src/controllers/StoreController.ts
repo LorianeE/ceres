@@ -1,35 +1,28 @@
 import {BodyParams, Controller, Delete, Get, PathParams, Post, Put, UseBefore, UseBeforeEach} from "@tsed/common";
 import {Groups, Returns, Summary} from "@tsed/schema";
 import {Authenticate} from "@tsed/passport";
-import {CheckUserIdMiddleware} from "../middlewares/CheckUserIdMiddleware";
 import {Store} from "../models/Store";
 import {StoreService} from "../services/StoreService";
 import {StoreItem} from "../models/StoreItem";
 import {CheckItemIdMiddleware} from "../middlewares/CheckItemIdMiddleware";
 import {NotFound} from "@tsed/exceptions";
+import {CheckIsAllowedUserStoreMiddleware} from "../middlewares/CheckIsAllowedUserStoreMiddleware";
 
-@Controller("/:userId/store")
+@Controller("/stores")
 @Authenticate("facebook")
-@UseBeforeEach(CheckUserIdMiddleware)
+@UseBeforeEach(CheckIsAllowedUserStoreMiddleware)
 export class StoreController {
   constructor(private storeService: StoreService) {}
 
-  @Get("/")
-  @Summary("Get user's store")
+  @Get("/:storeId")
+  @Summary("Get a store")
   @Returns(200, Store)
-  async getStore(@PathParams("userId") userId: string): Promise<Store> {
-    const store = await this.storeService.getUserStore(userId);
+  async getStore(@PathParams("storeId") storeId: string): Promise<Store> {
+    const store = await this.storeService.find(storeId);
     if (!store) {
-      throw new NotFound("User does not have any store.");
+      throw new NotFound("Store not found.");
     }
     return store;
-  }
-
-  @Post("/")
-  @Summary("Add a new store for a user")
-  @Returns(201, Store)
-  async addStore(@PathParams("userId") userId: string, @BodyParams(Store) store: Store): Promise<Store> {
-    return this.storeService.addStoreForUser(userId, store);
   }
 
   @Post("/:storeId/items")

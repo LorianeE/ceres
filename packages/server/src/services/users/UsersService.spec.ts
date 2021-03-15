@@ -1,7 +1,8 @@
 import {PlatformTest} from "@tsed/common";
-import {NotFound} from "@tsed/exceptions";
+import {Forbidden, NotFound} from "@tsed/exceptions";
 import {User} from "../../models/User";
 import {UsersService} from "./UsersService";
+import {Store} from "../../models/Store";
 
 async function getUsersService(locals: any[]) {
   const prototype = {
@@ -121,6 +122,95 @@ describe("UsersService", () => {
       let actualError;
       try {
         await usersService.addShoppingList("userId", "1234");
+      } catch (err) {
+        actualError = err;
+      }
+
+      // THEN
+      // @ts-ignore
+      expect(userModel.findById).toHaveBeenCalled();
+      expect(actualError).toBeInstanceOf(NotFound);
+    });
+  });
+  describe("addStore()", () => {
+    it("should add store id to user's store", async () => {
+      // GIVEN
+      const user = new User();
+      user.firstName = "John";
+      user.lastName = "Doe";
+      user.facebookId = "facebookId";
+
+      const save = jest.fn();
+
+      const {usersService, userModel} = await getUsersService([]);
+
+      // @ts-ignore
+      userModel.findById = jest.fn().mockReturnValue({
+        exec: jest.fn().mockResolvedValue({...user, save})
+      });
+
+      const store = new Store();
+
+      // WHEN
+      await usersService.addStore("userId", store);
+
+      // THEN
+      // @ts-ignore
+      expect(userModel.findById).toHaveBeenCalled();
+      expect(save).toHaveBeenCalledTimes(1);
+    });
+    it("should throw forbidden error if user already has a store", async () => {
+      // GIVEN
+      const user = new User();
+      user.firstName = "John";
+      user.lastName = "Doe";
+      user.facebookId = "facebookId";
+      user.store = "12345678";
+
+      const save = jest.fn();
+
+      const {usersService, userModel} = await getUsersService([]);
+
+      // @ts-ignore
+      userModel.findById = jest.fn().mockReturnValue({
+        exec: jest.fn().mockResolvedValue({...user, save})
+      });
+
+      const store = new Store();
+
+      // WHEN
+      let actualError;
+      try {
+        await usersService.addStore("userId", store);
+      } catch (err) {
+        actualError = err;
+      }
+
+      // THEN
+      // @ts-ignore
+      expect(userModel.findById).toHaveBeenCalled();
+      expect(actualError).toBeInstanceOf(Forbidden);
+    });
+    it("should throw error if user not found", async () => {
+      // GIVEN
+      const user = new User();
+      user.firstName = "John";
+      user.lastName = "Doe";
+      user.facebookId = "facebookId";
+
+      const {usersService, userModel} = await getUsersService([]);
+
+      // @ts-ignore
+      userModel.findById = jest.fn().mockReturnValue({
+        exec: jest.fn().mockResolvedValue(null)
+      });
+
+      const store = new Store();
+
+      // WHEN
+      let actualError;
+      try {
+        await usersService.addStore("userId", store);
       } catch (err) {
         actualError = err;
       }

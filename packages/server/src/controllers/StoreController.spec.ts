@@ -12,7 +12,7 @@ describe("StoreController", () => {
     it("should return a result from storeService", async () => {
       // GIVEN
       const storeService = {
-        getUserStore: jest.fn().mockResolvedValue({id: "1", items: []})
+        find: jest.fn().mockResolvedValue({id: "1", items: []})
       };
 
       const storeCtrl = await PlatformTest.invoke(StoreController, [
@@ -23,17 +23,17 @@ describe("StoreController", () => {
       ]);
 
       // WHEN
-      const result = await storeCtrl.getStore("userId");
+      const result = await storeCtrl.getStore("storeId");
 
       // THEN
       expect(result).toEqual({id: "1", items: []});
-      expect(storeService.getUserStore).toHaveBeenCalledTimes(1);
-      expect(storeService.getUserStore).toHaveBeenCalledWith("userId");
+      expect(storeService.find).toHaveBeenCalledTimes(1);
+      expect(storeService.find).toHaveBeenCalledWith("storeId");
     });
     it("should throw notfound if store not found", async () => {
       // GIVEN
       const storeService = {
-        getUserStore: jest.fn().mockResolvedValue(null)
+        find: jest.fn().mockResolvedValue(null)
       };
 
       const storeCtrl = await PlatformTest.invoke(StoreController, [
@@ -46,43 +46,13 @@ describe("StoreController", () => {
       // WHEN
       let actualError;
       try {
-        await storeCtrl.getStore("userId");
+        await storeCtrl.getStore("storeId");
       } catch (err) {
         actualError = err;
       }
 
       // THEN
       expect(actualError).toBeInstanceOf(NotFound);
-    });
-  });
-  describe("addStore()", () => {
-    beforeEach(() => PlatformTest.create());
-    afterEach(() => PlatformTest.reset());
-
-    it("should return a result from storeService", async () => {
-      // GIVEN
-      const store = new Store();
-      store._id = "1234";
-      store.items = [];
-
-      const storeService = {
-        addStoreForUser: jest.fn().mockResolvedValue(store)
-      };
-
-      const storeCtrl = await PlatformTest.invoke(StoreController, [
-        {
-          token: StoreService,
-          use: storeService
-        }
-      ]);
-
-      // WHEN
-      const result = await storeCtrl.addStore("userId", store);
-
-      // THEN
-      expect(storeService.addStoreForUser).toHaveBeenCalledTimes(1);
-      expect(storeService.addStoreForUser).toHaveBeenCalledWith("userId", store);
-      expect(result).toEqual(store);
     });
   });
   describe("addStoreItem()", () => {

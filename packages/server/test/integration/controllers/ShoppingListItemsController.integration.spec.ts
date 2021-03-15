@@ -15,7 +15,6 @@ describe("ShoppingListItems", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
   let product: Product;
   let dbUser: User;
-  let userId: string;
   let shoppingList: ShoppingList;
   let shoppingListId: string;
 
@@ -52,8 +51,6 @@ describe("ShoppingListItems", () => {
         user.shoppingLists = [shoppingList._id];
         dbUser = await usersService.create(user);
 
-        userId = dbUser._id.toString();
-
         jest.spyOn(passportMiddleware, "use").mockImplementation(async (ctx: PlatformContext) => {
           ctx.getRequest().user = dbUser;
         });
@@ -70,14 +67,11 @@ describe("ShoppingListItems", () => {
         product: product._id.toString(),
         quantity: 1
       };
-      const responsePost = await request
-        .post(`/rest/users/${userId}/shopping-lists/${shoppingListId}/items`)
-        .send(shoppingItem)
-        .expect(201);
+      const responsePost = await request.post(`/rest/shopping-lists/${shoppingListId}/items`).send(shoppingItem).expect(201);
       itemId = responsePost.body.id;
 
       // Then check it is in shoppinglist
-      const responseGet = await request.get(`/rest/users/${userId}/shopping-lists/${shoppingListId}`).expect(200);
+      const responseGet = await request.get(`/rest/shopping-lists/${shoppingListId}`).expect(200);
       expect(responseGet.body.items).toEqual(
         expect.arrayContaining([
           expect.objectContaining({
@@ -94,9 +88,9 @@ describe("ShoppingListItems", () => {
         quantity: 2,
         comment: "This is a comment"
       };
-      await request.put(`/rest/users/${userId}/shopping-lists/${shoppingListId}/items/${itemId}`).send(updatedItem).expect(200);
+      await request.put(`/rest/shopping-lists/${shoppingListId}/items/${itemId}`).send(updatedItem).expect(200);
       // Check if it was updated
-      const updatedListResponse = await request.get(`/rest/users/${userId}/shopping-lists/${shoppingListId}`).expect(200);
+      const updatedListResponse = await request.get(`/rest/shopping-lists/${shoppingListId}`).expect(200);
       expect(updatedListResponse.body.items).toEqual(
         expect.arrayContaining([
           expect.objectContaining({
@@ -109,9 +103,9 @@ describe("ShoppingListItems", () => {
     });
     it("should delete item", async () => {
       // THEN UPDATE IT
-      await request.delete(`/rest/users/${userId}/shopping-lists/${shoppingListId}/items/${itemId}`).expect(204);
+      await request.delete(`/rest/shopping-lists/${shoppingListId}/items/${itemId}`).expect(204);
       // Check if it was deleted
-      const updatedListResponse = await request.get(`/rest/users/${userId}/shopping-lists/${shoppingListId}`).expect(200);
+      const updatedListResponse = await request.get(`/rest/shopping-lists/${shoppingListId}`).expect(200);
       expect(updatedListResponse.body.items).toEqual([]);
     });
   });

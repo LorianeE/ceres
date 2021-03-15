@@ -1,8 +1,9 @@
 import {Inject, Service} from "@tsed/common";
 import {MongooseModel} from "@tsed/mongoose";
+import mongoose from "mongoose";
 import {Store} from "../models/Store";
 import {StoreItem} from "../models/StoreItem";
-import {BadRequest, Forbidden, NotFound} from "@tsed/exceptions";
+import {BadRequest, NotFound} from "@tsed/exceptions";
 import {ProductsService} from "./ProductsService";
 
 @Service()
@@ -15,30 +16,21 @@ export class StoreService {
   private productService: ProductsService;
 
   async save(store: Store): Promise<Store> {
-    const storeModel = new this.store(store);
-    return storeModel.save();
+    if (!store._id) {
+      // We have to create an _id if it is null so that findOneAndUpdate won't save a store with _id: null.
+      // We could use findByIdAndUpdate and not have the problem but it seems to be a typescript issue with it.
+      store._id = mongoose.Types.ObjectId().toString();
+    }
+    return this.store
+      .findOneAndUpdate({_id: store._id}, store, {
+        upsert: true,
+        new: true
+      })
+      .exec();
   }
 
-  async getUserStore(userId: string): Promise<Store | null> {
-    return this.store.findOne({users: userId}).exec();
-  }
-
-  async addStoreForUser(userId: string, store: Store): Promise<Store> {
-    // Check if user already have a store
-    const userStore = await this.store.findOne({users: userId}).exec();
-    if (userStore) {
-      throw new Forbidden("User already have a store.");
-    }
-
-    const storeModel = new this.store(store);
-    const dbStore = await this.store.findOneAndUpdate({_id: storeModel._id}, {$push: {users: userId}}, {new: true, upsert: false}).exec();
-    if (!dbStore) {
-      // store did not exist
-      storeModel.users.push(userId);
-      await storeModel.save();
-      return storeModel;
-    }
-    return dbStore;
+  async find(storeId: string): Promise<Store | null> {
+    return this.store.findById(storeId).exec();
   }
 
   async getItemFromStoreByProductId(storeId: string, productId: string): Promise<StoreItem | undefined> {

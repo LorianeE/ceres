@@ -51,31 +51,28 @@ describe("Store", () => {
   describe("Manipulate a user's store", () => {
     let userStore: any;
     let itemId: string;
-    it("should get user store and get NotFound", async () => {
-      await request.get(`/rest/users/${userId}/store`).expect(404);
-    });
     it("should post user store", async () => {
       const store = new Store();
       store.items = [];
 
       const response = await request.post(`/rest/users/${userId}/store`).send(store).expect(201);
-      userStore = response.body as Store;
+      userStore = response.body as any;
       expect(userStore.items).toEqual([]);
     });
     it("should get user store", async () => {
-      const response = await request.get(`/rest/users/${userId}/store`).expect(200);
+      const response = await request.get(`/rest/stores/${userStore.id}`).expect(200);
       expect(response.body).toEqual(userStore);
     });
     it("should post item to store", async () => {
       const item = new StoreItem();
       item.product = product._id;
       item.quantity = 2;
-      const response = await request.post(`/rest/users/${userId}/store/${userStore.id}/items`).send(item).expect(201);
+      const response = await request.post(`/rest/stores/${userStore.id}/items`).send(item).expect(201);
       expect(response.body.product).toEqual(product._id.toString());
       itemId = response.body.id;
     });
     it("should get user store with item", async () => {
-      const response = await request.get(`/rest/users/${userId}/store`).expect(200);
+      const response = await request.get(`/rest/stores/${userStore.id}`).expect(200);
       expect(response.body.items[0].product).toEqual(product._id.toString());
       expect(response.body.items[0].quantity).toEqual(2);
     });
@@ -86,9 +83,9 @@ describe("Store", () => {
         product: product._id,
         quantity: 1
       };
-      await request.put(`/rest/users/${userId}/store/${userStore.id}/items/${itemId}`).send(updatedItem).expect(200);
+      await request.put(`/rest/stores/${userStore.id}/items/${itemId}`).send(updatedItem).expect(200);
       // Check if it was updated
-      const updatedResponse = await request.get(`/rest/users/${userId}/store`).expect(200);
+      const updatedResponse = await request.get(`/rest/stores/${userStore.id}`).expect(200);
       expect(updatedResponse.body.items).toEqual(
         expect.arrayContaining([
           expect.objectContaining({
@@ -99,9 +96,9 @@ describe("Store", () => {
       );
     });
     it("should delete the item", async () => {
-      await request.delete(`/rest/users/${userId}/store/${userStore.id}/items/${itemId}`).expect(204);
+      await request.delete(`/rest/stores/${userStore.id}/items/${itemId}`).expect(204);
       // Check if it was deleted
-      const response = await request.get(`/rest/users/${userId}/store`).expect(200);
+      const response = await request.get(`/rest/stores/${userStore.id}`).expect(200);
       expect(response.body.items).toEqual([]);
     });
   });
