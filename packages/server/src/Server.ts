@@ -55,7 +55,7 @@ function setCustomCacheControl(res: ServerResponse, path: string) {
   mongoose: [
     {
       id: "default",
-      url: process.env.MONGO_DB_URL || "mongodb://localhost:27017/Ceres",
+      url: process.env.NODE_ENV === "production" ? String(process.env.MONGO_DB_URL) : "mongodb://localhost:27017/Ceres",
       connectionOptions: {
         useNewUrlParser: true,
         useUnifiedTopology: true,
