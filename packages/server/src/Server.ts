@@ -1,23 +1,20 @@
-import {Configuration, PlatformApplication, Inject, Res} from "@tsed/common";
+import "@tsed/ajv";
+import {Configuration, Inject, PlatformApplication, Res} from "@tsed/common";
+import "@tsed/mongoose";
+import "@tsed/platform-express";
+import "@tsed/swagger";
 import bodyParser from "body-parser";
 import compress from "compression";
 import cookieParser from "cookie-parser";
-import methodOverride from "method-override";
 import cors from "cors";
-import path from "path";
 import dotenv from "dotenv";
 import session from "express-session";
-import favicon from "serve-favicon";
+import {ServerResponse} from "http";
+import methodOverride from "method-override";
 import mongoose from "mongoose";
-
-import "@tsed/ajv";
-import "@tsed/swagger";
-import "@tsed/mongoose";
-import "@tsed/platform-express";
+import path, {join} from "path";
 
 import {User} from "./models/User";
-import {ServerResponse} from "http";
-import {join} from "path";
 
 const send = require("send");
 const mongooseStore = require("cache-manager-mongoose");
@@ -58,7 +55,7 @@ function setCustomCacheControl(res: ServerResponse, path: string) {
   mongoose: [
     {
       id: "default",
-      url: process.env.NODE_ENV === "production" ? String(process.env.MONGO_DB_URL) : "mongodb://localhost:27017/Ceres",
+      url: process.env.MONGO_DB_URL || "mongodb://localhost:27017/Ceres",
       connectionOptions: {
         useNewUrlParser: true,
         useUnifiedTopology: true,
@@ -75,7 +72,29 @@ function setCustomCacheControl(res: ServerResponse, path: string) {
       }
     ]
   },
-  middlewares: [cors(), favicon(path.join(clientDir, "favicon.ico")), cookieParser(), compress({}), methodOverride()],
+  middlewares: [
+    cors(),
+    // favicon(path.join(clientDir, "favicon.ico")),
+    cookieParser(),
+    compress({}),
+    methodOverride(),
+    bodyParser.json(),
+    bodyParser.urlencoded({
+      extended: true
+    }),
+    session({
+      secret: process.env.SESSION_SECRET || "mydefaultsecret",
+      resave: true,
+      saveUninitialized: true,
+      // maxAge: 36000,
+      cookie: {
+        path: "/",
+        httpOnly: true,
+        secure: false,
+        maxAge: undefined
+      }
+    })
+  ],
   cache: {
     ttl: 300, // default TTL
     store: mongooseStore,
@@ -89,32 +108,6 @@ function setCustomCacheControl(res: ServerResponse, path: string) {
 export class Server {
   @Inject()
   app: PlatformApplication<Express.Application>;
-
-  $beforeRoutesInit() {
-    this.app
-      .use(bodyParser.json())
-      .use(
-        bodyParser.urlencoded({
-          extended: true
-        })
-      )
-      .use(
-        session({
-          secret: process.env.SESSION_SECRET || "mydefaultsecret",
-          resave: true,
-          saveUninitialized: true,
-          // maxAge: 36000,
-          cookie: {
-            path: "/",
-            httpOnly: true,
-            secure: false,
-            maxAge: undefined
-          }
-        })
-      );
-
-    return null;
-  }
 
   $afterRoutesInit() {
     this.app.get(`/*`, (req: any, res: Res) => {
