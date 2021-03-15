@@ -7,12 +7,13 @@ import {StoreService} from "../services/StoreService";
 import {StoreItem} from "../models/StoreItem";
 import {CheckItemIdMiddleware} from "../middlewares/CheckItemIdMiddleware";
 import {NotFound} from "@tsed/exceptions";
+import {UsersService} from "../services/users/UsersService";
 
 @Controller("/:userId/store")
 @Authenticate("facebook")
 @UseBeforeEach(CheckUserIdMiddleware)
 export class StoreController {
-  constructor(private storeService: StoreService) {}
+  constructor(private storeService: StoreService, private usersService: UsersService) {}
 
   @Get("/")
   @Summary("Get user's store")
@@ -20,7 +21,7 @@ export class StoreController {
   async getStore(@PathParams("userId") userId: string): Promise<Store> {
     const store = await this.storeService.getUserStore(userId);
     if (!store) {
-      throw new NotFound("User does not have any store.");
+      throw new NotFound("Store not found.");
     }
     return store;
   }
@@ -29,7 +30,10 @@ export class StoreController {
   @Summary("Add a new store for a user")
   @Returns(201, Store)
   async addStore(@PathParams("userId") userId: string, @BodyParams(Store) store: Store): Promise<Store> {
-    return this.storeService.addStoreForUser(userId, store);
+    const createdStore = await this.storeService.save(store);
+    await this.usersService.addStore(userId, createdStore);
+
+    return createdStore;
   }
 
   @Post("/:storeId/items")

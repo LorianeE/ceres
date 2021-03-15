@@ -6,7 +6,6 @@ import {CheckIsAllowedUserMiddleware} from "../middlewares/CheckIsAllowedUserMid
 import {ShoppingItem} from "../models/ShoppingItem";
 import {CheckItemIdMiddleware} from "../middlewares/CheckItemIdMiddleware";
 import {PostShoppingItem} from "../models/PostShoppingItem";
-import {PostMoveItemToStore} from "../models/PostMoveItemToStore";
 
 @Controller("/:shoppingListId/items")
 @Authenticate("facebook")
@@ -33,18 +32,6 @@ export class ShoppingListItemsController {
     @BodyParams(ShoppingItem) item: ShoppingItem
   ): Promise<ShoppingItem | null> {
     return this.shoppingListService.updateItem(shoppingListId, item);
-  }
-
-  @Post("/:itemId/store")
-  @Summary("")
-  @Returns(204)
-  async postItemFromShoppinglistToStore(
-    @PathParams("shoppingListId") shoppingListId: string,
-    @PathParams("userId") userId: string,
-    @PathParams("itemId") itemId: string,
-    @BodyParams(PostMoveItemToStore) body: PostMoveItemToStore
-  ): Promise<void> {
-    return this.shoppingListService.moveItemToStore(itemId, shoppingListId, userId, body.quantityToMove);
   }
 
   @Delete("/:itemId")

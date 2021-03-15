@@ -1,7 +1,7 @@
 import {PlatformTest} from "@tsed/common";
 import {StoreService} from "./StoreService";
 import {Store} from "../models/Store";
-import {BadRequest, Forbidden, NotFound} from "@tsed/exceptions";
+import {BadRequest, NotFound} from "@tsed/exceptions";
 import {StoreItem} from "../models/StoreItem";
 import {Product} from "../models/Product";
 import {ProductsService} from "./ProductsService";
@@ -12,9 +12,7 @@ describe("StoreService", () => {
   afterEach(() => jest.resetAllMocks());
   describe("save()", () => {
     async function getStoreService(locals: any[]) {
-      const prototype = {
-        save: jest.fn()
-      };
+      const prototype = {};
       const storeModel = jest.fn().mockImplementation(() => {
         return prototype;
       });
@@ -31,29 +29,29 @@ describe("StoreService", () => {
         prototype
       };
     }
-    it("should save store", async () => {
+    it("should save store without _id", async () => {
       // GIVEN
       const store = new Store();
       store.items = [];
 
-      const {storeService, prototype} = await getStoreService([]);
+      const {storeService, storeModel} = await getStoreService([]);
 
       // WHEN
       await storeService.save(store);
 
       // THEN
       // @ts-ignore
-      expect(prototype.save).toHaveBeenCalled();
+      expect(storeModel.findOneAndUpdate).toHaveBeenCalledWith(expect.anything(), store, {upsert: true, new: true});
     });
   });
-  describe("getUserStore()", () => {
+  describe("getItemFromStoreByProductId()", () => {
     beforeEach(() => PlatformTest.create());
     afterEach(() => PlatformTest.reset());
-    it("should return a store", async () => {
+    it("should return a item from store", async () => {
       // GIVEN
       const store = {
-        findOne: jest.fn().mockReturnValue({
-          exec: jest.fn().mockResolvedValue({id: "1234"})
+        findById: jest.fn().mockReturnValue({
+          exec: jest.fn().mockResolvedValue({id: "1234", items: [{_id: "itemId", product: "productId"}]})
         })
       };
 
@@ -65,137 +63,38 @@ describe("StoreService", () => {
       ]);
 
       // WHEN
-      const result = await storeService.getUserStore("1234");
+      const result = await storeService.getItemFromStoreByProductId("storeId", "productId");
 
       // THEN
-      expect(result).toEqual({id: "1234"});
-      expect(store.findOne).toHaveBeenCalledWith({users: "1234"});
+      expect(result).toEqual({_id: "itemId", product: "productId"});
+      expect(store.findById).toHaveBeenCalledWith("storeId");
     });
-  });
-  describe("addStoreForUser()", () => {
-    beforeEach(() => PlatformTest.create());
-    afterEach(() => PlatformTest.reset());
-    it("should add user to store if already exist", async () => {
+    it("should throw notfound if store not found", async () => {
       // GIVEN
-      const storeToAdd = new Store();
-      storeToAdd._id = "1234";
-      storeToAdd.items = [];
-      storeToAdd.users = ["otherUserId"];
-
-      const updatedStore = {...storeToAdd, users: ["otherUserId", "userId"]};
-
-      const saveSpy = jest.fn();
-      const storeModel = jest.fn().mockImplementation((item) => {
-        return {
-          ...item,
-          save: saveSpy
-        };
-      });
-
-      // @ts-ignore
-      storeModel.findOne = jest.fn().mockReturnValue({
-        exec: jest.fn().mockResolvedValue(null)
-      });
-      // @ts-ignore
-      storeModel.findOneAndUpdate = jest.fn().mockReturnValue({
-        exec: jest.fn().mockResolvedValue(updatedStore)
-      });
+      const store = {
+        findById: jest.fn().mockReturnValue({
+          exec: jest.fn().mockResolvedValue(null)
+        })
+      };
 
       const storeService = await PlatformTest.invoke(StoreService, [
         {
           token: Store,
-          use: storeModel
-        }
-      ]);
-
-      // WHEN
-      const result = await storeService.addStoreForUser("userId", storeToAdd);
-
-      // THEN
-      // @ts-ignore
-      expect(storeModel.findOne).toHaveBeenCalledWith({users: "userId"});
-      // @ts-ignore
-      expect(storeModel.findOneAndUpdate).toHaveBeenCalledWith({_id: "1234"}, {$push: {users: "userId"}}, {new: true, upsert: false});
-      expect(saveSpy).not.toHaveBeenCalled();
-      expect(result).toEqual(updatedStore);
-    });
-    it("should add user to store if not already exist", async () => {
-      // GIVEN
-      const storeToAdd = new Store();
-      storeToAdd._id = "1234";
-      storeToAdd.items = [];
-      storeToAdd.users = ["otherUserId"];
-
-      const saveSpy = jest.fn();
-      const storeModel = jest.fn().mockImplementation((item) => {
-        return {
-          ...item,
-          save: saveSpy
-        };
-      });
-
-      // @ts-ignore
-      storeModel.findOne = jest.fn().mockReturnValue({
-        exec: jest.fn().mockResolvedValue(null)
-      });
-      // @ts-ignore
-      storeModel.findOneAndUpdate = jest.fn().mockReturnValue({
-        exec: jest.fn().mockResolvedValue(null)
-      });
-
-      const storeService = await PlatformTest.invoke(StoreService, [
-        {
-          token: Store,
-          use: storeModel
-        }
-      ]);
-
-      // WHEN
-      await storeService.addStoreForUser("userId", storeToAdd);
-
-      // THEN
-      // @ts-ignore
-      expect(storeModel.findOne).toHaveBeenCalledWith({users: "userId"});
-      // @ts-ignore
-      expect(storeModel.findOneAndUpdate).toHaveBeenCalledWith({_id: "1234"}, {$push: {users: "userId"}}, {new: true, upsert: false});
-      expect(saveSpy).toHaveBeenCalled();
-    });
-    it("should throw forbidden if user already have a store", async () => {
-      // GIVEN
-      const storeToAdd = new Store();
-      storeToAdd._id = "1234";
-
-      const storeModel = jest.fn().mockImplementation((item) => {
-        return {
-          ...item,
-          save: jest.fn()
-        };
-      });
-
-      // @ts-ignore
-      storeModel.findOne = jest.fn().mockReturnValue({
-        exec: jest.fn().mockResolvedValue(storeToAdd)
-      });
-
-      const storeService = await PlatformTest.invoke(StoreService, [
-        {
-          token: Store,
-          use: storeModel
+          use: store
         }
       ]);
 
       // WHEN
       let actualError;
       try {
-        await storeService.addStoreForUser("userId", storeToAdd);
+        await storeService.getItemFromStoreByProductId("storeId", "productId");
       } catch (err) {
         actualError = err;
       }
 
       // THEN
-      // @ts-ignore
-      expect(storeModel.findOne).toHaveBeenCalledWith({users: "userId"});
-      expect(actualError).toBeInstanceOf(Forbidden);
+      expect(actualError).toBeInstanceOf(NotFound);
+      expect(store.findById).toHaveBeenCalledWith("storeId");
     });
   });
   describe("addItemToStore()", () => {
@@ -364,7 +263,7 @@ describe("StoreService", () => {
       expect(saveSpy).toHaveBeenCalled();
       expect(result).toBeNull();
     });
-    it("should throw not found if shoppinglist not found", async () => {
+    it("should throw not found if store not found", async () => {
       // GIVEN
       const store = new Store();
       store._id = "storeId";
@@ -391,7 +290,7 @@ describe("StoreService", () => {
       expect(actualError.message).toBe("Store not found.");
       expect(saveSpy).not.toHaveBeenCalled();
     });
-    it("should throw not found if shoppinglist item not found", async () => {
+    it("should throw not found if store item not found", async () => {
       // GIVEN
       const store = new Store();
       store._id = "storeId";
@@ -449,59 +348,6 @@ describe("StoreService", () => {
           items: {_id: item._id}
         }
       });
-    });
-  });
-  describe("getItemFromStoreByProductId()", () => {
-    beforeEach(() => PlatformTest.create());
-    afterEach(() => PlatformTest.reset());
-    it("should return a item from store", async () => {
-      // GIVEN
-      const store = {
-        findById: jest.fn().mockReturnValue({
-          exec: jest.fn().mockResolvedValue({id: "1234", items: [{_id: "itemId", product: "productId"}]})
-        })
-      };
-
-      const storeService = await PlatformTest.invoke(StoreService, [
-        {
-          token: Store,
-          use: store
-        }
-      ]);
-
-      // WHEN
-      const result = await storeService.getItemFromStoreByProductId("storeId", "productId");
-
-      // THEN
-      expect(result).toEqual({_id: "itemId", product: "productId"});
-      expect(store.findById).toHaveBeenCalledWith("storeId");
-    });
-    it("should throw notfound if store not found", async () => {
-      // GIVEN
-      const store = {
-        findById: jest.fn().mockReturnValue({
-          exec: jest.fn().mockResolvedValue(null)
-        })
-      };
-
-      const storeService = await PlatformTest.invoke(StoreService, [
-        {
-          token: Store,
-          use: store
-        }
-      ]);
-
-      // WHEN
-      let actualError;
-      try {
-        await storeService.getItemFromStoreByProductId("storeId", "productId");
-      } catch (err) {
-        actualError = err;
-      }
-
-      // THEN
-      expect(actualError).toBeInstanceOf(NotFound);
-      expect(store.findById).toHaveBeenCalledWith("storeId");
     });
   });
 });

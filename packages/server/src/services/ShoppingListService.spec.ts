@@ -5,9 +5,6 @@ import {ShoppingItem} from "../models/ShoppingItem";
 import {BadRequest, NotFound} from "@tsed/exceptions";
 import {ProductsService} from "./ProductsService";
 import {Product} from "../models/Product";
-import {StoreItem} from "../models/StoreItem";
-import {StoreService} from "./StoreService";
-import {Store} from "../models/Store";
 
 describe("ShoppingListService", () => {
   beforeEach(() => PlatformTest.create());
@@ -286,7 +283,7 @@ describe("ShoppingListService", () => {
       item._id = "itemId";
       item.product = "productId";
       item.quantity = 1;
-      const item2 = new StoreItem();
+      const item2 = new ShoppingItem();
       item2._id = "itemId2";
       item2.product = "productId2";
       item2.quantity = 2;
@@ -408,171 +405,6 @@ describe("ShoppingListService", () => {
           items: {_id: item._id}
         }
       });
-    });
-  });
-  describe("moveItemToStore()", () => {
-    it("should throw notfound if item not found", async () => {
-      // GIVEN
-      const shoppingListModel = {
-        findById: jest.fn().mockReturnValue({
-          exec: jest.fn().mockResolvedValue(null)
-        })
-      };
-
-      const shoppingListService = await PlatformTest.invoke(ShoppingListService, [
-        {
-          token: ShoppingList,
-          use: shoppingListModel
-        }
-      ]);
-
-      // WHEN
-      let actualError;
-      try {
-        await shoppingListService.moveItemToStore("itemId", "shopListId", "userId", 1);
-      } catch (err) {
-        actualError = err;
-      }
-
-      // THEN
-      expect(actualError).toBeInstanceOf(NotFound);
-    });
-    it("should updateStoreItem with store not existing at first", async () => {
-      // GIVEN
-      const shoppingListModel = {
-        findById: jest.fn().mockReturnValue({
-          exec: jest.fn().mockResolvedValue({
-            _id: "shopListId",
-            items: [{_id: "itemId", product: "productId", quantity: 2}],
-            save: jest.fn()
-          })
-        })
-      };
-      const newStore = new Store();
-      newStore._id = "storeId";
-      const storeService = {
-        getUserStore: jest.fn().mockResolvedValue(null),
-        addStoreForUser: jest.fn().mockResolvedValue(newStore),
-        getItemFromStoreByProductId: jest.fn(),
-        updateStoreItem: jest.fn(),
-        addItemToStore: jest.fn()
-      };
-
-      const shoppingListService = await PlatformTest.invoke(ShoppingListService, [
-        {
-          token: ShoppingList,
-          use: shoppingListModel
-        },
-        {
-          token: StoreService,
-          use: storeService
-        }
-      ]);
-
-      // WHEN
-      await shoppingListService.moveItemToStore("itemId", "shopListId", "userId", 1);
-
-      // THEN
-      expect(storeService.getUserStore).toHaveBeenCalledTimes(1);
-      expect(storeService.getUserStore).toHaveBeenCalledWith("userId");
-      expect(storeService.addStoreForUser).toHaveBeenCalledTimes(1);
-      expect(storeService.addStoreForUser).toHaveBeenCalledWith("userId", expect.any(Store));
-      expect(storeService.getItemFromStoreByProductId).not.toHaveBeenCalled();
-      expect(storeService.addItemToStore).toHaveBeenCalledTimes(1);
-      expect(storeService.addItemToStore).toHaveBeenCalledWith("storeId", {product: "productId", quantity: 1});
-    });
-    it("should updateStoreItem with store existing at first but item not", async () => {
-      // GIVEN
-      const shoppingListModel = {
-        findById: jest.fn().mockReturnValue({
-          exec: jest.fn().mockResolvedValue({
-            _id: "shopListId",
-            items: [{_id: "itemId", product: "productId", quantity: 2}],
-            save: jest.fn()
-          })
-        })
-      };
-      const newStore = new Store();
-      newStore._id = "storeId";
-      const storeService = {
-        getUserStore: jest.fn().mockResolvedValue(newStore),
-        addStoreForUser: jest.fn(),
-        getItemFromStoreByProductId: jest.fn().mockResolvedValue(undefined),
-        updateStoreItem: jest.fn(),
-        addItemToStore: jest.fn()
-      };
-
-      const shoppingListService = await PlatformTest.invoke(ShoppingListService, [
-        {
-          token: ShoppingList,
-          use: shoppingListModel
-        },
-        {
-          token: StoreService,
-          use: storeService
-        }
-      ]);
-
-      // WHEN
-      await shoppingListService.moveItemToStore("itemId", "shopListId", "userId", 1);
-
-      // THEN
-      expect(storeService.getUserStore).toHaveBeenCalledTimes(1);
-      expect(storeService.getUserStore).toHaveBeenCalledWith("userId");
-      expect(storeService.addStoreForUser).not.toHaveBeenCalled();
-      expect(storeService.getItemFromStoreByProductId).toHaveBeenCalledTimes(1);
-      expect(storeService.getItemFromStoreByProductId).toHaveBeenCalledWith("storeId", "productId");
-      expect(storeService.addItemToStore).toHaveBeenCalledTimes(1);
-      expect(storeService.addItemToStore).toHaveBeenCalledWith("storeId", {product: "productId", quantity: 1});
-    });
-    it("should updateStoreItem with store existing at first with item", async () => {
-      // GIVEN
-      const shoppingListModel = {
-        findById: jest.fn().mockReturnValue({
-          exec: jest.fn().mockResolvedValue({
-            _id: "shopListId",
-            items: [{_id: "itemId", product: "productId", quantity: 2}],
-            save: jest.fn()
-          })
-        })
-      };
-      const newStore = new Store();
-      newStore._id = "storeId";
-      const item = new StoreItem();
-      item._id = "storeItemId";
-      item.product = "productId";
-      item.quantity = 5;
-      const storeService = {
-        getUserStore: jest.fn().mockResolvedValue(newStore),
-        addStoreForUser: jest.fn(),
-        getItemFromStoreByProductId: jest.fn().mockResolvedValue(item),
-        updateStoreItem: jest.fn(),
-        addItemToStore: jest.fn()
-      };
-
-      const shoppingListService = await PlatformTest.invoke(ShoppingListService, [
-        {
-          token: ShoppingList,
-          use: shoppingListModel
-        },
-        {
-          token: StoreService,
-          use: storeService
-        }
-      ]);
-
-      // WHEN
-      await shoppingListService.moveItemToStore("itemId", "shopListId", "userId", 1);
-
-      // THEN
-      expect(storeService.getUserStore).toHaveBeenCalledTimes(1);
-      expect(storeService.getUserStore).toHaveBeenCalledWith("userId");
-      expect(storeService.addStoreForUser).not.toHaveBeenCalled();
-      expect(storeService.getItemFromStoreByProductId).toHaveBeenCalledTimes(1);
-      expect(storeService.getItemFromStoreByProductId).toHaveBeenCalledWith("storeId", "productId");
-      expect(storeService.addItemToStore).not.toHaveBeenCalled();
-      expect(storeService.updateStoreItem).toHaveBeenCalledTimes(1);
-      expect(storeService.updateStoreItem).toHaveBeenCalledWith("storeId", {_id: "storeItemId", product: "productId", quantity: 6});
     });
   });
 });

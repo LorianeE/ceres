@@ -5,9 +5,6 @@ import {ShoppingList} from "../models/ShoppingList";
 import {ShoppingItem} from "../models/ShoppingItem";
 import {BadRequest, NotFound} from "@tsed/exceptions";
 import {ProductsService} from "./ProductsService";
-import {StoreService} from "./StoreService";
-import {Store} from "../models/Store";
-import {StoreItem} from "../models/StoreItem";
 
 @Service()
 export class ShoppingListService {
@@ -17,8 +14,6 @@ export class ShoppingListService {
   private shoppingItem: MongooseModel<ShoppingItem>;
   @Inject(ProductsService)
   private productService: ProductsService;
-  @Inject(StoreService)
-  private storeService: StoreService;
 
   /**
    * Find a shoppingList by its ID.
@@ -86,46 +81,6 @@ export class ShoppingListService {
       shoppingList.items = shoppingList.items.filter((e) => e._id.toString() !== item._id.toString());
       await shoppingList.save();
       return null;
-    }
-  }
-
-  async moveItemToStore(itemId: string, shoppingListId: string, userId: string, quantityToMove: number): Promise<void> {
-    // First get item as it is in DB
-    const itemBeforeUpdate = await this.getItem(shoppingListId, itemId);
-    if (!itemBeforeUpdate) {
-      throw new NotFound("Item not found.");
-    }
-    // Then update shoppinglist to remove item depending on quantity
-    const updatedShoppingItem = {
-      _id: itemBeforeUpdate._id,
-      product: itemBeforeUpdate.product,
-      comment: itemBeforeUpdate.comment,
-      quantity: itemBeforeUpdate.quantity - quantityToMove
-    };
-    await this.updateItem(shoppingListId, updatedShoppingItem);
-    // Then check if user has a store
-    let userStore = await this.storeService.getUserStore(userId);
-    let storeItem: StoreItem | undefined;
-    // If he doesn't have one, we create it.
-    if (!userStore) {
-      userStore = await this.storeService.addStoreForUser(userId, new Store());
-    } else {
-      // We find the item if it exists
-      storeItem = await this.storeService.getItemFromStoreByProductId(userStore._id.toString(), updatedShoppingItem.product.toString());
-    }
-    // Then we add item removed from shoppinglist to store or update item to store if it was found
-    if (storeItem) {
-      const updatedStoreItem = {
-        _id: storeItem._id,
-        product: storeItem.product,
-        quantity: storeItem.quantity + quantityToMove
-      };
-      await this.storeService.updateStoreItem(userStore._id.toString(), updatedStoreItem);
-    } else {
-      const updatedStoreItem = new StoreItem();
-      updatedStoreItem.product = itemBeforeUpdate.product;
-      updatedStoreItem.quantity = quantityToMove;
-      await this.storeService.addItemToStore(userStore._id.toString(), updatedStoreItem);
     }
   }
 

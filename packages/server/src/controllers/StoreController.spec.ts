@@ -4,6 +4,7 @@ import {StoreService} from "../services/StoreService";
 import {Store} from "../models/Store";
 import {StoreItem} from "../models/StoreItem";
 import {NotFound} from "@tsed/exceptions";
+import {UsersService} from "../services/users/UsersService";
 
 describe("StoreController", () => {
   describe("getStore()", () => {
@@ -66,13 +67,20 @@ describe("StoreController", () => {
       store.items = [];
 
       const storeService = {
-        addStoreForUser: jest.fn().mockResolvedValue(store)
+        save: jest.fn().mockResolvedValue(store)
+      };
+      const usersService = {
+        addStore: jest.fn()
       };
 
       const storeCtrl = await PlatformTest.invoke(StoreController, [
         {
           token: StoreService,
           use: storeService
+        },
+        {
+          token: UsersService,
+          use: usersService
         }
       ]);
 
@@ -80,8 +88,10 @@ describe("StoreController", () => {
       const result = await storeCtrl.addStore("userId", store);
 
       // THEN
-      expect(storeService.addStoreForUser).toHaveBeenCalledTimes(1);
-      expect(storeService.addStoreForUser).toHaveBeenCalledWith("userId", store);
+      expect(storeService.save).toHaveBeenCalledTimes(1);
+      expect(usersService.addStore).toHaveBeenCalledTimes(1);
+      expect(storeService.save).toHaveBeenCalledWith(store);
+      expect(usersService.addStore).toHaveBeenCalledWith("userId", store);
       expect(result).toEqual(store);
     });
   });
