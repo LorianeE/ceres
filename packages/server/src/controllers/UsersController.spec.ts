@@ -6,6 +6,8 @@ import {UsersService} from "../services/users/UsersService";
 import {ShoppingList} from "../models/ShoppingList";
 import {User} from "../models/User";
 import {ShoppingListService} from "../services/ShoppingListService";
+import {RecipeService} from "../services/RecipeService";
+import {Recipe} from "../models/Recipe";
 
 describe("UsersController", () => {
   describe("addShoppingList()", () => {
@@ -116,6 +118,66 @@ describe("UsersController", () => {
       expect(storeService.save).toHaveBeenCalledWith(store);
       expect(usersService.addStore).toHaveBeenCalledWith("userId", store);
       expect(result).toEqual(store);
+    });
+  });
+  describe("addRecipe()", () => {
+    beforeEach(() => PlatformTest.create());
+    afterEach(() => PlatformTest.reset());
+
+    it("should save product with associated user id", async () => {
+      // GIVEN
+      const user = new User();
+      user._id = "userId";
+
+      const recipe = new Recipe();
+
+      const recipeService = {
+        addUserToRecipe: jest.fn()
+      };
+
+      const usersCtrl = await PlatformTest.invoke(UsersController, [
+        {
+          token: RecipeService,
+          use: recipeService
+        }
+      ]);
+
+      // WHEN
+      await usersCtrl.addRecipe("userId", recipe);
+
+      // THEN
+      expect(recipeService.addUserToRecipe).toHaveBeenCalledTimes(1);
+      expect(recipeService.addUserToRecipe).toHaveBeenCalledWith("userId", recipe);
+    });
+    it("should throw error if recipeService throws error", async () => {
+      // GIVEN
+      const user = new User();
+      user._id = "userId";
+
+      const recipe = new Recipe();
+
+      const recipeService = {
+        addUserToRecipe: jest.fn().mockRejectedValue(new Error("An error occured"))
+      };
+
+      const usersCtrl = await PlatformTest.invoke(UsersController, [
+        {
+          token: RecipeService,
+          use: recipeService
+        }
+      ]);
+
+      // WHEN
+      let actualError;
+      try {
+        await usersCtrl.addRecipe("userId", recipe);
+      } catch (e) {
+        actualError = e;
+      }
+
+      // THEN
+      expect(recipeService.addUserToRecipe).toHaveBeenCalledTimes(1);
+      expect(actualError).toBeInstanceOf(Error);
     });
   });
 });

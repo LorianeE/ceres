@@ -1,4 +1,4 @@
-import {BodyParams, Controller, PathParams, Post} from "@tsed/common";
+import {BodyParams, Controller, Get, PathParams, Post} from "@tsed/common";
 import {UserProductsController} from "./UserProductsController";
 import {Returns, Summary} from "@tsed/schema";
 import {Store} from "../models/Store";
@@ -6,13 +6,20 @@ import {StoreService} from "../services/StoreService";
 import {UsersService} from "../services/users/UsersService";
 import {ShoppingList} from "../models/ShoppingList";
 import {ShoppingListService} from "../services/ShoppingListService";
+import {Recipe} from "../models/Recipe";
+import {RecipeService} from "../services/RecipeService";
 
 @Controller({
   path: "/users",
   children: [UserProductsController]
 })
 export class UsersController {
-  constructor(private storeService: StoreService, private shoppingListService: ShoppingListService, private usersService: UsersService) {}
+  constructor(
+    private storeService: StoreService,
+    private shoppingListService: ShoppingListService,
+    private recipeService: RecipeService,
+    private usersService: UsersService
+  ) {}
 
   @Post("/:userId/shopping-list")
   @Summary("Post a new shopping list for given user")
@@ -32,5 +39,19 @@ export class UsersController {
     await this.usersService.addStore(userId, createdStore);
 
     return createdStore;
+  }
+
+  @Post("/:userId/recipes")
+  @Summary("Add a new recipe for a user")
+  @Returns(201, Recipe)
+  async addRecipe(@PathParams("userId") userId: string, @BodyParams(Recipe) recipe: Recipe): Promise<Recipe> {
+    return this.recipeService.addUserToRecipe(userId, recipe);
+  }
+
+  @Get("/:userId/recipes")
+  @Summary("Get all recipes for a user")
+  @(Returns(200, Array).Of(Recipe))
+  async getUserRecipes(@PathParams("userId") userId: string): Promise<Recipe[]> {
+    return this.recipeService.getUserRecipes(userId);
   }
 }
