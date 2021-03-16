@@ -1,7 +1,7 @@
 FROM node:14.16.0-alpine
 WORKDIR /app
 
-RUN apk update && npm install -g yarn@1.15.2
+RUN apk update
 
 COPY package.json .
 COPY yarn.lock .
