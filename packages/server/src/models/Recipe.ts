@@ -22,6 +22,9 @@ export class Recipe {
   @CollectionOf(Ingredient)
   ingredients: Ingredient[] = [];
 
+  @CollectionOf(String)
+  tags: string[] = [];
+
   @Ref(() => User)
   users: Ref<User>[] = [];
 }

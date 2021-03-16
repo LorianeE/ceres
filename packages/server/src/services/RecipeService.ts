@@ -55,7 +55,8 @@ export class RecipeService {
             title: recipe.title,
             url: recipe.url,
             nbGuests: recipe.nbGuests,
-            ingredients: recipe.ingredients
+            ingredients: recipe.ingredients,
+            tags: recipe.tags
           }
         },
         {new: true}
@@ -111,5 +112,19 @@ export class RecipeService {
     if (!recipe.users.length) {
       await this.recipe.deleteOne({_id: recipe._id}).exec();
     }
+  }
+
+  async getAllTags(): Promise<string[]> {
+    const recipes = await this.recipe.find().exec();
+    const tagsSet = new Set();
+    recipes.forEach((recipe) => {
+      recipe.tags.forEach((tag: string) => {
+        if (!tagsSet.has(tag)) {
+          tagsSet.add(tag);
+        }
+      });
+    });
+    const sortedTags = Array.from(tagsSet).sort((a: string, b: string) => a.localeCompare(b));
+    return sortedTags as string[];
   }
 }

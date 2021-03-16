@@ -10,6 +10,13 @@ import {RecipeService} from "../services/RecipeService";
 export class RecipesController {
   constructor(private recipeService: RecipeService) {}
 
+  @Get("/tags")
+  @Summary("Get all tags for recipes")
+  @(Returns(200, Array).Of(String))
+  async getAllTags(): Promise<string[]> {
+    return this.recipeService.getAllTags();
+  }
+
   @Get("/:recipeId")
   @Summary("Get a recipe")
   @Returns(200, Recipe)
