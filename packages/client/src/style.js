@@ -50,6 +50,7 @@ export const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(2),
     width: '100%',
+    height: '100%',
   },
   fitPicture: {
     'padding-left': 25,

@@ -56,6 +56,7 @@ export class RecipeService {
             url: recipe.url,
             nbGuests: recipe.nbGuests,
             ingredients: recipe.ingredients,
+            imgUrl: recipe.imgUrl,
             tags: recipe.tags
           }
         },

@@ -15,6 +15,9 @@ export class Recipe {
   @Uri()
   url: string;
 
+  @Uri()
+  imgUrl: string;
+
   @Required()
   nbGuests: number;
 

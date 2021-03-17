@@ -1,0 +1,99 @@
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { Grid, TextField } from '@material-ui/core';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import IconButton from '@material-ui/core/IconButton';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+import CloseIcon from '@material-ui/icons/Close';
+import { useStyles } from '../../recipesStyle';
+
+const AddNewIngredient = ({ containerStyle, products, handleAddIngredient, handleCloseNewIngredient }) => {
+  const classes = useStyles();
+
+  const [newIngredient, setNewIngredient] = useState({ id: String(Date.now()), product: {}, quantity: '' });
+  const [productToAdd, setProductToAdd] = useState(null);
+
+  const onAutocompleteChange = (event, value) => {
+    setProductToAdd(value);
+  };
+
+  const handleChangeNewIngredient = (e) => {
+    setNewIngredient({
+      ...newIngredient,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleAddProductToNewIngredient = () => {
+    if (productToAdd) {
+      setNewIngredient({
+        ...newIngredient,
+        product: productToAdd,
+      });
+    }
+  };
+
+  const onAddIngredient = () => {
+    setProductToAdd(null);
+    setNewIngredient({ id: String(Date.now()), product: {}, quantity: '' });
+    handleAddIngredient(newIngredient);
+  };
+
+  const onCloseNewIngredient = () => {
+    setProductToAdd(null);
+    setNewIngredient({ id: String(Date.now()), product: {}, quantity: '' });
+    handleCloseNewIngredient();
+  };
+
+  return (
+    <Grid
+      container
+      direction="row"
+      justify="space-between"
+      alignItems="center"
+      className={classes.editIngredientsList}
+      style={containerStyle}
+    >
+      <Grid item xs={2} style={{ paddingLeft: '10px', paddingBottom: '12px' }}>
+        <TextField
+          id="newIngredient_quantity"
+          name="quantity"
+          label="Quantité"
+          type="number"
+          value={newIngredient.quantity}
+          onChange={handleChangeNewIngredient}
+        />
+      </Grid>
+      <Grid item xs={8} style={{ paddingLeft: '10px', paddingBottom: '12px' }}>
+        <Autocomplete
+          id="combo-box-demo"
+          options={products}
+          value={productToAdd}
+          getOptionLabel={(option) => option.label}
+          getOptionSelected={(option, value) => value && option.name === value.name}
+          renderInput={(params) => <TextField {...params} label="Produit" />}
+          onChange={onAutocompleteChange}
+          onBlur={handleAddProductToNewIngredient}
+        />
+      </Grid>
+      <Grid item xs={2} style={{ textAlign: 'center' }}>
+        <IconButton edge="end" aria-label="add" onClick={onAddIngredient}>
+          <AddCircleIcon />
+        </IconButton>
+        <IconButton edge="end" aria-label="cancel" onClick={onCloseNewIngredient}>
+          <CloseIcon />
+        </IconButton>
+      </Grid>
+    </Grid>
+  );
+};
+
+AddNewIngredient.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  containerStyle: PropTypes.object.isRequired,
+  products: PropTypes.arrayOf(PropTypes.object).isRequired,
+  handleAddIngredient: PropTypes.func.isRequired,
+  handleCloseNewIngredient: PropTypes.func.isRequired,
+};
+
+export default AddNewIngredient;
