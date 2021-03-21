@@ -15,7 +15,7 @@ const RecipeCardContent = ({ selectedRecipe }) => {
   return (
     <CardContent>
       <Grid container justify="space-between" alignItems="center">
-        <Grid item xs={6}>
+        <Grid item xs={8}>
           <Typography variant="h5" component="h2" style={{ display: 'flex', alignItems: 'center' }}>
             {selectedRecipe.title}
             {selectedRecipe.url && (
@@ -40,11 +40,15 @@ const RecipeCardContent = ({ selectedRecipe }) => {
         Ingredients
       </Typography>
       <List>
-        {selectedRecipe.ingredients.map((ingredient) => (
-          <ListItem key={`${selectedRecipe.id}_${ingredient.id}`} dense>
-            <ListItemText primary={`${ingredient.quantity}     ${ingredient.product.label}`} />
-          </ListItem>
-        ))}
+        <Grid container direction="row" xs={12}>
+          {selectedRecipe.ingredients.map((ingredient) => (
+            <Grid item xs={12} lg={6} key={`${selectedRecipe.id}_${ingredient.id}`}>
+              <ListItem dense>
+                <ListItemText primary={`${ingredient.quantity}     ${ingredient.product.label}`} />
+              </ListItem>
+            </Grid>
+          ))}
+        </Grid>
       </List>
     </CardContent>
   );
