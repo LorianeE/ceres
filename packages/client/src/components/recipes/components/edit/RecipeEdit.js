@@ -83,12 +83,14 @@ const RecipeEdit = ({ recipeToEdit, handleEditClose, open, allTags, products }) 
               fullWidth
             />
           </Grid>
-          <Grid item xs={12} md={5} style={{ textAlign: 'center', marginTop: '10px' }}>
-            <Typography variant="subtitle2" style={{ marginBottom: '5px' }}>
-              Image d&#39;illustration :
-            </Typography>
-            <img alt={recipe.title} src={recipe.imgUrl} style={{ maxHeight: '100px', borderRadius: '8px' }} />
-          </Grid>
+          {recipe.imgUrl && (
+            <Grid item xs={12} md={5} style={{ textAlign: 'center', marginTop: '10px' }}>
+              <Typography variant="subtitle2" style={{ marginBottom: '5px' }}>
+                Image d&#39;illustration :
+              </Typography>
+              <img alt={recipe.title} src={recipe.imgUrl} style={{ maxHeight: '100px', borderRadius: '8px' }} />
+            </Grid>
+          )}
         </Grid>
 
         <TextField

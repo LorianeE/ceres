@@ -17,6 +17,7 @@ const Recipes = () => {
     filteredTags,
     products,
     selectedRecipe,
+    setSelectedRecipe,
     selectedIndex,
     searchRecipeTitle,
     handleTagClick,
@@ -32,6 +33,7 @@ const Recipes = () => {
 
   const handleEditClose = () => {
     setOpen(false);
+    setSelectedRecipe(null);
   };
 
   return (

@@ -69,6 +69,7 @@ const useRecipes = () => {
     products: allProducts,
     selectedIndex,
     selectedRecipe,
+    setSelectedRecipe,
     searchRecipeTitle,
     handleTagClick,
     handleSearchChange,
