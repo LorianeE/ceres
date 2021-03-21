@@ -8,6 +8,10 @@ export default {
     dbList: null,
     userList: null,
   },
+  recipesInfo: {
+    tags: [],
+    recipes: [],
+  },
   error: {
     errorMsg: '',
   },
