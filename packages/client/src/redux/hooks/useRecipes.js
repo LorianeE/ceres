@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getGenericProducts, getUserProducts } from '../selectors/products.selectors';
 import { fetchRecipesList, fetchRecipesTags } from '../actions/recipes.actions';
 import { getRecipes, getRecipesTags } from '../selectors/recipes.selectors';
+import { useProducts } from './useProducts';
 
 const useRecipes = () => {
   const dispatch = useDispatch();
@@ -13,9 +13,7 @@ const useRecipes = () => {
   const [selectedIndex, setSelectedIndex] = React.useState(null);
 
   // Get products
-  const genericProducts = useSelector(getGenericProducts);
-  const userProducts = useSelector(getUserProducts);
-  const allProducts = genericProducts && userProducts && [...genericProducts, ...userProducts];
+  const { productsSortedByLabel } = useProducts();
 
   // Get recipes and tags
   useEffect(() => {
@@ -66,7 +64,7 @@ const useRecipes = () => {
     allTags,
     filteredRecipes,
     filteredTags,
-    products: allProducts,
+    products: productsSortedByLabel,
     selectedIndex,
     selectedRecipe,
     setSelectedRecipe,

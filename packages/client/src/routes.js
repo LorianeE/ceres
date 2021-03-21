@@ -9,6 +9,7 @@ import Recipes from './components/recipes/Recipes';
 import ProductsContainer from './components/products/ProductsContainer';
 import EditProductForm from './components/products/EditProductForm';
 import StoreContainer from './components/store/StoreContainer';
+import AddRecipe from './components/recipes/AddRecipe';
 
 const routes = [
   {
@@ -64,6 +65,13 @@ const routes = [
     path: '/products/:id/edit',
     inDrawer: false,
     component: EditProductForm,
+  },
+  {
+    id: 8,
+    text: 'Ajouter une nouvelle recette',
+    path: '/recipes/add',
+    inDrawer: false,
+    component: AddRecipe,
   },
 ];
 

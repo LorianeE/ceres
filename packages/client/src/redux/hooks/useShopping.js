@@ -1,9 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
-import { sortByLabel } from '../../utils/ProductsUtils';
 import { getFilledShoppingList } from '../../utils/ShoppingListMapper';
 import { getUserDefaultShoppingListId } from '../selectors/user.selectors';
-import { getGenericProducts, getUserProducts } from '../selectors/products.selectors';
 import { getShoppingListItems } from '../selectors/shopping.selectors';
 import { getErrorMessage } from '../selectors/error.selectors';
 import {
@@ -15,6 +13,7 @@ import {
   moveShopItemToStoreAndSave,
 } from '../actions/shopping.actions';
 import { resetErrorMessage } from '../actions/error.actions';
+import { useProducts } from './useProducts';
 
 export function useShopping() {
   const dispatch = useDispatch();
@@ -22,9 +21,7 @@ export function useShopping() {
   const [shoppingMode, setShoppingMode] = useState(false);
   const [itemsRemoved, setItemsRemoved] = useState([]);
 
-  const genericProducts = useSelector(getGenericProducts);
-  const userProducts = useSelector(getUserProducts);
-  const allProducts = genericProducts && userProducts ? [...genericProducts, ...userProducts] : [];
+  const { allProducts, productsSortedByLabel } = useProducts();
 
   const userShoppingList = useSelector(getUserDefaultShoppingListId);
   const shoppingItems = useSelector(getShoppingListItems);
@@ -90,7 +87,7 @@ export function useShopping() {
 
   return {
     userShoppingList,
-    products: sortByLabel(allProducts),
+    products: productsSortedByLabel,
     shoppingList: filledShoppingList,
     shelves,
     error: useSelector(getErrorMessage),

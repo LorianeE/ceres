@@ -4,20 +4,10 @@ import { Dialog, DialogActions, DialogContent, Divider, Grid, TextField, Typogra
 import Button from '@material-ui/core/Button';
 import EditRecipeTags from './EditRecipeTags';
 import EditRecipeDialogTitle from './EditRecipeDialogTitle';
-import EditIngredientsTitle from './EditIngredientsTitle';
-import AddNewIngredient from './AddNewIngredient';
-import EditIngredient from './EditIngredient';
+import EditIngredients from './EditIngredients';
 
 const RecipeEdit = ({ recipeToEdit, handleEditClose, open, allTags, products }) => {
   const [recipe, setRecipe] = useState(recipeToEdit);
-  const [addIngredient, setAddIngredient] = useState(false);
-
-  const handleTagsChange = (tags) => {
-    setRecipe({
-      ...recipe,
-      tags,
-    });
-  };
 
   const handleChange = (e) => {
     setRecipe({
@@ -26,19 +16,17 @@ const RecipeEdit = ({ recipeToEdit, handleEditClose, open, allTags, products }) 
     });
   };
 
-  const handleChangeIngredientQuantity = (newQuantity, id) => {
-    const newIngredients = recipe.ingredients.map((ingredient) => {
-      if (ingredient.id === id) {
-        return {
-          ...ingredient,
-          quantity: newQuantity && parseFloat(newQuantity, 10),
-        };
-      }
-      return ingredient;
-    });
+  const handleTagsChange = (tags) => {
     setRecipe({
       ...recipe,
-      ingredients: newIngredients,
+      tags,
+    });
+  };
+
+  const handleUpdateIngredient = (updatedIngredients) => {
+    setRecipe({
+      ...recipe,
+      ingredients: updatedIngredients,
     });
   };
 
@@ -47,11 +35,6 @@ const RecipeEdit = ({ recipeToEdit, handleEditClose, open, allTags, products }) 
       ...recipe,
       ingredients: [newIngredient, ...recipe.ingredients],
     });
-    setAddIngredient(false);
-  };
-
-  const handleCloseNewIngredient = () => {
-    setAddIngredient(false);
   };
 
   const handleDeleteIngredient = (id) => {
@@ -110,25 +93,14 @@ const RecipeEdit = ({ recipeToEdit, handleEditClose, open, allTags, products }) 
         </Typography>
         <EditRecipeTags recipeTags={recipe.tags} allTags={allTags} handleTagsChange={handleTagsChange} />
 
-        <EditIngredientsTitle addIngredient={addIngredient} setAddIngredient={setAddIngredient} />
-        {addIngredient && (
-          <AddNewIngredient
-            containerStyle={{ border: '1px solid', marginBottom: '20px', borderRadius: '7px', borderColor: '#8bc34a' }}
-            products={products}
-            handleAddIngredient={handleAddIngredient}
-            handleCloseNewIngredient={handleCloseNewIngredient}
-          />
-        )}
-        {recipe.ingredients.map((ingredient) => {
-          return (
-            <EditIngredient
-              key={ingredient.id}
-              ingredient={ingredient}
-              handleDeleteIngredient={handleDeleteIngredient}
-              handleChangeIngredientQuantity={handleChangeIngredientQuantity}
-            />
-          );
-        })}
+        <EditIngredients
+          ingredients={recipe.ingredients}
+          products={products}
+          handleUpdateIngredient={handleUpdateIngredient}
+          handleDeleteIngredient={handleDeleteIngredient}
+          handleAddIngredient={handleAddIngredient}
+          addIngredientContainerStyle={{ border: '1px solid', marginBottom: '20px', borderRadius: '7px', borderColor: '#8bc34a' }}
+        />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleEditClose} color="primary">

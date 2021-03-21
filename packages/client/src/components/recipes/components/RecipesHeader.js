@@ -2,6 +2,7 @@ import React from 'react';
 import { Fab, Grid, TextField } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import AddIcon from '@material-ui/icons/Add';
+import { Link } from 'react-router-dom';
 
 // eslint-disable-next-line react/prop-types
 const Header = ({ searchRecipeTitle, handleSearchChange }) => {
@@ -16,7 +17,7 @@ const Header = ({ searchRecipeTitle, handleSearchChange }) => {
         </Grid>
       </Grid>
       <Grid item xs={2} md={4} align="right">
-        <Fab color="primary" aria-label="add" size="small">
+        <Fab color="primary" aria-label="add" size="small" component={Link} to="/recipes/add">
           <AddIcon />
         </Fab>
       </Grid>

@@ -12,6 +12,8 @@ const AddNewIngredient = ({ containerStyle, products, handleAddIngredient, handl
 
   const [newIngredient, setNewIngredient] = useState({ id: String(Date.now()), product: {}, quantity: '' });
   const [productToAdd, setProductToAdd] = useState(null);
+  const [newProductOnError, setNewProductOnError] = useState(false);
+  const [newQuantityOnError, setNewQuantityOnError] = useState(false);
 
   const onAutocompleteChange = (event, value) => {
     setProductToAdd(value);
@@ -34,9 +36,19 @@ const AddNewIngredient = ({ containerStyle, products, handleAddIngredient, handl
   };
 
   const onAddIngredient = () => {
-    setProductToAdd(null);
-    setNewIngredient({ id: String(Date.now()), product: {}, quantity: '' });
-    handleAddIngredient(newIngredient);
+    setNewProductOnError(false);
+    setNewQuantityOnError(false);
+    if (!newIngredient.product.id) {
+      setNewProductOnError(true);
+    }
+    if (!newIngredient.quantity || newIngredient.quantity <= 0) {
+      setNewQuantityOnError(true);
+    }
+    if (newIngredient.product.id && newIngredient.quantity && newIngredient.quantity > 0) {
+      handleAddIngredient(newIngredient);
+      setProductToAdd(null);
+      setNewIngredient({ id: String(Date.now()), product: {}, quantity: '' });
+    }
   };
 
   const onCloseNewIngredient = () => {
@@ -61,6 +73,7 @@ const AddNewIngredient = ({ containerStyle, products, handleAddIngredient, handl
           label="Quantité"
           type="number"
           value={newIngredient.quantity}
+          error={newQuantityOnError}
           onChange={handleChangeNewIngredient}
         />
       </Grid>
@@ -71,7 +84,7 @@ const AddNewIngredient = ({ containerStyle, products, handleAddIngredient, handl
           value={productToAdd}
           getOptionLabel={(option) => option.label}
           getOptionSelected={(option, value) => value && option.name === value.name}
-          renderInput={(params) => <TextField {...params} label="Produit" />}
+          renderInput={(params) => <TextField {...params} error={newProductOnError} label="Produit" />}
           onChange={onAutocompleteChange}
           onBlur={handleAddProductToNewIngredient}
         />
@@ -88,9 +101,13 @@ const AddNewIngredient = ({ containerStyle, products, handleAddIngredient, handl
   );
 };
 
+AddNewIngredient.defaultProps = {
+  containerStyle: {},
+};
+
 AddNewIngredient.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
-  containerStyle: PropTypes.object.isRequired,
+  containerStyle: PropTypes.object,
   products: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleAddIngredient: PropTypes.func.isRequired,
   handleCloseNewIngredient: PropTypes.func.isRequired,
