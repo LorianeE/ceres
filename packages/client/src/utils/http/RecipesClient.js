@@ -15,7 +15,7 @@ export async function addUserRecipe(userId, recipe) {
 export async function putRecipe(recipe) {
   return httpClient.put(`/rest/recipes/${recipe.id}`, recipe);
 }
-//
-// export async function deleteUserProduct(userId, productId) {
-//   return httpClient.delete(`/rest/users/${userId}/products/${productId}`);
-// }
+
+export async function deleteUserRecipe(recipeId) {
+  return httpClient.delete(`/rest/recipes/${recipeId}`);
+}

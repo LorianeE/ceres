@@ -9,8 +9,10 @@ import {
   ADD_RECIPE_FAILURE,
   UPDATE_RECIPE,
   EDIT_RECIPE_FAILURE,
+  DELETE_RECIPE_FAILURE,
+  REMOVE_RECIPE,
 } from '../constants/RecipesActionTypes';
-import { addUserRecipe, getRecipesList, getRecipesTags, putRecipe } from '../../utils/http/RecipesClient';
+import { addUserRecipe, deleteUserRecipe, getRecipesList, getRecipesTags, putRecipe } from '../../utils/http/RecipesClient';
 
 function fetchRecipesSuccess(recipes) {
   return { type: RECEIVED_RECIPES_SUCCESS, payload: { recipes } };
@@ -26,6 +28,10 @@ function addRecipeFailure(err) {
 
 function editRecipeFailure(err) {
   return { type: EDIT_RECIPE_FAILURE, payload: { errMsg: getErrMsg(err) } };
+}
+
+function deleteRecipeFailure(err) {
+  return { type: DELETE_RECIPE_FAILURE, payload: { errMsg: getErrMsg(err) } };
 }
 
 export function fetchRecipesList() {
@@ -119,5 +125,25 @@ export function editRecipe(recipe) {
   return (dispatch) => {
     dispatch({ type: UPDATE_RECIPE, payload: { recipe } });
     dispatch(updateRecipe(recipe));
+  };
+}
+
+function deleteRecipe(recipeId) {
+  return async (dispatch) => {
+    dispatch(beginApiCall());
+    try {
+      await deleteUserRecipe(recipeId);
+      dispatch(endApiCall());
+      dispatch(fetchRecipesList());
+    } catch (err) {
+      dispatch(deleteRecipeFailure(err));
+    }
+  };
+}
+
+export function removeRecipe(recipeId) {
+  return (dispatch) => {
+    dispatch({ type: REMOVE_RECIPE, payload: { recipeId } });
+    dispatch(deleteRecipe(recipeId));
   };
 }

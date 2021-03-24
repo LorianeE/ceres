@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchRecipesList, fetchRecipesTags, addNewRecipe, editRecipe } from '../actions/recipes.actions';
+import { fetchRecipesList, fetchRecipesTags, addNewRecipe, editRecipe, removeRecipe } from '../actions/recipes.actions';
 import { getRecipes, getRecipesTags } from '../selectors/recipes.selectors';
 import { useProducts } from './useProducts';
 import { getFilledRecipes } from '../../utils/RecipesMapper';
@@ -76,6 +76,7 @@ const useRecipes = () => {
     handleSelectRecipe,
     addRecipe: (recipe) => dispatch(addNewRecipe(recipe)),
     editRecipe: (recipe) => dispatch(editRecipe(recipe)),
+    removeRecipe: (recipe) => dispatch(removeRecipe(recipe)),
   };
 };
 

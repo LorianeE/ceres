@@ -1,10 +1,11 @@
 import React from 'react';
 import { CardMedia, IconButton } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 import PropTypes from 'prop-types';
 import { useStyles } from '../../recipesStyle';
 
-const RecipeCardHeader = ({ selectedRecipe, handleEditOpen }) => {
+const RecipeCardHeader = ({ selectedRecipe, handleEditOpen, handleDeleteOpen }) => {
   const classes = useStyles();
 
   return (
@@ -20,8 +21,16 @@ const RecipeCardHeader = ({ selectedRecipe, handleEditOpen }) => {
         />
       )}
       <div style={{ position: 'absolute', top: 8, right: 10 }}>
-        <IconButton aria-label="editRecipe" className={classes.editButton} onClick={handleEditOpen}>
+        <IconButton aria-label="editRecipe" className={classes.actionRecipeCardButton} onClick={handleEditOpen}>
           <EditIcon />
+        </IconButton>
+        <IconButton
+          aria-label="deleteRecipe"
+          className={classes.actionRecipeCardButton}
+          style={{ marginLeft: '8px' }}
+          onClick={handleDeleteOpen}
+        >
+          <DeleteIcon />
         </IconButton>
       </div>
     </div>
@@ -39,6 +48,7 @@ RecipeCardHeader.propTypes = {
     nbGuests: PropTypes.number,
   }).isRequired,
   handleEditOpen: PropTypes.func.isRequired,
+  handleDeleteOpen: PropTypes.func.isRequired,
 };
 
 export default RecipeCardHeader;

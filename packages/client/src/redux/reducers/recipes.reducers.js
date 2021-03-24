@@ -42,16 +42,11 @@ function recipesReducers(state = initialState.recipesInfo, action) {
         ...state,
         recipes: updateRecipe(state.recipes, action.payload.recipe),
       };
-    // case types.REMOVE_RECIPE:
-    //   return {
-    //     ...state,
-    //     userList: removeUserProducts(action.payload.productIds, state.userList),
-    //   };
-    // case types.UPDATE_RECIPE:
-    //   return {
-    //     ...state,
-    //     userList: updateUserProduct(action.payload.product, state.userList),
-    //   };
+    case types.REMOVE_RECIPE:
+      return {
+        ...state,
+        recipes: state.recipes.filter((recipe) => recipe.id !== action.payload.recipeId),
+      };
 
     default:
       return state;

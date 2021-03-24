@@ -36,7 +36,7 @@ export class RecipesController {
   }
 
   @Delete("/:recipeId")
-  @Summary("Remove an recipe")
+  @Summary("Remove a recipe")
   @Returns(204)
   async deleteRecipe(@PathParams("recipeId") recipeId: string, @Req("user._id") userId: string): Promise<void> {
     return this.recipeService.removeRecipeFromUser(recipeId, userId.toString());

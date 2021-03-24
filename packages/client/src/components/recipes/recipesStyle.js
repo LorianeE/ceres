@@ -16,7 +16,7 @@ export const useStyles = makeStyles((theme) => ({
     fontSize: '12px',
     minWidth: '60px',
   },
-  editButton: {
+  actionRecipeCardButton: {
     backgroundColor: 'rgba(228, 228, 228, 0.7)',
     '&:hover': {
       backgroundColor: 'rgba(228, 228, 228, 0.9)',
