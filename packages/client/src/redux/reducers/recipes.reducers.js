@@ -1,9 +1,16 @@
 import * as types from '../constants/RecipesActionTypes';
 import initialState from '../initialState';
 
+function updateRecipe(stateRecipes, recipeToUpdate) {
+  return stateRecipes.map((recipe) => {
+    if (recipe.id === recipeToUpdate.id) {
+      return recipeToUpdate;
+    }
+    return recipe;
+  });
+}
+
 function recipesReducers(state = initialState.recipesInfo, action) {
-  console.log(state);
-  console.log(action);
   switch (action.type) {
     case types.RECEIVED_RECIPES_SUCCESS:
       return {
@@ -24,6 +31,16 @@ function recipesReducers(state = initialState.recipesInfo, action) {
       return {
         ...state,
         tags: [],
+      };
+    case types.ADD_RECIPE:
+      return {
+        ...state,
+        recipes: [...state.recipes, action.payload.recipe],
+      };
+    case types.UPDATE_RECIPE:
+      return {
+        ...state,
+        recipes: updateRecipe(state.recipes, action.payload.recipe),
       };
     // case types.REMOVE_RECIPE:
     //   return {

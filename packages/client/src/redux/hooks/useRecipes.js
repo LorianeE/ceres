@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchRecipesList, fetchRecipesTags } from '../actions/recipes.actions';
+import { fetchRecipesList, fetchRecipesTags, addNewRecipe, editRecipe } from '../actions/recipes.actions';
 import { getRecipes, getRecipesTags } from '../selectors/recipes.selectors';
 import { useProducts } from './useProducts';
+import { getFilledRecipes } from '../../utils/RecipesMapper';
 
 const useRecipes = () => {
   const dispatch = useDispatch();
@@ -13,13 +14,13 @@ const useRecipes = () => {
   const [selectedIndex, setSelectedIndex] = React.useState(null);
 
   // Get products
-  const { productsSortedByLabel } = useProducts();
+  const { allProducts, productsSortedByLabel } = useProducts();
 
   // Get recipes and tags
   useEffect(() => {
     dispatch(fetchRecipesList());
   }, [dispatch]);
-  const recipes = useSelector(getRecipes);
+  const recipes = getFilledRecipes(useSelector(getRecipes), allProducts);
 
   useEffect(() => {
     dispatch(fetchRecipesTags());
@@ -62,6 +63,7 @@ const useRecipes = () => {
 
   return {
     allTags,
+    recipes,
     filteredRecipes,
     filteredTags,
     products: productsSortedByLabel,
@@ -72,6 +74,8 @@ const useRecipes = () => {
     handleTagClick,
     handleSearchChange,
     handleSelectRecipe,
+    addRecipe: (recipe) => dispatch(addNewRecipe(recipe)),
+    editRecipe: (recipe) => dispatch(editRecipe(recipe)),
   };
 };
 

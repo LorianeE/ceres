@@ -40,7 +40,7 @@ const RecipeCardContent = ({ selectedRecipe }) => {
         Ingredients
       </Typography>
       <List>
-        <Grid container direction="row" xs={12}>
+        <Grid container direction="row">
           {selectedRecipe.ingredients.map((ingredient) => (
             <Grid item xs={12} lg={6} key={`${selectedRecipe.id}_${ingredient.id}`}>
               <ListItem dense>

@@ -10,7 +10,9 @@ import { useStyles } from '../../recipesStyle';
 const AddNewIngredient = ({ containerStyle, products, handleAddIngredient, handleCloseNewIngredient }) => {
   const classes = useStyles();
 
-  const [newIngredient, setNewIngredient] = useState({ id: String(Date.now()), product: {}, quantity: '' });
+  const ingredientInitialState = { id: `temp_${String(Date.now())}`, product: {}, quantity: '' };
+
+  const [newIngredient, setNewIngredient] = useState(ingredientInitialState);
   const [productToAdd, setProductToAdd] = useState(null);
   const [newProductOnError, setNewProductOnError] = useState(false);
   const [newQuantityOnError, setNewQuantityOnError] = useState(false);
@@ -22,7 +24,7 @@ const AddNewIngredient = ({ containerStyle, products, handleAddIngredient, handl
   const handleChangeNewIngredient = (e) => {
     setNewIngredient({
       ...newIngredient,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.name === 'quantity' ? parseFloat(e.target.value, 10) : e.target.value,
     });
   };
 
@@ -47,13 +49,13 @@ const AddNewIngredient = ({ containerStyle, products, handleAddIngredient, handl
     if (newIngredient.product.id && newIngredient.quantity && newIngredient.quantity > 0) {
       handleAddIngredient(newIngredient);
       setProductToAdd(null);
-      setNewIngredient({ id: String(Date.now()), product: {}, quantity: '' });
+      setNewIngredient(ingredientInitialState);
     }
   };
 
   const onCloseNewIngredient = () => {
     setProductToAdd(null);
-    setNewIngredient({ id: String(Date.now()), product: {}, quantity: '' });
+    setNewIngredient(ingredientInitialState);
     handleCloseNewIngredient();
   };
 

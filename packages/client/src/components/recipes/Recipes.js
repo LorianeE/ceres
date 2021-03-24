@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Fade, Grid, Hidden } from '@material-ui/core';
+import { Fade, Grid, Hidden, Typography } from '@material-ui/core';
 import { useStyles } from './recipesStyle';
 import Header from './components/RecipesHeader';
 import Tags from './components/RecipesHeaderTags';
@@ -13,6 +13,7 @@ const Recipes = () => {
 
   const {
     allTags,
+    recipes,
     filteredRecipes,
     filteredTags,
     products,
@@ -23,6 +24,7 @@ const Recipes = () => {
     handleTagClick,
     handleSearchChange,
     handleSelectRecipe,
+    editRecipe,
   } = useRecipes();
 
   const [open, setOpen] = useState(false);
@@ -42,12 +44,18 @@ const Recipes = () => {
       <Tags allTags={allTags} filteredTags={filteredTags} handleTagClick={handleTagClick} />
       <Grid item container direction="row" xs={12}>
         <Grid item xs={12} md={7} className={`${classes.root} ${classes.paperBackground}`}>
-          <RecipesListDesktop
-            filteredRecipes={filteredRecipes}
-            selectedRecipe={selectedRecipe}
-            selectedIndex={selectedIndex}
-            handleSelectRecipe={handleSelectRecipe}
-          />
+          {recipes.length ? (
+            <RecipesListDesktop
+              filteredRecipes={filteredRecipes}
+              selectedRecipe={selectedRecipe}
+              selectedIndex={selectedIndex}
+              handleSelectRecipe={handleSelectRecipe}
+            />
+          ) : (
+            <Typography>
+              Vous n&apos;avez aucune recette dans votre carnet ! Cliquez sur l&apos;icône « + » ci-dessus pour en ajouter une.
+            </Typography>
+          )}
         </Grid>
         <Grid item xs={12} md={5}>
           {selectedRecipe && (
@@ -60,6 +68,7 @@ const Recipes = () => {
               <RecipeEdit
                 recipeToEdit={selectedRecipe}
                 handleEditClose={handleEditClose}
+                editRecipe={editRecipe}
                 open={open}
                 allTags={allTags}
                 products={products}

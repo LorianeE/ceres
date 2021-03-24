@@ -10,6 +10,7 @@ import EditRecipeTags from './components/edit/EditRecipeTags';
 import { getRecipesTags } from '../../redux/selectors/recipes.selectors';
 import { useProducts } from '../../redux/hooks/useProducts';
 import EditIngredients from './components/edit/EditIngredients';
+import useRecipes from '../../redux/hooks/useRecipes';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,8 +35,10 @@ const AddRecipe = () => {
 
   const allTags = useSelector(getRecipesTags);
   const { productsSortedByLabel } = useProducts();
+  const { addRecipe } = useRecipes();
 
   const [recipe, setRecipe] = useState({
+    id: `temp_${String(Date.now())}`,
     title: '',
     url: '',
     imgUrl: '',
@@ -103,7 +106,7 @@ const AddRecipe = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(recipe);
+    addRecipe(recipe);
     history.push('/recipes');
   };
 
@@ -207,7 +210,7 @@ const AddRecipe = () => {
               />
             </Grid>
             <Grid item container direction="row" justify="center">
-              <Grid item xs={12} sm={6} justify="center">
+              <Grid item xs={12} sm={6}>
                 <Button
                   type="submit"
                   fullWidth

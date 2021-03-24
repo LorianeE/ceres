@@ -6,7 +6,7 @@ import EditRecipeTags from './EditRecipeTags';
 import EditRecipeDialogTitle from './EditRecipeDialogTitle';
 import EditIngredients from './EditIngredients';
 
-const RecipeEdit = ({ recipeToEdit, handleEditClose, open, allTags, products }) => {
+const RecipeEdit = ({ recipeToEdit, handleEditClose, editRecipe, open, allTags, products }) => {
   const [recipe, setRecipe] = useState(recipeToEdit);
 
   const handleChange = (e) => {
@@ -45,7 +45,7 @@ const RecipeEdit = ({ recipeToEdit, handleEditClose, open, allTags, products }) 
   };
 
   const saveRecipe = () => {
-    console.log(recipe);
+    editRecipe(recipe);
     handleEditClose();
   };
 
@@ -125,6 +125,7 @@ RecipeEdit.propTypes = {
     nbGuests: PropTypes.number,
   }).isRequired,
   handleEditClose: PropTypes.func.isRequired,
+  editRecipe: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   allTags: PropTypes.arrayOf(PropTypes.string).isRequired,
   products: PropTypes.arrayOf(PropTypes.object).isRequired,

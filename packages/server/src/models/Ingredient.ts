@@ -1,11 +1,10 @@
-import {Groups, Required} from "@tsed/schema";
+import {Minimum, Required} from "@tsed/schema";
 import {Model, ObjectID, Ref} from "@tsed/mongoose";
 import {Product} from "./Product";
 
 @Model()
 export class Ingredient {
   @ObjectID("id")
-  @Groups("!creation")
   _id: string;
 
   @Required()
@@ -13,5 +12,6 @@ export class Ingredient {
   product: Ref<Product>;
 
   @Required()
+  @Minimum(1)
   quantity: number;
 }
