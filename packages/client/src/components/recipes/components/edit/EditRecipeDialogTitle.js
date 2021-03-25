@@ -19,6 +19,7 @@ const EditRecipeDialogTitle = ({ title, handleChangeTitle, handleEditClose }) =>
         onChange={handleChangeTitle}
         type="text"
         fullWidth
+        multiline
         style={{ paddingRight: '40px' }}
         inputProps={{ style: { fontWeight: 500, fontSize: '1.25rem' } }}
         InputLabelProps={{ style: { fontWeight: 500 } }}

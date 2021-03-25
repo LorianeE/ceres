@@ -5,7 +5,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import PropTypes from 'prop-types';
 import { useStyles } from '../../recipesStyle';
 
-const RecipeCardHeader = ({ selectedRecipe, handleEditOpen, handleDeleteOpen }) => {
+const RecipeCardHeader = ({ selectedRecipe, handleEditOpen, handleDeleteOpen, isMobile }) => {
   const classes = useStyles();
 
   return (
@@ -15,7 +15,7 @@ const RecipeCardHeader = ({ selectedRecipe, handleEditOpen, handleDeleteOpen }) 
           component="img"
           className={classes.media}
           alt={selectedRecipe.title}
-          height="140"
+          height={isMobile ? '100' : '140'}
           image={selectedRecipe.imgUrl}
           title={selectedRecipe.title}
         />
@@ -37,6 +37,10 @@ const RecipeCardHeader = ({ selectedRecipe, handleEditOpen, handleDeleteOpen }) 
   );
 };
 
+RecipeCardHeader.defaultProps = {
+  isMobile: false,
+};
+
 RecipeCardHeader.propTypes = {
   selectedRecipe: PropTypes.shape({
     id: PropTypes.string.isRequired,
@@ -49,6 +53,7 @@ RecipeCardHeader.propTypes = {
   }).isRequired,
   handleEditOpen: PropTypes.func.isRequired,
   handleDeleteOpen: PropTypes.func.isRequired,
+  isMobile: PropTypes.bool,
 };
 
 export default RecipeCardHeader;

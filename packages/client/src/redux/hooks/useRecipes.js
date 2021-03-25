@@ -60,6 +60,7 @@ const useRecipes = () => {
       setSelectedRecipe(recipe);
     }
   };
+  console.log(selectedRecipe);
 
   return {
     allTags,

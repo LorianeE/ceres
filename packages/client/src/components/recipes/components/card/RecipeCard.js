@@ -4,13 +4,22 @@ import PropTypes from 'prop-types';
 import RecipeCardHeader from './RecipeCardHeader';
 import RecipeCardContent from './RecipeCardContent';
 
-const RecipeCard = ({ selectedRecipe, handleEditOpen, handleDeleteOpen }) => {
+const RecipeCard = ({ selectedRecipe, handleEditOpen, handleDeleteOpen, isMobile }) => {
   return (
     <Card>
-      <RecipeCardHeader selectedRecipe={selectedRecipe} handleEditOpen={handleEditOpen} handleDeleteOpen={handleDeleteOpen} />
-      <RecipeCardContent selectedRecipe={selectedRecipe} />
+      <RecipeCardHeader
+        selectedRecipe={selectedRecipe}
+        handleEditOpen={handleEditOpen}
+        handleDeleteOpen={handleDeleteOpen}
+        isMobile={isMobile}
+      />
+      <RecipeCardContent selectedRecipe={selectedRecipe} isMobile={isMobile} />
     </Card>
   );
+};
+
+RecipeCard.defaultProps = {
+  isMobile: false,
 };
 
 RecipeCard.propTypes = {
@@ -25,6 +34,7 @@ RecipeCard.propTypes = {
   }).isRequired,
   handleEditOpen: PropTypes.func.isRequired,
   handleDeleteOpen: PropTypes.func.isRequired,
+  isMobile: PropTypes.bool,
 };
 
 export default RecipeCard;

@@ -6,7 +6,7 @@ import EditRecipeTags from './EditRecipeTags';
 import EditRecipeDialogTitle from './EditRecipeDialogTitle';
 import EditIngredients from './EditIngredients';
 
-const RecipeEdit = ({ recipeToEdit, handleEditClose, editRecipe, open, allTags, products }) => {
+const RecipeEdit = ({ recipeToEdit, handleEditClose, editRecipe, open, allTags, products, fullScreen }) => {
   const [recipe, setRecipe] = useState(recipeToEdit);
 
   const handleChange = (e) => {
@@ -50,7 +50,15 @@ const RecipeEdit = ({ recipeToEdit, handleEditClose, editRecipe, open, allTags, 
   };
 
   return (
-    <Dialog open={open} fullWidth scroll="paper" onClose={handleEditClose} disableBackdropClick aria-labelledby="form-dialog-title">
+    <Dialog
+      open={open}
+      fullWidth
+      fullScreen={fullScreen}
+      scroll="paper"
+      onClose={handleEditClose}
+      disableBackdropClick
+      aria-labelledby="form-dialog-title"
+    >
       <EditRecipeDialogTitle title={recipe.title} handleEditClose={handleEditClose} handleChangeTitle={handleChange} />
       <Divider />
       <DialogContent>
@@ -59,7 +67,7 @@ const RecipeEdit = ({ recipeToEdit, handleEditClose, editRecipe, open, allTags, 
             <TextField
               margin="normal"
               id="nbGuests"
-              label="Nombre de personnes"
+              label="Personnes"
               type="number"
               value={recipe.nbGuests}
               onChange={handleChange}
@@ -129,6 +137,7 @@ RecipeEdit.propTypes = {
   open: PropTypes.bool.isRequired,
   allTags: PropTypes.arrayOf(PropTypes.string).isRequired,
   products: PropTypes.arrayOf(PropTypes.object).isRequired,
+  fullScreen: PropTypes.bool.isRequired,
 };
 
 export default RecipeEdit;

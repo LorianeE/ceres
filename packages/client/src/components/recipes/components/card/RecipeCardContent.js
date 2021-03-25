@@ -9,14 +9,14 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { useStyles } from '../../recipesStyle';
 
-const RecipeCardContent = ({ selectedRecipe }) => {
+const RecipeCardContent = ({ selectedRecipe, isMobile }) => {
   const classes = useStyles();
 
   return (
     <CardContent>
       <Grid container justify="space-between" alignItems="center">
         <Grid item xs={8}>
-          <Typography variant="h5" component="h2" style={{ display: 'flex', alignItems: 'center' }}>
+          <Typography variant={isMobile ? 'body1' : 'h5'} component="h2" style={{ display: 'flex', alignItems: 'center' }}>
             {selectedRecipe.title}
             {selectedRecipe.url && (
               <IconButton aria-label="linkToRecipe" component={Link} href={selectedRecipe.url} target="_blank">
@@ -54,6 +54,10 @@ const RecipeCardContent = ({ selectedRecipe }) => {
   );
 };
 
+RecipeCardContent.defaultProps = {
+  isMobile: false,
+};
+
 RecipeCardContent.propTypes = {
   selectedRecipe: PropTypes.shape({
     id: PropTypes.string.isRequired,
@@ -64,6 +68,7 @@ RecipeCardContent.propTypes = {
     url: PropTypes.string,
     nbGuests: PropTypes.number,
   }).isRequired,
+  isMobile: PropTypes.bool,
 };
 
 export default RecipeCardContent;

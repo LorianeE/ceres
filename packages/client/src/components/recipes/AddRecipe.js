@@ -142,6 +142,7 @@ const AddRecipe = () => {
                 variant="outlined"
                 required
                 fullWidth
+                multiline
                 label="Titre"
                 value={recipe.title}
                 onChange={handleChange}
@@ -155,7 +156,7 @@ const AddRecipe = () => {
                 variant="outlined"
                 required
                 fullWidth
-                label="Nombre de personnes"
+                label="Personnes"
                 type="number"
                 error={fieldsAreDirty.nbGuests && (!recipe.nbGuests || recipe.nbGuests <= 0)}
                 value={recipe.nbGuests}
@@ -182,7 +183,7 @@ const AddRecipe = () => {
                 name="imgUrl"
                 variant="outlined"
                 fullWidth
-                label="URL de l'image d'illustration de la recette"
+                label="URL de l'image d'illustration"
                 value={recipe.imgUrl}
                 onChange={handleChange}
                 onBlur={handleDirty}

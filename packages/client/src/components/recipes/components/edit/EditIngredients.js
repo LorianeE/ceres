@@ -19,7 +19,7 @@ const EditIngredients = ({
       if (ingredient.id === id) {
         return {
           ...ingredient,
-          quantity: newQuantity && parseFloat(newQuantity, 10),
+          quantity: newQuantity && parseFloat(newQuantity),
         };
       }
       return ingredient;

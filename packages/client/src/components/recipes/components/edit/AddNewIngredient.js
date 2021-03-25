@@ -24,7 +24,7 @@ const AddNewIngredient = ({ containerStyle, products, handleAddIngredient, handl
   const handleChangeNewIngredient = (e) => {
     setNewIngredient({
       ...newIngredient,
-      [e.target.name]: e.target.name === 'quantity' ? parseFloat(e.target.value, 10) : e.target.value,
+      [e.target.name]: e.target.name === 'quantity' ? parseFloat(e.target.value) : e.target.value,
     });
   };
 
@@ -64,7 +64,7 @@ const AddNewIngredient = ({ containerStyle, products, handleAddIngredient, handl
       container
       direction="row"
       justify="space-between"
-      alignItems="center"
+      alignItems="flex-end"
       className={classes.editIngredientsList}
       style={containerStyle}
     >
@@ -86,12 +86,12 @@ const AddNewIngredient = ({ containerStyle, products, handleAddIngredient, handl
           value={productToAdd}
           getOptionLabel={(option) => option.label}
           getOptionSelected={(option, value) => value && option.name === value.name}
-          renderInput={(params) => <TextField {...params} error={newProductOnError} label="Produit" />}
+          renderInput={(params) => <TextField {...params} error={newProductOnError} multiline label="Produit" />}
           onChange={onAutocompleteChange}
           onBlur={handleAddProductToNewIngredient}
         />
       </Grid>
-      <Grid item xs={2} style={{ textAlign: 'center' }}>
+      <Grid item xs={2} style={{ textAlign: 'center', marginBottom: '6px' }}>
         <IconButton edge="end" aria-label="add" onClick={onAddIngredient}>
           <AddCircleIcon />
         </IconButton>
