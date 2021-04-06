@@ -6,9 +6,12 @@ import IconButton from '@material-ui/core/IconButton';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import CloseIcon from '@material-ui/icons/Close';
 import { useStyles } from '../../recipesStyle';
+import useScreenBreakpoints from '../../../../redux/hooks/useScreenBreakpoints';
 
 const AddNewIngredient = ({ containerStyle, products, handleAddIngredient, handleCloseNewIngredient }) => {
   const classes = useStyles();
+  const { isSmallerThan780px } = useScreenBreakpoints();
+  console.log(isSmallerThan780px);
 
   const ingredientInitialState = { id: `temp_${String(Date.now())}`, product: {}, quantity: '' };
 
@@ -68,7 +71,7 @@ const AddNewIngredient = ({ containerStyle, products, handleAddIngredient, handl
       className={classes.editIngredientsList}
       style={containerStyle}
     >
-      <Grid item xs={2} style={{ paddingLeft: '10px', paddingBottom: '12px' }}>
+      <Grid item xs style={{ paddingLeft: '10px', paddingBottom: '12px' }}>
         <TextField
           id="newIngredient_quantity"
           name="quantity"
@@ -79,7 +82,7 @@ const AddNewIngredient = ({ containerStyle, products, handleAddIngredient, handl
           onChange={handleChangeNewIngredient}
         />
       </Grid>
-      <Grid item xs={8} style={{ paddingLeft: '10px', paddingBottom: '12px' }}>
+      <Grid item xs={7} style={{ paddingLeft: '10px', paddingBottom: '12px' }}>
         <Autocomplete
           id="combo-box-demo"
           options={products}

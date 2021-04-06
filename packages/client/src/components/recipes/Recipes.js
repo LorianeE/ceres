@@ -10,7 +10,7 @@ import useScreenBreakpoints from '../../redux/hooks/useScreenBreakpoints';
 import RecipesListMobile from './components/RecipesListMobile';
 
 const Recipes = () => {
-  const { isSmOrLower } = useScreenBreakpoints();
+  const { isSmOrLower, isXs } = useScreenBreakpoints();
 
   const {
     allTags,
@@ -33,19 +33,23 @@ const Recipes = () => {
   const [deleteOpen, setDeleteOpen] = useState(false);
 
   const handleEditOpen = () => {
+    console.log('handleEditOpen');
     setEditOpen(true);
   };
 
   const handleEditClose = () => {
+    console.log('handleEditClose');
     setEditOpen(false);
     setSelectedRecipe(null);
   };
 
   const handleDeleteOpen = () => {
+    console.log('handleDeleteOpen');
     setDeleteOpen(true);
   };
 
   const handleDeleteClose = () => {
+    console.log('handleDeleteClose');
     setDeleteOpen(false);
     setSelectedRecipe(null);
   };
@@ -83,7 +87,7 @@ const Recipes = () => {
           open={editOpen}
           allTags={allTags}
           products={products}
-          fullScreen={isSmOrLower}
+          fullScreen={isXs}
         />
       )}
 

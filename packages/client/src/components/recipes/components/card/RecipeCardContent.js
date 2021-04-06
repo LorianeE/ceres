@@ -11,7 +11,7 @@ import { useStyles } from '../../recipesStyle';
 
 const RecipeCardContent = ({ selectedRecipe, isMobile }) => {
   const classes = useStyles();
-
+  console.log('here :', selectedRecipe);
   return (
     <CardContent>
       <Grid container justify="space-between" alignItems="center">

@@ -16,6 +16,7 @@ export function getFilledRecipes(unfilledRecipes, products) {
   }
   return sortRecipeListAlphabetically(
     unfilledRecipes.map((recipe) => {
+      console.log(recipe);
       return {
         ...recipe,
         ingredients: recipe.ingredients.map((ingredient) => {

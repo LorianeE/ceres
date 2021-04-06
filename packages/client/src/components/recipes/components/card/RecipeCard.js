@@ -6,7 +6,7 @@ import RecipeCardContent from './RecipeCardContent';
 
 const RecipeCard = ({ selectedRecipe, handleEditOpen, handleDeleteOpen, isMobile }) => {
   return (
-    <Card>
+    <Card style={{ width: '100%' }}>
       <RecipeCardHeader
         selectedRecipe={selectedRecipe}
         handleEditOpen={handleEditOpen}

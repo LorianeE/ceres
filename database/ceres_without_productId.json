@@ -1,0 +1,1376 @@
+[{
+  "_id": {
+    "$oid": "5e99de4bd28b6c61531dca85"
+  },
+  "minimumQuantity": 0,
+  "label": "Yaourts",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99e0a4d28b6c61531dca95"
+  },
+  "minimumQuantity": 0,
+  "label": "Crème en briques",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ca2e0774e16040b2272e"
+  },
+  "minimumQuantity": 0,
+  "label": "PQ",
+  "shelf": "home",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99e281d28b6c61531dca9e"
+  },
+  "minimumQuantity": 0,
+  "label": "Sucre de canne",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99e3c3d28b6c61531dcab8"
+  },
+  "minimumQuantity": 0,
+  "label": "Echalotes",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99eaaad50dec61a6705f55"
+  },
+  "minimumQuantity": 0,
+  "label": "Huile d'olive",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99e3c3d28b6c61531dcaae"
+  },
+  "minimumQuantity": 0,
+  "label": "Tomates",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99eaaad50dec61a6705f57"
+  },
+  "minimumQuantity": 0,
+  "label": "Vinaigre blanc",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ece9d50dec61a6705f61"
+  },
+  "minimumQuantity": 0,
+  "label": "Boîte de haricots",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a089e5575346932e090e2"
+  },
+  "minimumQuantity": 0,
+  "label": "Fraises",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a0c1d5575346932e090ef"
+  },
+  "minimumQuantity": 0,
+  "label": "Epinards",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ee1ad50dec61a6705f6a"
+  },
+  "minimumQuantity": 0,
+  "label": "Saumon fumé",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ece9d50dec61a6705f5d"
+  },
+  "minimumQuantity": 0,
+  "label": "Citron jaune",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99f331d50dec61a6705f82"
+  },
+  "minimumQuantity": 0,
+  "label": "Cacahuètes",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a089e5575346932e090e1"
+  },
+  "minimumQuantity": 0,
+  "label": "Curry vert",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a0ad35575346932e090e7"
+  },
+  "minimumQuantity": 0,
+  "label": "Ricotta",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a0c1d5575346932e090ee"
+  },
+  "minimumQuantity": 0,
+  "label": "Navets",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a107a5575346932e09153"
+  },
+  "minimumQuantity": 0,
+  "label": "Ciboulette",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a2e92bb5f0f06b4962b2b"
+  },
+  "minimumQuantity": 0,
+  "label": "Gâteau basque",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a3082bb5f0f06b4962b34"
+  },
+  "minimumQuantity": 0,
+  "label": "Pastis",
+  "shelf": "drinks",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a2e71bb5f0f06b4962b28"
+  },
+  "minimumQuantity": 0,
+  "label": "Pains au lait",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a2e71bb5f0f06b4962b2a"
+  },
+  "minimumQuantity": 0,
+  "label": "Cuisses de poulet",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ca2e0774e16040b22728"
+  },
+  "minimumQuantity": 0,
+  "label": "Poires",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99e281d28b6c61531dcaa5"
+  },
+  "minimumQuantity": 0,
+  "label": "Lait de coco",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99e3c3d28b6c61531dcab1"
+  },
+  "minimumQuantity": 0,
+  "label": "Carottes",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99eaaad50dec61a6705f4d"
+  },
+  "minimumQuantity": 0,
+  "label": "Avocats",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99e3c3d28b6c61531dcab2"
+  },
+  "minimumQuantity": 0,
+  "label": "Poireaux",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99f082d50dec61a6705f7c"
+  },
+  "minimumQuantity": 0,
+  "label": "Pâté basque",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99f2cdd50dec61a6705f80"
+  },
+  "minimumQuantity": 0,
+  "label": "Arôme Maggy",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99f2cdd50dec61a6705f81"
+  },
+  "minimumQuantity": 0,
+  "label": "Chair à saucisse",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ef63d50dec61a6705f75"
+  },
+  "minimumQuantity": 0,
+  "label": "Bières",
+  "shelf": "drinks",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a0c1d5575346932e090ed"
+  },
+  "minimumQuantity": 0,
+  "label": "Patates douces",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a0f865575346932e09150"
+  },
+  "minimumQuantity": 0,
+  "label": "Nesquick",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99de4bd28b6c61531dca86"
+  },
+  "minimumQuantity": 0,
+  "label": "Beurre salé",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ca2e0774e16040b22729"
+  },
+  "minimumQuantity": 0,
+  "label": "Ananas",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99e0a4d28b6c61531dca99"
+  },
+  "minimumQuantity": 0,
+  "label": "Ebly (blé)",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99e0a4d28b6c61531dca97"
+  },
+  "minimumQuantity": 0,
+  "label": "Pâtes qualité supérieure",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ca2e0774e16040b22725"
+  },
+  "minimumQuantity": 0,
+  "label": "Gros lardons",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ece9d50dec61a6705f62"
+  },
+  "minimumQuantity": 0,
+  "label": "Champignons de Paris",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ee1ad50dec61a6705f69"
+  },
+  "minimumQuantity": 0,
+  "label": "Pavés de saumon",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ef63d50dec61a6705f6f"
+  },
+  "minimumQuantity": 0,
+  "label": "Paupiettes",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ef63d50dec61a6705f72"
+  },
+  "minimumQuantity": 0,
+  "label": "Steaks hachés",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ef63d50dec61a6705f74"
+  },
+  "minimumQuantity": 0,
+  "label": "Quatre-quarts",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99f2cdd50dec61a6705f7f"
+  },
+  "minimumQuantity": 0,
+  "label": "Bouillon de boeuf",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a0c1d5575346932e090f4"
+  },
+  "minimumQuantity": 0,
+  "label": "Poulet entier",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a0f395575346932e0914c"
+  },
+  "minimumQuantity": 0,
+  "label": "Pain à burger",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a2efdbb5f0f06b4962b2d"
+  },
+  "minimumQuantity": 0,
+  "label": "Levure de boulanger",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99e3c3d28b6c61531dcab4"
+  },
+  "minimumQuantity": 3,
+  "label": "Oignons",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99eaaad50dec61a6705f4f"
+  },
+  "minimumQuantity": 0,
+  "label": "Kiwis",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99eaaad50dec61a6705f54"
+  },
+  "minimumQuantity": 0,
+  "label": "Moutarde à cuisiner",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ece9d50dec61a6705f64"
+  },
+  "minimumQuantity": 0,
+  "label": "Radis",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ece9d50dec61a6705f5f"
+  },
+  "minimumQuantity": 0,
+  "label": "Pêches plates",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99efd1d50dec61a6705f79"
+  },
+  "minimumQuantity": 0,
+  "label": "Boeuf haché",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a089e5575346932e090de"
+  },
+  "minimumQuantity": 0,
+  "label": "Sel",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a0ad35575346932e090ec"
+  },
+  "minimumQuantity": 0,
+  "label": "Charcuterie",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a2efdbb5f0f06b4962b2f"
+  },
+  "minimumQuantity": 0,
+  "label": "Maïzena",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a0f395575346932e0914e"
+  },
+  "minimumQuantity": 0,
+  "label": "Épices à fajitas",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a0fa05575346932e09151"
+  },
+  "minimumQuantity": 0,
+  "label": "Chocolat à cuire",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99de4bd28b6c61531dca88"
+  },
+  "minimumQuantity": 0,
+  "label": "Lait",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99e0a4d28b6c61531dca98"
+  },
+  "minimumQuantity": 0,
+  "label": "Riz",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99e281d28b6c61531dcaa9"
+  },
+  "minimumQuantity": 0,
+  "label": "Produit vaisselle",
+  "shelf": "home",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ece9d50dec61a6705f5e"
+  },
+  "minimumQuantity": 0,
+  "label": "Pêches",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a09085575346932e090e4"
+  },
+  "minimumQuantity": 0,
+  "label": "Fromage à pizza",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a2e71bb5f0f06b4962b29"
+  },
+  "minimumQuantity": 0,
+  "label": "Chapelure",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a3082bb5f0f06b4962b37"
+  },
+  "minimumQuantity": 0,
+  "label": "Porto",
+  "shelf": "drinks",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99e3c3d28b6c61531dcab7"
+  },
+  "minimumQuantity": 0,
+  "label": "Chou-fleur",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99de4bd28b6c61531dca87"
+  },
+  "minimumQuantity": 0,
+  "label": "Beurre doux",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99eaaad50dec61a6705f52"
+  },
+  "minimumQuantity": 0,
+  "label": "Oeufs (boîte de 6)",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99e281d28b6c61531dcaac"
+  },
+  "minimumQuantity": 0,
+  "label": "Produit WC",
+  "shelf": "home",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ece9d50dec61a6705f59"
+  },
+  "minimumQuantity": 0,
+  "label": "Poivrons",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ee1ad50dec61a6705f6d"
+  },
+  "minimumQuantity": 0,
+  "label": "Saucisses de Montbéliard",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ee1ad50dec61a6705f6c"
+  },
+  "minimumQuantity": 0,
+  "label": "Merguez",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ef63d50dec61a6705f70"
+  },
+  "minimumQuantity": 0,
+  "label": "Jambon de Bayonne",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99e281d28b6c61531dcaa1"
+  },
+  "minimumQuantity": 0,
+  "label": "Vin rosé",
+  "shelf": "drinks",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99e281d28b6c61531dcaa2"
+  },
+  "minimumQuantity": 0,
+  "label": "Vin blanc",
+  "shelf": "drinks",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99e281d28b6c61531dcaa7"
+  },
+  "minimumQuantity": 0,
+  "label": "Papier alu",
+  "shelf": "home",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a2efdbb5f0f06b4962b2c"
+  },
+  "minimumQuantity": 0,
+  "label": "Levure",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99de4bd28b6c61531dca8e"
+  },
+  "minimumQuantity": 0,
+  "label": "Fromage bleu",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ca2e0774e16040b22724"
+  },
+  "minimumQuantity": 1,
+  "label": "Lardons Allumettes",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99e0a4d28b6c61531dca94"
+  },
+  "minimumQuantity": 0,
+  "label": "Gros pot de crème entière",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99e0a4d28b6c61531dca93"
+  },
+  "minimumQuantity": 0,
+  "label": "Petit pot de crème entière",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99e281d28b6c61531dcaaa"
+  },
+  "minimumQuantity": 0,
+  "label": "Eponges",
+  "shelf": "home",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99e3c3d28b6c61531dcab0"
+  },
+  "minimumQuantity": 0,
+  "label": "Salade",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ece9d50dec61a6705f60"
+  },
+  "minimumQuantity": 0,
+  "label": "Abricots",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a0ad35575346932e090e6"
+  },
+  "minimumQuantity": 0,
+  "label": "Mozzarella",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a0c1d5575346932e090f1"
+  },
+  "minimumQuantity": 0,
+  "label": "Basilic",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99de4bd28b6c61531dca8f"
+  },
+  "minimumQuantity": 1,
+  "label": "Fromage râpé",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99e281d28b6c61531dca9d"
+  },
+  "minimumQuantity": 0,
+  "label": "Sucre",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99e281d28b6c61531dcaa3"
+  },
+  "minimumQuantity": 0,
+  "label": "Jus d'orange",
+  "shelf": "drinks",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99e281d28b6c61531dcaa0"
+  },
+  "minimumQuantity": 0,
+  "label": "Vin rouge",
+  "shelf": "drinks",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99e281d28b6c61531dcaab"
+  },
+  "minimumQuantity": 0,
+  "label": "Sopalin",
+  "shelf": "home",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99e3c3d28b6c61531dcab6"
+  },
+  "minimumQuantity": 0,
+  "label": "Potimarron",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ece9d50dec61a6705f5b"
+  },
+  "minimumQuantity": 0,
+  "label": "Céléri boule",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ee1ad50dec61a6705f6b"
+  },
+  "minimumQuantity": 0,
+  "label": "Chipolatas",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ee1ad50dec61a6705f6e"
+  },
+  "minimumQuantity": 0,
+  "label": "Saucisson",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a0ad35575346932e090ea"
+  },
+  "minimumQuantity": 0,
+  "label": "Mont d'or",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a0c1d5575346932e090f2"
+  },
+  "minimumQuantity": 0,
+  "label": "Ravioles",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a30e5bb5f0f06b4962b40"
+  },
+  "minimumQuantity": 0,
+  "label": "Mini knackis",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99de4bd28b6c61531dca89"
+  },
+  "minimumQuantity": 0,
+  "label": "Comté",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99de4bd28b6c61531dca8c"
+  },
+  "minimumQuantity": 0,
+  "label": "Fromage",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99e0a4d28b6c61531dca92"
+  },
+  "minimumQuantity": 0,
+  "label": "Petit pot de crème",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ca2e0774e16040b2272a"
+  },
+  "minimumQuantity": 0,
+  "label": "Gros pot de crème",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99e281d28b6c61531dca9a"
+  },
+  "minimumQuantity": 0,
+  "label": "Gel douche",
+  "shelf": "hygiene",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99e281d28b6c61531dca9f"
+  },
+  "minimumQuantity": 0,
+  "label": "Sirop de sucre de canne",
+  "shelf": "drinks",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99e281d28b6c61531dcaa6"
+  },
+  "minimumQuantity": 0,
+  "label": "Papier cuisson",
+  "shelf": "home",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99e281d28b6c61531dcaad"
+  },
+  "minimumQuantity": 0,
+  "label": "Lessive",
+  "shelf": "home",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99eaaad50dec61a6705f58"
+  },
+  "minimumQuantity": 0,
+  "label": "Vinaigre de vin",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ece9d50dec61a6705f5a"
+  },
+  "minimumQuantity": 0,
+  "label": "Asperges",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ece9d50dec61a6705f65"
+  },
+  "minimumQuantity": 0,
+  "label": "Oranges",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ee1ad50dec61a6705f67"
+  },
+  "minimumQuantity": 0,
+  "label": "Jambon blanc - 2 tranches",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99f082d50dec61a6705f7d"
+  },
+  "minimumQuantity": 0,
+  "label": "Persil",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a089e5575346932e090df"
+  },
+  "minimumQuantity": 0,
+  "label": "Gros sel",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a089e5575346932e090e0"
+  },
+  "minimumQuantity": 0,
+  "label": "Curry rouge",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a0ad35575346932e090e8"
+  },
+  "minimumQuantity": 0,
+  "label": "Pâte feuilletée",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a0ad35575346932e090e9"
+  },
+  "minimumQuantity": 0,
+  "label": "Pâte brisée",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a0f395575346932e0914d"
+  },
+  "minimumQuantity": 0,
+  "label": "Tortillas",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a3082bb5f0f06b4962b35"
+  },
+  "minimumQuantity": 0,
+  "label": "Menthe",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a10375575346932e09152"
+  },
+  "minimumQuantity": 0,
+  "label": "Patates à sauter",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99de4bd28b6c61531dca8d"
+  },
+  "minimumQuantity": 0,
+  "label": "Fromage de chèvre",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99e0a4d28b6c61531dca96"
+  },
+  "minimumQuantity": 0,
+  "label": "Pâtes",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99e281d28b6c61531dcaa4"
+  },
+  "minimumQuantity": 0,
+  "label": "Jus d'ananas",
+  "shelf": "drinks",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99e3c3d28b6c61531dcaaf"
+  },
+  "minimumQuantity": 0,
+  "label": "Courgettes",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99e3c3d28b6c61531dcab3"
+  },
+  "minimumQuantity": 0,
+  "label": "Patates à purée",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ee1ad50dec61a6705f68"
+  },
+  "minimumQuantity": 0,
+  "label": "Jambon blanc - 4 tranches",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ef63d50dec61a6705f73"
+  },
+  "minimumQuantity": 0,
+  "label": "Pain de mie",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99efd1d50dec61a6705f78"
+  },
+  "minimumQuantity": 0,
+  "label": "Boeuf haché bolognaise",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99e3c3d28b6c61531dcab9"
+  },
+  "minimumQuantity": 0,
+  "label": "Tomates cerises",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99eaaad50dec61a6705f4c"
+  },
+  "minimumQuantity": 0,
+  "label": "Concombre",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99eaaad50dec61a6705f4e"
+  },
+  "minimumQuantity": 0,
+  "label": "Ail",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ece9d50dec61a6705f66"
+  },
+  "minimumQuantity": 0,
+  "label": "Clémentines",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99f331d50dec61a6705f84"
+  },
+  "minimumQuantity": 0,
+  "label": "Nutella",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a0ad35575346932e090e5"
+  },
+  "minimumQuantity": 0,
+  "label": "Chorizo",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a0c1d5575346932e090f6"
+  },
+  "minimumQuantity": 0,
+  "label": "Vol-au-vent",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a2efdbb5f0f06b4962b2e"
+  },
+  "minimumQuantity": 0,
+  "label": "Sucre vanillé",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a3082bb5f0f06b4962b33"
+  },
+  "minimumQuantity": 0,
+  "label": "Rhum",
+  "shelf": "drinks",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ca2e0774e16040b22726"
+  },
+  "minimumQuantity": 0,
+  "label": "Cidre",
+  "shelf": "drinks",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99de4bd28b6c61531dca8a"
+  },
+  "minimumQuantity": 0,
+  "label": "Tartare",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ca2e0774e16040b2272b"
+  },
+  "minimumQuantity": 0,
+  "label": "Jambon fumé - 4 tranches",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ca2e0774e16040b22727"
+  },
+  "minimumQuantity": 0,
+  "label": "Pommes",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99e281d28b6c61531dca9b"
+  },
+  "minimumQuantity": 0,
+  "label": "Shampoing",
+  "shelf": "hygiene",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99e281d28b6c61531dcaa8"
+  },
+  "minimumQuantity": 0,
+  "label": "Sacs poubelle",
+  "shelf": "home",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99eaaad50dec61a6705f51"
+  },
+  "minimumQuantity": 0,
+  "label": "Bananes",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99eaaad50dec61a6705f56"
+  },
+  "minimumQuantity": 0,
+  "label": "Huile de tournesol",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ef63d50dec61a6705f77"
+  },
+  "minimumQuantity": 0,
+  "label": "Bacon",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99f2cdd50dec61a6705f7e"
+  },
+  "minimumQuantity": 0,
+  "label": "Bouillon de volaille",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a089e5575346932e090dd"
+  },
+  "minimumQuantity": 0,
+  "label": "Sauce soja",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a0ad35575346932e090eb"
+  },
+  "minimumQuantity": 0,
+  "label": "Fromage à raclette",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a2f57bb5f0f06b4962b30"
+  },
+  "minimumQuantity": 0,
+  "label": "Miel",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9c54a98859143469583bb2"
+  },
+  "minimumQuantity": 0,
+  "label": "Lomo",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ca2e0774e16040b2272d"
+  },
+  "minimumQuantity": 0,
+  "label": "Dentifrice",
+  "shelf": "hygiene",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99e281d28b6c61531dca9c"
+  },
+  "minimumQuantity": 0,
+  "label": "Farine",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99eaaad50dec61a6705f53"
+  },
+  "minimumQuantity": 0,
+  "label": "Moutarde Maille",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ece9d50dec61a6705f5c"
+  },
+  "minimumQuantity": 0,
+  "label": "Aubergine",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ef63d50dec61a6705f71"
+  },
+  "minimumQuantity": 0,
+  "label": "Cabillaud",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ef63d50dec61a6705f76"
+  },
+  "minimumQuantity": 0,
+  "label": "Bières blanches",
+  "shelf": "drinks",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99f012d50dec61a6705f7b"
+  },
+  "minimumQuantity": 0,
+  "label": "Pâtes à lasagne",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99f331d50dec61a6705f83"
+  },
+  "minimumQuantity": 0,
+  "label": "Chips",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a09085575346932e090e3"
+  },
+  "minimumQuantity": 0,
+  "label": "Pâte à pizza",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a0c1d5575346932e090f0"
+  },
+  "minimumQuantity": 0,
+  "label": "Artichauts",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a3082bb5f0f06b4962b38"
+  },
+  "minimumQuantity": 0,
+  "label": "Noix de Cajou",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a0f395575346932e0914f"
+  },
+  "minimumQuantity": 0,
+  "label": "Fromage à burger",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ca2e0774e16040b2272c"
+  },
+  "minimumQuantity": 0,
+  "label": "Jambon fumé - 2 tranches",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99de4bd28b6c61531dca8b"
+  },
+  "minimumQuantity": 0,
+  "label": "Saint Moret",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99e3c3d28b6c61531dcab5"
+  },
+  "minimumQuantity": 0,
+  "label": "Butternut",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99eaaad50dec61a6705f50"
+  },
+  "minimumQuantity": 0,
+  "label": "Melon",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99ece9d50dec61a6705f63"
+  },
+  "minimumQuantity": 0,
+  "label": "Béteraves",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e99f012d50dec61a6705f7a"
+  },
+  "minimumQuantity": 0,
+  "label": "Purée de tomate",
+  "shelf": "grocery",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a0c1d5575346932e090f3"
+  },
+  "minimumQuantity": 0,
+  "label": "Filet mignon de porc",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a0c1d5575346932e090f5"
+  },
+  "minimumQuantity": 0,
+  "label": "Feuilles de bricks",
+  "shelf": "cold",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a3082bb5f0f06b4962b36"
+  },
+  "minimumQuantity": 0,
+  "label": "Citron vert",
+  "shelf": "produce",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5e9a3082bb5f0f06b4962b32"
+  },
+  "minimumQuantity": 0,
+  "label": "Eau pétillante",
+  "shelf": "drinks",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5ea9c784e7a025ac09bd1b08"
+  },
+  "minimumQuantity": 0,
+  "label": "Poivre",
+  "shelf": "grocery"
+}]

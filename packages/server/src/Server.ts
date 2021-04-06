@@ -13,6 +13,7 @@ import {ServerResponse} from "http";
 import methodOverride from "method-override";
 import mongoose from "mongoose";
 import path, {join} from "path";
+import "./formats/UriFormat";
 
 import {User} from "./models/User";
 

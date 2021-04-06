@@ -9,10 +9,14 @@ import EditIngredients from './EditIngredients';
 const RecipeEdit = ({ recipeToEdit, handleEditClose, editRecipe, open, allTags, products, fullScreen }) => {
   const [recipe, setRecipe] = useState(recipeToEdit);
 
+  const filteredProducts = products.filter((product) => {
+    return !recipe.ingredients.find((ingredient) => ingredient.product.id === product.id);
+  });
+
   const handleChange = (e) => {
     setRecipe({
       ...recipe,
-      [e.target.id]: e.target.value,
+      [e.target.id]: e.target.id === 'nbGuests' ? parseInt(e.target.value, 10) : e.target.value,
     });
   };
 
@@ -103,7 +107,7 @@ const RecipeEdit = ({ recipeToEdit, handleEditClose, editRecipe, open, allTags, 
 
         <EditIngredients
           ingredients={recipe.ingredients}
-          products={products}
+          products={filteredProducts}
           handleUpdateIngredient={handleUpdateIngredient}
           handleDeleteIngredient={handleDeleteIngredient}
           handleAddIngredient={handleAddIngredient}

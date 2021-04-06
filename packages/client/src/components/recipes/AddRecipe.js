@@ -63,7 +63,7 @@ const AddRecipe = () => {
   const handleChange = (e) => {
     setRecipe({
       ...recipe,
-      [e.target.id]: e.target.value,
+      [e.target.id]: e.target.id === 'nbGuests' ? parseInt(e.target.value, 10) : e.target.value,
     });
   };
   const handleTagsChange = (tags) => {
@@ -105,6 +105,8 @@ const AddRecipe = () => {
   };
 
   const handleSubmit = (e) => {
+    console.log('handleSubmit');
+    console.log(recipe);
     e.preventDefault();
     addRecipe(recipe);
     history.push('/recipes');
